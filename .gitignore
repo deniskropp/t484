@@ -1,0 +1,27 @@
+# Qt / CMake
+build/
+*.user
+*.user.*
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.pro.user
+*.autosave
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated
+*.moc
+*.o
+*.a
+*.so
+*.dylib
