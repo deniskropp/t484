@@ -111,7 +111,7 @@ Rectangle {
             font.pixelSize: 12
         }
         Label {
-            text: root.sectionCount + " sec"
+            text: root.sectionCount + " sections"
             color: Theme.textMuted
             font.family: Theme.fontMono
             font.pixelSize: 12

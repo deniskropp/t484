@@ -20,6 +20,8 @@ Rectangle {
     signal accepted(var payload)
     signal validationRequested(string formula)
 
+    implicitWidth: 280
+    implicitHeight: 200
     color: Theme.bg
     border.color: Theme.coherenceColor(coherence)
     border.width: Theme.borderWidth

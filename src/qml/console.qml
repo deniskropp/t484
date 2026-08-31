@@ -62,7 +62,8 @@ ApplicationWindow {
 
         Rectangle {
             Layout.fillWidth: true
-            height: 36
+            Layout.preferredHeight: 44
+            implicitHeight: 44
             color: Theme.bgRaised
             border.color: Theme.borderSubtle
             border.width: Theme.borderWidth
@@ -126,60 +127,75 @@ ApplicationWindow {
             Rectangle {
                 SplitView.preferredWidth: appWindow.viewMode === "dev" ? 420 : 560
                 SplitView.minimumWidth: 360
+                SplitView.fillHeight: true
                 color: Theme.bg
 
                 ColumnLayout {
                     anchors.fill: parent
                     spacing: 0
 
-                    OcsChatTranscriptView {
-                        id: transcript
+                    // ListView implicit height is 0; wrap so ColumnLayout
+                    // actually assigns the leftover stretch to the transcript.
+                    Item {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        protocol: appWindow.protocol
-                        autoScroll: appWindow.autoScrollTranscript
-                        fontPointSize: appWindow.fontPointSize
-                        themeName: appWindow.themeName
+                        Layout.minimumHeight: 180
+                        Layout.preferredHeight: 400
+
+                        OcsChatTranscriptView {
+                            id: transcript
+                            anchors.fill: parent
+                            anchors.margins: 8
+                            protocol: appWindow.protocol
+                            autoScroll: appWindow.autoScrollTranscript
+                            fontPointSize: appWindow.fontPointSize
+                            themeName: appWindow.themeName
+                        }
                     }
 
                     OcsComposerView {
                         id: composer
                         Layout.fillWidth: true
+                        Layout.preferredHeight: implicitHeight
+                        Layout.maximumHeight: implicitHeight
                         protocol: appWindow.protocol
                         inspectorVisible: appWindow.inspectorVisible
                         onInspectorToggled: appWindow.inspectorVisible = !appWindow.inspectorVisible
                     }
 
-                    RowLayout {
+                    TasStatusBarView {
+                        id: tasBar
                         visible: appWindow.tasStripVisible
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 120
-                        Layout.margins: 8
-                        spacing: 10
-
-                        TasStatusBarView {
-                            id: tasBar
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            model: tasModel
-                            onHaltRequested: function (reason) {
-                                if (appWindow.protocol)
-                                    appWindow.protocol.requestHalt(reason)
-                            }
+                        Layout.preferredHeight: 48
+                        Layout.maximumHeight: 48
+                        Layout.leftMargin: 8
+                        Layout.rightMargin: 8
+                        Layout.topMargin: 4
+                        Layout.bottomMargin: 4
+                        model: tasModel
+                        onHaltRequested: function (reason) {
+                            if (appWindow.protocol)
+                                appWindow.protocol.requestHalt(reason)
                         }
+                    }
 
-                        KlmxMoleculeSpaceView {
-                            id: inspector
-                            visible: appWindow.moleculeVisible
-                            Layout.preferredWidth: 220
-                            Layout.fillHeight: true
-                            model: klmxItem
-                            coherence: appWindow.protocol ? appWindow.protocol.coherence : 1
-                            mode: appWindow.protocol ? appWindow.protocol.mode : "Hybrid"
-                            onAccepted: function (payload) {
-                                if (appWindow.protocol)
-                                    appWindow.protocol.submitMap(payload)
-                            }
+                    KlmxMoleculeSpaceView {
+                        id: inspector
+                        visible: appWindow.moleculeVisible
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 180
+                        Layout.minimumHeight: 140
+                        Layout.maximumHeight: 220
+                        Layout.leftMargin: 8
+                        Layout.rightMargin: 8
+                        Layout.bottomMargin: 8
+                        model: klmxItem
+                        coherence: appWindow.protocol ? appWindow.protocol.coherence : 1
+                        mode: appWindow.protocol ? appWindow.protocol.mode : "Hybrid"
+                        onAccepted: function (payload) {
+                            if (appWindow.protocol)
+                                appWindow.protocol.submitMap(payload)
                         }
                     }
                 }

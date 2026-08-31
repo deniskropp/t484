@@ -40,8 +40,9 @@ if(Qt6_FOUND)
         qt_policy(SET QTP0001 NEW)
     endif()
 
+    # Shared once — qt_add_qml_module forbids two targets writing URI OcsNode
+    # into the same output directory (t484 + t484-console).
     set(T484_ENGINE_SOURCES
-        src/main.cpp
         src/engine/ProtocolEngineQt.cpp
         src/engine/GenAiClient.cpp
         src/engine/SectionListModel.cpp
@@ -54,6 +55,20 @@ if(Qt6_FOUND)
         include/ocsnode/qt/TasStatusModel.h
         include/ocsnode/qt/KlmxMoleculeItem.h
         include/ocsnode/qt/EventLogModel.h
+    )
+
+    add_library(ocsnode_engine STATIC ${T484_ENGINE_SOURCES})
+    target_link_libraries(ocsnode_engine
+        PUBLIC
+            ocsnode_protocol
+            Qt6::Core
+            Qt6::Gui
+            Qt6::Qml
+            Qt6::Network
+    )
+    target_include_directories(ocsnode_engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_compile_definitions(ocsnode_engine PUBLIC
+        T484_SOURCE_DIR="${CMAKE_SOURCE_DIR}"
     )
 
     set(T484_QML_FILES
@@ -104,33 +119,39 @@ if(Qt6_FOUND)
     set_source_files_properties(src/assets/seed.ocs
         PROPERTIES QT_RESOURCE_ALIAS "seed.ocs")
 
+    qt_add_library(ocsnode_qml STATIC)
+    qt_add_qml_module(ocsnode_qml
+        URI OcsNode
+        VERSION 1.0
+        RESOURCE_PREFIX /qt/qml
+        OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/OcsNode
+        QML_FILES ${T484_QML_FILES}
+        RESOURCES src/assets/seed.ocs
+    )
+    target_link_libraries(ocsnode_qml
+        PUBLIC
+            ocsnode_engine
+            Qt6::Quick
+            Qt6::QuickControls2
+    )
+
     function(t484_add_app target)
         cmake_parse_arguments(APP "CONSOLE" "" "" ${ARGN})
 
-        qt_add_executable(${target} ${T484_ENGINE_SOURCES})
-
-        qt_add_qml_module(${target}
-            URI OcsNode
-            VERSION 1.0
-            RESOURCE_PREFIX /qt/qml
-            QML_FILES ${T484_QML_FILES}
-            RESOURCES src/assets/seed.ocs
-        )
+        qt_add_executable(${target} src/main.cpp)
+        # Shared Qt loads Quick plugins at runtime; skip import-scanner so
+        # Debian's missing Qt6::*plugin CMake targets do not warn.
+        set_target_properties(${target} PROPERTIES QT_QML_MODULE_NO_IMPORT_SCAN TRUE)
 
         target_link_libraries(${target}
             PRIVATE
-                ocsnode_protocol
-                Qt6::Core
-                Qt6::Gui
-                Qt6::Qml
+                ocsnode_qml
                 Qt6::Quick
                 Qt6::QuickControls2
-                Qt6::Network
         )
-        target_include_directories(${target} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-        target_compile_definitions(${target} PRIVATE
-            T484_SOURCE_DIR="${CMAKE_SOURCE_DIR}"
-        )
+        if(TARGET ocsnode_qmlplugin)
+            target_link_libraries(${target} PRIVATE ocsnode_qmlplugin)
+        endif()
         if(APP_CONSOLE)
             target_compile_definitions(${target} PRIVATE T484_SHELL_CONSOLE)
         endif()
