@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="140" viewBox="0 0 560 140" role="img" aria-label="OcsSectionView">
+  <rect width="560" height="140" rx="8" fill="#111827" stroke="#334155"/>
+  <text x="16" y="32" font-family="Fira Code, monospace" font-size="14" font-weight="700" fill="#34d399">\u2afbdata/tas:coherence-lock</text>
+  <text x="536" y="32" text-anchor="end" font-family="Inter, sans-serif" font-size="12" fill="#94a3b8">\u25be</text>
+  <text x="16" y="64" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">1. Seal Theme singleton</text>
+  <text x="16" y="84" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">2. Rebind every *View.qml</text>
+  <text x="16" y="104" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">3. Gate merge on Qt6 rebuild</text>
+</svg>
