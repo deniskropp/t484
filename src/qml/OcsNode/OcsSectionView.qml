@@ -6,12 +6,15 @@ Rectangle {
     id: root
 
     property string sectionType: "data/tas"
+    property string qualifier: ""
     property string sectionBody: ""
+    property bool collapsed: false
 
     color: "#161b22"
     border.color: "#30363d"
     border.width: 1
     radius: 8
+    implicitHeight: collapsed ? headerRow.implicitHeight + 24 : 160
 
     ColumnLayout {
         anchors.fill: parent
@@ -19,28 +22,36 @@ Rectangle {
         spacing: 8
 
         RowLayout {
+            id: headerRow
+            Layout.fillWidth: true
+
             Label {
-                text: "⫻" + root.sectionType
+                text: "\u2afb" + root.sectionType + (root.qualifier.length ? (":" + root.qualifier) : "")
                 color: "#7ee787"
                 font.family: "monospace"
                 font.pixelSize: 14
                 font.bold: true
+                elide: Text.ElideRight
+                Layout.fillWidth: true
             }
-            Item { Layout.fillWidth: true }
+
             Label {
-                text: "▼"
+                text: root.collapsed ? "\u25b6" : "\u25bc"
                 color: "#8b949e"
                 font.pixelSize: 12
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: root.collapsed = !root.collapsed
+                }
             }
         }
 
         ScrollView {
+            visible: !root.collapsed
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-
             TextArea {
-                id: body
                 text: root.sectionBody
                 color: "#c9d1d9"
                 font.family: "monospace"

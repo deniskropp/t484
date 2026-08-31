@@ -1,0 +1,5 @@
+module OcsNode
+OcsSectionView 1.0 OcsSectionView.qml
+ProtocolStatusBar 1.0 ProtocolStatusBar.qml
+TasStatusBarView 1.0 TasStatusBarView.qml
+KlmxMoleculeSpaceView 1.0 KlmxMoleculeSpaceView.qml
