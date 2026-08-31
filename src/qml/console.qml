@@ -8,16 +8,14 @@ ApplicationWindow {
     width: 1600
     height: 900
     visible: true
-    color: "#0d1117"
-    // Context property `engine` is ProtocolEngineQt. Child views must bind
-    // protocol: appWindow.protocol — never engine: engine (self-bind to null).
+    color: themeName === "Light" ? "#f6f8fa" : "#0d1117"
     readonly property var protocol: engine
     title: "t484 Protocol Console — Source: "
            + (protocol && protocol.genaiReady
               ? protocol.genaiSource
               : "NO KEY")
 
-    property string viewMode: "chat"          // chat | inspect | dev
+    property string viewMode: "chat"
     property bool inspectorVisible: true
     property bool tasStripVisible: true
     property bool moleculeVisible: true
@@ -128,6 +126,9 @@ ApplicationWindow {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         protocol: appWindow.protocol
+                        autoScroll: appWindow.autoScrollTranscript
+                        fontPointSize: appWindow.fontPointSize
+                        themeName: appWindow.themeName
                     }
 
                     OcsComposerView {
@@ -202,6 +203,7 @@ ApplicationWindow {
                     id: eventLog
                     SplitView.fillHeight: true
                     protocol: appWindow.protocol
+                    logModel: eventLogModel
                     filter: appWindow.logFilter
                     onFilterChanged: appWindow.logFilter = filter
                 }
@@ -265,27 +267,6 @@ ApplicationWindow {
         }
         function onTurnCompleted(ok) {
             appWindow.genaiCallCount += 1
-            eventLog.appendEvent(ok ? "info" : "error",
-                                 "turnCompleted",
-                                 ok ? "ok" : "failed")
         }
-        function onStateChanged() {
-            eventLog.appendEvent("protocol", "state",
-                                 (appWindow.protocol.status || "")
-                                 + " gated=" + appWindow.protocol.gated
-                                 + " errors=" + appWindow.protocol.errorCount)
-        }
-        function onHaltRequested(reason) {
-            eventLog.appendEvent("warning", "halt", reason)
-        }
-    }
-
-    Component.onCompleted: {
-        eventLog.appendEvent("info", "boot", "t484 Protocol Console")
-        if (appWindow.protocol)
-            eventLog.appendEvent("genai", "source",
-                                 appWindow.protocol.genaiReady
-                                 ? appWindow.protocol.genaiSource
-                                 : "NO KEY")
     }
 }
