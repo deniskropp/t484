@@ -21,7 +21,7 @@ The Qt shell is an **OCS-compliant chat**: the transcript is the protocol sectio
 |---|---|---|
 | C++ model | `*Model` or `*Item` | `TasStatusModel`, `KlmxMoleculeItem` |
 | QML view | `*View.qml` | `OcsChatTranscriptView.qml`, `TasStatusBarView.qml` |
-| Engine | `ProtocolEngine`, `NodeEngine` | exposed to QML as `engine` |
+| Engine | `ProtocolEngine`, `NodeEngine` | context property `engine`; shell alias `appWindow.protocol` |
 | Section type string | `family/path` | `data/tas`, `context/klmx` |
 
 Never register a C++ type and a QML file under the same identifier.
