@@ -1,0 +1,52 @@
+⫻protocol/ocs: [node=OCS/Root] [repo=deniskropp/t484] [ref=main] [version=0.6.0]
+⫻cmd/exec:ocs-node-engine
+⫻cmd/mode:Hybrid
+⫻cmd/lang:DE
+⫻context/klmx:Kick/Lang
+OCS/Node Nexus — one-file KickLang export v0.6.0
+Project: deniskropp/t484
+Model: OCS/Node Engine
+Space: OCS/Node
+Scope: global
+Reference: deniskropp/t484
+Surface: volumetric Coherence Nexus (plan)
+Branch: main
+Shipped baseline: v0.4 chat + protocol console + OCS Slate
+
+⫻data/obj:
+Evolve ProtocolEngine + QML chat/console into a volumetric Coherence Nexus whose entire operator state is one KickLang/OCS file — exportable, re-ingestible, consent-gated. Keep the current session (objective, TAS, architecture, three-agent turns) as the source of truth.
+
+⫻data/tas:
+N0 Freeze export grammar (docs/plans/v0.6/NEXUS-EXPORT.md) and parse fixture nexus-v0.6.ocs
+N1 Stamp protocol/ocs with [version=0.6.0] [repo=deniskropp/t484] [ref=main]
+N2 cmd/exec:nexus-export maps to emitText(); no key material in the file
+N3 Add volumetric coherence axes on CoherenceState; keep scalar for v0.4 chrome
+N4 Phase E: KickLangEditorView, TasBoardView, ConsentGateDialog
+N5 CoherenceMonitorBridge adapter behind deriveCoherence
+N6 Round-trip tests + console Export Nexus action
+N7 Berlin Node / EmbodiedPipe grounding — optional
+
+⫻display/header:
+OCS/Node Nexus — t484 v0.6.0 (plan snapshot)
+
+⫻display/meta:
+Layer table
+  protocol/ocs     document identity + version
+  context/klmx     KickLang molecule / space
+  cmd/*            mode, halt, exec, lang
+  data/obj + tas   living objective and steps
+  flow/chat        transcript that is the document
+  display/meta     operator axes / architecture notes
+
+Axes (planned; scalar coherence remains)
+  protocol  klmx  objective  tas  consent  dialogue  genai
+
+Not a chat snippet. Not an incidental log.
+This file is the living protocol snapshot for deniskropp/t484.
+
+Share: https://grok.com/share/c2hhcmQtMi1jb3B5_b5705408-6076-4c2c-b701-4a8ffd17ce60
+
+⫻flow/chat:KickFlow
+Nexus export v0.6.0 is filed under docs/plans/v0.6/. Shipped engine stays v0.4.
+Paste this document into t484 to load the plan as the living protocol.
+/mode Hybrid · /halt reason · resume = load a protocol/ocs document without cmd/halt.
