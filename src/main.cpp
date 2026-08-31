@@ -6,15 +6,26 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QUrl>
+
+static QString firstExisting(const QStringList &candidates)
+{
+    for (const auto &path : candidates) {
+        if (QFile::exists(path))
+            return path;
+    }
+    return {};
+}
 
 static QString loadSeed()
 {
-    const QStringList candidates = {
+    const QString path = firstExisting({
         QStringLiteral(":/qt/qml/OcsNode/seed.ocs"),
+        QStringLiteral(":/OcsNode/src/assets/seed.ocs"),
         QStringLiteral("src/assets/seed.ocs"),
         QStringLiteral("../src/assets/seed.ocs"),
-    };
-    for (const auto &path : candidates) {
+    });
+    if (!path.isEmpty()) {
         QFile f(path);
         if (f.open(QIODevice::ReadOnly))
             return QString::fromUtf8(f.readAll());
@@ -24,6 +35,18 @@ static QString loadSeed()
         "protocol/ocs: [node=OCS/Root]\n"
         "\xE2\xAB\xBB"
         "context/klmx:Kick/Lang\nfallback seed\n");
+}
+
+static QUrl mainQmlUrl()
+{
+    const QString path = firstExisting({
+        QStringLiteral(":/qt/qml/OcsNode/main.qml"),
+        QStringLiteral(":/OcsNode/src/qml/main.qml"),
+        QStringLiteral(":/OcsNode/main.qml"),
+    });
+    if (!path.isEmpty())
+        return QUrl(QStringLiteral("qrc") + path);
+    return QUrl(QStringLiteral("qrc:/qt/qml/OcsNode/main.qml"));
 }
 
 int main(int argc, char *argv[])
@@ -49,7 +72,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty(QStringLiteral("tasModel"), &tasModel);
     ctx->setContextProperty(QStringLiteral("klmxItem"), &klmxItem);
 
-    const QUrl url(QStringLiteral("qrc:/qt/qml/OcsNode/main.qml"));
+    const QUrl url = mainQmlUrl();
     QObject::connect(
         &qml, &QQmlApplicationEngine::objectCreationFailed,
         &app, []() { QCoreApplication::exit(-1); },

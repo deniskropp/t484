@@ -49,9 +49,31 @@ if(Qt6_FOUND)
         include/ocsnode/qt/KlmxMoleculeItem.h
     )
 
+    # QTP0001: embed the module under qrc:/qt/qml/<URI>/ (matches src/main.cpp).
+    if(QT_KNOWN_POLICY_QTP0001)
+        qt_policy(SET QTP0001 NEW)
+    endif()
+
+    # Keep sources under src/{qml,assets}/ but flatten them to the module root.
+    # Without aliases, qt_add_qml_module preserves those prefixes and the
+    # engine looks for qrc:/qt/qml/OcsNode/main.qml (file not found).
+    set_source_files_properties(src/qml/main.qml
+        PROPERTIES QT_RESOURCE_ALIAS "main.qml")
+    set_source_files_properties(src/qml/OcsNode/OcsSectionView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "OcsSectionView.qml")
+    set_source_files_properties(src/qml/OcsNode/ProtocolStatusBar.qml
+        PROPERTIES QT_RESOURCE_ALIAS "ProtocolStatusBar.qml")
+    set_source_files_properties(src/qml/OcsNode/TasStatusBarView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "TasStatusBarView.qml")
+    set_source_files_properties(src/qml/OcsNode/KlmxMoleculeSpaceView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "KlmxMoleculeSpaceView.qml")
+    set_source_files_properties(src/assets/seed.ocs
+        PROPERTIES QT_RESOURCE_ALIAS "seed.ocs")
+
     qt_add_qml_module(t484
         URI OcsNode
         VERSION 1.0
+        RESOURCE_PREFIX /qt/qml
         QML_FILES
             src/qml/main.qml
             src/qml/OcsNode/OcsSectionView.qml
