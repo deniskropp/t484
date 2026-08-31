@@ -8,9 +8,11 @@ Canonical product repo for the `ocs-node-engine` skill.
 
 The chat transcript **is** the living protocol document. Host turns are `flow/chat:host`; KickForge / KickFlow / KickGuard reply as first-class sections. Halt remains a first-class command.
 
+**Docs:** [docs/INDEX.md](docs/INDEX.md) — architecture, protocol grammar, engine, chat turns, operator runbook, build, OCS integration, glossary.
+
 Visual system: [docs/THEME.md](docs/THEME.md). Every QML surface as a plate: [docs/PANELS.md](docs/PANELS.md).
 
-Next surface (plan only): [docs/plans/v0.6/](docs/plans/v0.6/) — OCS/Node Nexus + one-file KickLang export. Fixture: [`src/assets/nexus-v0.6.ocs`](src/assets/nexus-v0.6.ocs).
+Nexus export/import + volumetric axes are implemented (`exportNexus` / `importNexus`, `/exec nexus-export`, console Export/Import/Copy). Phase E UI and CoherenceMonitorBridge remain planned: [docs/plans/v0.6/](docs/plans/v0.6/). Fixture: [`src/assets/nexus-v0.6.ocs`](src/assets/nexus-v0.6.ocs).
 
 ## Status (v0.4 — chat + protocol console)
 
@@ -28,8 +30,9 @@ Next surface (plan only): [docs/plans/v0.6/](docs/plans/v0.6/) — OCS/Node Nexu
 | `Theme` singleton (OCS Slate) | shipped |
 | `t484` chat shell (`src/qml/main.qml`) | shipped |
 | `t484-console` dashboard (`src/qml/console.qml`) | shipped |
+| `exportNexus` / `importNexus` + axes | shipped |
 | KickLangEditor / TasBoard / ConsentGateDialog | planned (Phase E / v0.5) |
-| OCS/Node Nexus one-file export | planned ([v0.6](docs/plans/v0.6/)) |
+| CoherenceMonitorBridge | planned ([v0.6](docs/plans/v0.6/)) |
 
 ## Layout
 
@@ -37,20 +40,28 @@ Next surface (plan only): [docs/plans/v0.6/](docs/plans/v0.6/) — OCS/Node Nexu
 include/ocsnode/          Section, parser, emitter, engine, coherence
 include/ocsnode/qt/       QObject wrappers (Model / Item)
 src/protocol/             STL parser + emitter
-src/engine/               ProtocolEngine + Qt façade
+src/engine/               ProtocolEngine + Qt facade
 src/components/           TasStatusModel, KlmxMoleculeItem
 src/qml/main.qml          chat shell
 src/qml/console.qml       protocol console shell
 src/qml/OcsNode/          Theme.qml + *View.qml + qmldir
 src/assets/seed.ocs       startup protocol document (welcome turn)
-src/assets/nexus-v0.6.ocs v0.6 Nexus snapshot (plan fixture)
+src/assets/nexus-v0.6.ocs Nexus snapshot fixture
 tests/                    protocol round-trip
+docs/INDEX.md             documentation map
 docs/ARCHITECTURE.md      module + naming freeze
+docs/PROTOCOL.md          protocol grammar as implemented
+docs/ENGINE.md            document engine, halt, coherence, Nexus export
+docs/CHAT.md              ChatSession turn machine
+docs/OPERATOR.md          run chat / console / GenAI
+docs/BUILD.md             CMake targets and tests
+docs/OCS-INTEGRATION.md   Node inside OCS v2.1
+docs/GLOSSARY.md          terms
 docs/COMPONENTS.md        C++ / QML / protocol interface catalog
 docs/CONSOLE.md           console layout and binding notes
 docs/THEME.md             OCS Slate tokens
 docs/PANELS.md            every surface rendered
-docs/plans/v0.6/          Nexus export + volumetric coherence plan
+docs/plans/v0.6/          Nexus plan (remaining Phase E / bridge)
 docs/images/              SVG plates
 ```
 
@@ -75,6 +86,8 @@ cmake --build build
 ./build/t484 --console    # same console from the chat binary
 ```
 
+Full operator notes: [docs/OPERATOR.md](docs/OPERATOR.md). Full CMake map: [docs/BUILD.md](docs/BUILD.md).
+
 ## Chat (OCS)
 
 Composer accepts:
@@ -82,6 +95,7 @@ Composer accepts:
 - natural language → host turn then Google GenAI **Interactions API** (`gemini-3.7-flash` unless `GEMINI_MODEL` is set)
 - raw protocol sections (a `protocol/ocs` block replaces the document)
 - `/mode` `/halt` `/exec` `/obj` `/tas` — `/halt` and `/mode` stay local (no LLM)
+- `/exec nexus-export` → `exportNexus()` (local)
 
 KickGuard blocks mutation **and** genai transport while gated except `/halt` and `/mode`. Resume by pasting a protocol document without halt.
 
@@ -91,7 +105,7 @@ export GEMINI_API_KEY="…"    # https://aistudio.google.com/apikey
 export GEMINI_MODEL="gemini-3.7-flash"   # falls back to 3.6 then 3.5 on high demand
 ./build/t484
 ./build/t484 --genai-status   # prints ready/source/model (never the key)
-./build/t484 --genai-debug    # lists every env name and .env path checked
+./build/t484 --genai-debug    # lists every env name and .env paths checked
 ```
 
 A KDE/Grok GUI launch **does not inherit** an interactive-shell `export`. t484 looks up, in order:
@@ -108,6 +122,7 @@ cmd/exec:ocs-node-engine
 ```
 
 This repository is the source of truth. Skill `generated/` is staging only.
+How the Node sits next to protocol-export, enforcer, Berlin Node, and Flow Nexus: [docs/OCS-INTEGRATION.md](docs/OCS-INTEGRATION.md).
 
 ## License
 
