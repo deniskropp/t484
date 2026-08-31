@@ -1,0 +1,83 @@
+⫻protocol/ocs: [node=OCS/Root] [repo=deniskropp/t484] [ref=main] [export=onefile-kicklang] [version=0.6.0-pre]
+⫻context/klmx:Kick/Lang
+OCS/Node Nexus — one-file KickLang seed
+Project: deniskropp/t484
+Skill: ocs-node-nexus
+Product skill (repo canonical): ocs-node-engine
+Mode: Hybrid
+Surface: Volumetric Coherence Nexus Interface
+Branch: main
+Generated: 2026-08-31
+Loadable: yes
+Notes: span annotations stripped; extra families (spec/state/logic) are document body, not deriveCoherence inputs.
+
+⫻cmd/mode:Hybrid
+⫻cmd/exec:ocs-node-nexus
+
+⫻data/obj:
+Evolve the OCS/Node Engine from a C++20 protocol core and Qt6/QML chat
+into the v0.6.0 Coherence Nexus volumetric interface. This seed is the
+living protocol document for that objective. Repository source of truth
+remains deniskropp/t484; include/ocsnode/*.h stays the frozen public API.
+
+⫻data/tas:
+P0 Initialize character-rated chat and achieve coherence-lock
+P1 Streamline agent interactions and optimize 3D data pathways
+P2 Treat include/ocsnode/*.h as the frozen public API
+P3 Utilize ⫻ (U+2AFB) for line-oriented UTF-8 parsing
+P4 Verify intent /exec tas:coherence-lock without exceptions
+
+⫻data/ptas:
+P3-done Parser emits and consumes U+2AFB; round-trip tests exist
+P2-policy Naming freeze documented; Qt stays under include/ocsnode/qt/
+P0-partial flow/chat personas shipped; character rating and lock not shipped
+P1-open KlmxMoleculeSpaceView is 2D inspector; no volumetric particles
+P4-open /exec maps to cmd/exec; tas:coherence-lock has no engine handler yet
+
+⫻data/spec:repo
+owner: deniskropp
+repo: t484
+visibility: public
+description: OCS/Node Nexus for OCS/Display — Volumetric protocol handler
+language: QML + C++20
+version: 0.6.0-pre
+shipped_tree: 0.4.0
+canonical skill: ocs-node-engine
+export skill: ocs-node-nexus
+
+⫻data/state:
+status: running
+coherence_heuristic: derived
+gated: false
+actor: KickFlow
+note: Engine deriveCoherence ignores this section; values here are document intent.
+
+⫻data/logic:architecture
+Layers (top → bottom):
+  Volumetric OcsNode 0.6  Nexus UI with 3D particle data pathways   [TARGET]
+  Qt façade   ProtocolEngineQt + GenAiClient + SectionListModel     [SHIPPED 0.4]
+  STL core    ProtocolEngine ChatSession Parser Emitter Section     [SHIPPED 0.4]
+  Network     GenAiClient only → Google GenAI Interactions API /v1beta/interactions  [SHIPPED 0.4]
+
+Living document = std::vector<Section> inside ProtocolEngine.
+
+Stateful types (submit/replace): protocol/ocs, cmd/mode, cmd/halt, cmd/lang, data/obj, data/tas, data/ptas, context/klmx
+Append types: flow/chat, query/clarify, cmd/exec, display/*
+
+⫻display/header:
+OCS/Node Nexus — t484 seed-nexus v0.6.0-pre
+
+⫻flow/chat:host
+Intent formed: Initialize character-rated chat and achieve coherence-lock.
+
+⫻flow/chat:KickForge
+Forge: Seed assembled from the v0.6 one-file export. Span markers removed.
+Public API freeze respected. Volumetric surface remains a target layer.
+
+⫻flow/chat:KickFlow
+Flow: Document is loadable via protocol/ocs replace. Agent turns stay
+append-only. Next cuts: lock semantics, skill-string decision, then 3D view.
+
+⫻flow/chat:KickGuard
+Guard: Seed contains no cmd/halt. Gate stays open. P4 coherence-lock is
+declared, not executed. Do not treat this file as shipped 0.6.
