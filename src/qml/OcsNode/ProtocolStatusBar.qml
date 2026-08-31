@@ -11,6 +11,10 @@ Rectangle {
     property bool gated: false
     property string actor: "KickFlow"
     property int sectionCount: 0
+    property bool busy: false
+    property bool genaiReady: false
+    property string genaiModel: ""
+    property string genaiSource: ""
 
     color: "#010409"
     border.color: "#21262d"
@@ -36,6 +40,13 @@ Rectangle {
             text: root.gated ? "GATED" : root.status.toUpperCase()
             color: root.gated ? "#f85149" : "#f78166"
             font.family: "monospace"; font.pixelSize: 12; font.bold: true
+        }
+        Label {
+            text: root.busy ? (root.genaiModel + " …")
+                  : (root.genaiReady ? root.genaiModel
+                     : "no key in this process")
+            color: root.busy ? "#d2a8ff" : (root.genaiReady ? "#8b949e" : "#d29922")
+            font.family: "monospace"; font.pixelSize: 12
         }
         Label { text: root.sectionCount + " sec"; color: "#8b949e"; font.family: "monospace"; font.pixelSize: 12 }
     }

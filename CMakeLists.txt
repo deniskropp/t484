@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(t484 VERSION 0.2.0 LANGUAGES CXX)
+project(t484 VERSION 0.3.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(ocsnode_protocol STATIC
     src/protocol/ProtocolParser.cpp
     src/protocol/ProtocolEmitter.cpp
+    src/protocol/ChatSession.cpp
     src/engine/ProtocolEngine.cpp
 )
 target_include_directories(ocsnode_protocol PUBLIC
@@ -29,7 +30,7 @@ add_test(NAME protocol_core
 )
 
 # --- Qt display (optional) -------------------------------------------------
-find_package(Qt6 QUIET COMPONENTS Core Gui Qml Quick QuickControls2)
+find_package(Qt6 QUIET COMPONENTS Core Gui Qml Quick QuickControls2 Network)
 
 if(Qt6_FOUND)
     set(CMAKE_AUTOMOC ON)
@@ -38,12 +39,14 @@ if(Qt6_FOUND)
     qt_add_executable(t484
         src/main.cpp
         src/engine/ProtocolEngineQt.cpp
+        src/engine/GenAiClient.cpp
         src/engine/SectionListModel.cpp
         src/components/TasStatusModel.cpp
         src/components/KlmxMoleculeItem.cpp
         # Q_OBJECT lives in these headers (not next to the .cpp files);
         # listing them is required for AUTOMOC to generate vtables/signals.
         include/ocsnode/qt/ProtocolEngineQt.h
+        include/ocsnode/qt/GenAiClient.h
         include/ocsnode/qt/SectionListModel.h
         include/ocsnode/qt/TasStatusModel.h
         include/ocsnode/qt/KlmxMoleculeItem.h
@@ -67,6 +70,12 @@ if(Qt6_FOUND)
         PROPERTIES QT_RESOURCE_ALIAS "TasStatusBarView.qml")
     set_source_files_properties(src/qml/OcsNode/KlmxMoleculeSpaceView.qml
         PROPERTIES QT_RESOURCE_ALIAS "KlmxMoleculeSpaceView.qml")
+    set_source_files_properties(src/qml/OcsNode/OcsChatTranscriptView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "OcsChatTranscriptView.qml")
+    set_source_files_properties(src/qml/OcsNode/OcsChatBubbleView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "OcsChatBubbleView.qml")
+    set_source_files_properties(src/qml/OcsNode/OcsComposerView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "OcsComposerView.qml")
     set_source_files_properties(src/assets/seed.ocs
         PROPERTIES QT_RESOURCE_ALIAS "seed.ocs")
 
@@ -80,6 +89,9 @@ if(Qt6_FOUND)
             src/qml/OcsNode/ProtocolStatusBar.qml
             src/qml/OcsNode/TasStatusBarView.qml
             src/qml/OcsNode/KlmxMoleculeSpaceView.qml
+            src/qml/OcsNode/OcsChatTranscriptView.qml
+            src/qml/OcsNode/OcsChatBubbleView.qml
+            src/qml/OcsNode/OcsComposerView.qml
         RESOURCES
             src/assets/seed.ocs
     )
@@ -92,9 +104,22 @@ if(Qt6_FOUND)
             Qt6::Qml
             Qt6::Quick
             Qt6::QuickControls2
+            Qt6::Network
     )
 
+    add_executable(ocsnode_genai_tests
+        tests/test_genai.cpp
+        src/engine/GenAiClient.cpp
+        include/ocsnode/qt/GenAiClient.h
+    )
+    target_link_libraries(ocsnode_genai_tests PRIVATE Qt6::Core Qt6::Network)
+    target_include_directories(ocsnode_genai_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    add_test(NAME genai_parse COMMAND ocsnode_genai_tests)
+
     target_include_directories(t484 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_compile_definitions(t484 PRIVATE
+        T484_SOURCE_DIR="${CMAKE_SOURCE_DIR}"
+    )
 
     install(TARGETS t484
         BUNDLE DESTINATION .

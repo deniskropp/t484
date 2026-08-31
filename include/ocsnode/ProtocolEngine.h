@@ -25,6 +25,7 @@ public:
 
     void setMode(const std::string &mode);
     void submit(const Section &section);
+    void append(const Section &section);
     void requestHalt(const std::string &reason);
     void setHaltHandler(HaltHandler h) { m_halt = std::move(h); }
 

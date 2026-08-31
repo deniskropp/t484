@@ -51,6 +51,12 @@ void ProtocolEngine::submit(const Section &section)
     refreshState();
 }
 
+void ProtocolEngine::append(const Section &section)
+{
+    m_sections.push_back(section);
+    refreshState();
+}
+
 void ProtocolEngine::requestHalt(const std::string &reason)
 {
     Section halt;

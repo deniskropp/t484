@@ -1,3 +1,4 @@
+#include "ocsnode/ChatSession.h"
 #include "ocsnode/CoherenceState.h"
 #include "ocsnode/NodeEngine.h"
 #include "ocsnode/ProtocolEmitter.h"
@@ -94,6 +95,67 @@ int main(int argc, char **argv)
     node.setActor("KickForge");
     check(node.actor() == "KickForge", "node actor");
     check(node.ingest(kMini).ok(), "node ingest");
+
+    ProtocolEngine chatEngine;
+    chatEngine.loadText(kMini);
+    const auto before = chatEngine.sections().size();
+    Section turn;
+    turn.family = "flow";
+    turn.path = "chat";
+    turn.qualifier = "host";
+    turn.body = "first";
+    chatEngine.append(turn);
+    turn.body = "second";
+    chatEngine.append(turn);
+    check(chatEngine.sections().size() == before + 2, "append keeps both chat turns");
+    int hostTurns = 0;
+    for (const auto &s : chatEngine.sections()) {
+        if (s.type() == "flow/chat" && s.qualifier == "host")
+            ++hostTurns;
+    }
+    check(hostTurns == 2, "two host flow/chat sections");
+
+    ProtocolEngine sessionEngine;
+    sessionEngine.loadText(kMini);
+    ChatSession session(sessionEngine);
+    auto t1 = session.send("hello node");
+    check(t1.ok, "plain chat ok");
+    check(!t1.gated, "plain chat not gated");
+    check(t1.requestLlm, "plain chat requests llm");
+    const Section *last = nullptr;
+    int hostCount = 0;
+    for (const auto &s : sessionEngine.sections()) {
+        if (s.type() == "flow/chat" && s.qualifier == "host") {
+            ++hostCount;
+            last = &s;
+        }
+    }
+    check(hostCount == 1 && last && last->body == "hello node", "plain chat host body");
+
+    auto tMode = session.send("/mode Predictive");
+    check(tMode.ok && sessionEngine.state().mode == "Predictive", "slash mode");
+    check(!tMode.requestLlm, "slash mode does not call llm");
+
+    auto tHalt = session.send("/halt user-gate");
+    check(tHalt.gated && sessionEngine.state().gated, "slash halt gates");
+    check(!tHalt.requestLlm, "slash halt does not call llm");
+    check(sessionEngine.findByType("cmd/halt") != nullptr, "halt section after slash");
+    const auto gatedSize = sessionEngine.sections().size();
+    auto blocked = session.send("/obj should not replace");
+    check(blocked.gated, "gated turn still gated");
+    const auto *obj = sessionEngine.findByType("data/obj");
+    check(obj == nullptr || obj->body.find("should not replace") == std::string::npos,
+          "gated /obj does not mutate data/obj");
+    check(sessionEngine.sections().size() > gatedSize, "gated turn still records host + KickGuard");
+
+    auto emptyTurn = session.send("   ");
+    check(!emptyTurn.ok, "empty turn not ok");
+
+    ProtocolEngine loadEngine;
+    ChatSession loader(loadEngine);
+    auto loadedDoc = loader.send(kMini);
+    check(loadedDoc.ok && loadEngine.findByType("context/klmx") != nullptr, "sigil paste loads document");
+    check(loadEngine.findByType("data/tas") != nullptr, "loaded tas preserved");
 
     if (argc > 1) {
         auto fixture = slurp(argv[1]);

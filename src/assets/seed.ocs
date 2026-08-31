@@ -3,20 +3,24 @@
 OCS/Node Engine active
 Project: deniskropp/t484
 Mode: Hybrid
-Branch: refactor/layout-v0.2
+Surface: interactive chat
+Branch: main
 
 ⫻cmd/mode:Hybrid
 ⫻data/obj:
-Make t484 a real C++/QML protocol engine with one source of truth.
+Transform t484 into an interactive OCS-compliant chat whose transcript is the living protocol document.
 
 ⫻data/tas:
-P0 Confirm SoT = deniskropp/t484
-P1 Naming table locked
-P2 Module dirs + qmldir + CMake split
-P3 Existing UI still launches
-P4 Section + Parser + ProtocolEngine + tests
-P5 Bind OcsSectionView to engine model
-P6 Migrate TasStatus + Klmx under new names
+P0 Transcript = protocol sections (flow/chat host + three-agent replies)
+P1 Composer wraps turns; slash /mode /halt /exec /obj /tas; raw ⫻ paste
+P2 KickForge / KickFlow / KickGuard reply as first-class sections
+P3 Halt gate blocks mutation except halt/mode; resume = load without cmd/halt
+P4 Inspector keeps Klmx + raw emitText
 
 ⫻display/header:
-OCS/Node Engine — t484 v0.2
+OCS/Node Chat — t484 v0.3
+
+⫻flow/chat:KickFlow
+OCS/Node chat is live. Speak in natural language, paste ⫻ sections, or use slash commands.
+/mode Hybrid · /halt reason · /exec cmd · /obj living objective · /tas step list
+Consent-first: halt is a first-class command. Resume by loading a ⫻protocol/ocs document without ⫻cmd/halt.

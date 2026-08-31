@@ -3,3 +3,6 @@ OcsSectionView 1.0 OcsSectionView.qml
 ProtocolStatusBar 1.0 ProtocolStatusBar.qml
 TasStatusBarView 1.0 TasStatusBarView.qml
 KlmxMoleculeSpaceView 1.0 KlmxMoleculeSpaceView.qml
+OcsChatTranscriptView 1.0 OcsChatTranscriptView.qml
+OcsChatBubbleView 1.0 OcsChatBubbleView.qml
+OcsComposerView 1.0 OcsComposerView.qml

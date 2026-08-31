@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ocsnode/NodeEngine.h"
+#include "ocsnode/qt/GenAiClient.h"
 #include "ocsnode/qt/SectionListModel.h"
 
 #include <QObject>
@@ -23,6 +24,10 @@ class ProtocolEngineQt : public QObject
     Q_PROPERTY(QString sourceText READ sourceText NOTIFY sourceChanged)
     Q_PROPERTY(SectionListModel *sections READ sections CONSTANT)
     Q_PROPERTY(int errorCount READ errorCount NOTIFY stateChanged)
+    Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
+    Q_PROPERTY(bool genaiReady READ genaiReady NOTIFY genaiReadyChanged)
+    Q_PROPERTY(QString genaiModel READ genaiModel NOTIFY genaiReadyChanged)
+    Q_PROPERTY(QString genaiSource READ genaiSource NOTIFY genaiReadyChanged)
 
 public:
     explicit ProtocolEngineQt(QObject *parent = nullptr);
@@ -41,12 +46,17 @@ public:
     QString sourceText() const;
     SectionListModel *sections() { return &m_model; }
     int errorCount() const;
+    bool busy() const;
+    bool genaiReady() const;
+    QString genaiModel() const;
+    QString genaiSource() const;
 
     Q_INVOKABLE bool loadText(const QString &text);
     Q_INVOKABLE QString emitText() const;
     Q_INVOKABLE void requestHalt(const QString &reason);
     Q_INVOKABLE void submitMap(const QVariantMap &payload);
     Q_INVOKABLE QString sectionBody(const QString &type) const;
+    Q_INVOKABLE bool sendChat(const QString &text);
 
 signals:
     void modeChanged();
@@ -55,13 +65,22 @@ signals:
     void sourceChanged();
     void haltRequested(const QString &reason);
     void accepted(const QVariantMap &payload);
+    void turnCompleted(bool ok);
+    void busyChanged();
+    void genaiReadyChanged();
 
 private:
     void syncFromCore();
+    void appendChat(const QString &qualifier, const QString &body);
+    void requestGenAi(const QString &hostText);
+    void onGenAiFinished(bool ok, const QString &text, const QString &interactionId,
+                         const QString &error, const QString &usedModel);
 
     NodeEngine m_node;
     SectionListModel m_model;
     QString m_source;
+    GenAiClient m_genai;
+    QString m_previousInteractionId;
 };
 
 } // namespace ocsnode
