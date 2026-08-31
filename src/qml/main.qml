@@ -13,9 +13,17 @@ ApplicationWindow {
     // self-binding to null, which made Send a no-op while the title still worked.
     readonly property var protocol: engine
     title: protocol && protocol.genaiReady
-           ? qsTr("OCS/Node Chat — t484 · ") + protocol.genaiSource
-           : qsTr("OCS/Node Chat — t484 · NO GENAI KEY")
-    color: "#0d1117"
+           ? qsTr("OCS/Node Chat — t484 \u00b7 ") + protocol.genaiSource
+           : qsTr("OCS/Node Chat — t484 \u00b7 NO GENAI KEY")
+    color: Theme.bg
+    palette.window: Theme.bg
+    palette.windowText: Theme.text
+    palette.base: Theme.bgRaised
+    palette.text: Theme.text
+    palette.button: Theme.bgPanel
+    palette.buttonText: Theme.text
+    palette.highlight: Theme.violetDeep
+    palette.highlightedText: "#ffffff"
 
     property bool inspectorVisible: true
 
@@ -88,8 +96,8 @@ ApplicationWindow {
 
                 Label {
                     text: "protocol/ocs  [" + appWindow.protocol.sections.count + " sections, errors=" + appWindow.protocol.errorCount + "]"
-                    color: "#58a6ff"
-                    font.family: "monospace"
+                    color: Theme.cyan
+                    font.family: Theme.fontMono
                     font.pixelSize: 12
                     font.bold: true
                 }
@@ -101,16 +109,16 @@ ApplicationWindow {
                     TextArea {
                         text: appWindow.protocol.sourceText
                         readOnly: true
-                        color: "#8b949e"
-                        font.family: "monospace"
+                        color: Theme.textMuted
+                        font.family: Theme.fontMono
                         font.pixelSize: 11
                         wrapMode: Text.Wrap
                         selectByMouse: true
                         background: Rectangle {
-                            color: "#161b22"
-                            border.color: "#30363d"
-                            border.width: 1
-                            radius: 6
+                            color: Theme.bgRaised
+                            border.color: Theme.border
+                            border.width: Theme.borderWidth
+                            radius: Theme.radiusSm
                         }
                     }
                 }
