@@ -1,10 +1,11 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import OcsNode 1.0
 
 Rectangle {
     id: root
-    color: "#202020"
+    color: Theme.bgPanel
 
     property var protocol: null
     property int genaiCallCount: 0
@@ -24,9 +25,10 @@ Rectangle {
 
         Label {
             text: "Metrics"
+            font.family: Theme.fontUi
             font.bold: true
             font.pointSize: 14
-            color: "white"
+            color: Theme.text
         }
 
         GridLayout {
@@ -35,31 +37,32 @@ Rectangle {
             columnSpacing: 12
             rowSpacing: 6
 
-            Label { text: "Active Sections:"; color: "#8b949e" }
-            Label { text: String(root.sectionCount); color: "white"; font.family: "monospace" }
+            Label { text: "Active Sections:"; color: Theme.textMuted; font.family: Theme.fontUi }
+            Label { text: String(root.sectionCount); color: Theme.text; font.family: Theme.fontMono }
 
-            Label { text: "GenAI Calls:"; color: "#8b949e" }
-            Label { text: String(root.genaiCallCount); color: "white"; font.family: "monospace" }
+            Label { text: "GenAI Calls:"; color: Theme.textMuted; font.family: Theme.fontUi }
+            Label { text: String(root.genaiCallCount); color: Theme.text; font.family: Theme.fontMono }
 
-            Label { text: "Last Response:"; color: "#8b949e" }
-            Label { text: root.lastResponseSeconds.toFixed(2) + " s"; color: "white"; font.family: "monospace" }
+            Label { text: "Last Response:"; color: Theme.textMuted; font.family: Theme.fontUi }
+            Label { text: root.lastResponseSeconds.toFixed(2) + " s"; color: Theme.text; font.family: Theme.fontMono }
 
-            Label { text: "Avg Response:"; color: "#8b949e" }
-            Label { text: root.avgResponseTime.toFixed(2) + " s"; color: "white"; font.family: "monospace" }
+            Label { text: "Avg Response:"; color: Theme.textMuted; font.family: Theme.fontUi }
+            Label { text: root.avgResponseTime.toFixed(2) + " s"; color: Theme.text; font.family: Theme.fontMono }
 
-            Label { text: "Errors:"; color: "#8b949e" }
-            Label { text: String(root.errorCount); color: root.errorCount > 0 ? "#f85149" : "white"; font.family: "monospace" }
+            Label { text: "Errors:"; color: Theme.textMuted; font.family: Theme.fontUi }
+            Label { text: String(root.errorCount); color: root.errorCount > 0 ? Theme.danger : Theme.text; font.family: Theme.fontMono }
 
-            Label { text: "TAS steps:"; color: "#8b949e" }
-            Label { text: String(root.tasActiveSteps); color: "white"; font.family: "monospace" }
+            Label { text: "TAS steps:"; color: Theme.textMuted; font.family: Theme.fontUi }
+            Label { text: String(root.tasActiveSteps); color: Theme.text; font.family: Theme.fontMono }
 
-            Label { text: "Coherence:"; color: "#8b949e" }
-            Label { text: Math.round(root.coherence * 100) + " %"; color: "white"; font.family: "monospace" }
+            Label { text: "Coherence:"; color: Theme.textMuted; font.family: Theme.fontUi }
+            Label { text: Math.round(root.coherence * 100) + " %"; color: Theme.coherenceColor(root.coherence); font.family: Theme.fontMono }
         }
 
         Label {
             text: "Live meters (no extra chart dependency)"
-            color: "#6e7681"
+            color: Theme.textFaint
+            font.family: Theme.fontUi
             font.pixelSize: 11
         }
 
@@ -69,29 +72,29 @@ Rectangle {
 
             Repeater {
                 model: [
-                    { label: "coherence", value: root.coherence, color: "#7ee787" },
-                    { label: "busy", value: root.busy ? 1 : 0, color: "#d2a8ff" },
-                    { label: "errors", value: Math.min(1, root.errorCount / 5.0), color: "#f85149" },
-                    { label: "sections", value: Math.min(1, root.sectionCount / 24.0), color: "#58a6ff" }
+                    { label: "coherence", value: root.coherence, color: Theme.emerald },
+                    { label: "busy", value: root.busy ? 1 : 0, color: Theme.violet },
+                    { label: "errors", value: Math.min(1, root.errorCount / 5.0), color: Theme.danger },
+                    { label: "sections", value: Math.min(1, root.sectionCount / 24.0), color: Theme.cyan }
                 ]
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 2
                     Label {
                         text: modelData.label
-                        color: "#8b949e"
-                        font.family: "monospace"
+                        color: Theme.textMuted
+                        font.family: Theme.fontMono
                         font.pixelSize: 11
                     }
                     Rectangle {
                         Layout.fillWidth: true
                         height: 10
-                        radius: 4
-                        color: "#333333"
+                        radius: Theme.radiusSm
+                        color: Theme.meterTrack
                         Rectangle {
                             width: Math.max(2, parent.width * modelData.value)
                             height: parent.height
-                            radius: 4
+                            radius: Theme.radiusSm
                             color: modelData.color
                         }
                     }
@@ -103,8 +106,8 @@ Rectangle {
 
         Label {
             text: root.busy ? "KickFlow in flight" : "idle"
-            color: root.busy ? "#d2a8ff" : "#6e7681"
-            font.family: "monospace"
+            color: root.busy ? Theme.violet : Theme.textFaint
+            font.family: Theme.fontMono
             font.pixelSize: 11
         }
     }

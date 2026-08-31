@@ -1,10 +1,11 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import OcsNode 1.0
 
 Rectangle {
     id: root
-    color: "#1a1a1a"
+    color: Theme.bg
 
     property var protocol: null
     property var logModel: eventLogModel
@@ -23,7 +24,8 @@ Rectangle {
 
         Label {
             text: "Event log"
-            color: "#c9d1d9"
+            color: Theme.text
+            font.family: Theme.fontUi
             font.bold: true
             font.pixelSize: 14
         }
@@ -58,7 +60,7 @@ Rectangle {
                 visible: root.matches(level)
                 width: logsList.width
                 height: visible ? 28 : 0
-                color: index % 2 === 0 ? "#161b22" : "#1a1a1a"
+                color: index % 2 === 0 ? Theme.stripeEven : Theme.stripeOdd
                 RowLayout {
                     anchors.fill: parent
                     anchors.leftMargin: 8
@@ -66,34 +68,30 @@ Rectangle {
                     spacing: 10
                     Label {
                         text: time
-                        color: "#8b949e"
-                        font.family: "monospace"
+                        color: Theme.textMuted
+                        font.family: Theme.fontMono
                         font.pixelSize: 11
                         Layout.preferredWidth: 72
                     }
                     Label {
                         text: level
-                        color: level === "error" ? "#f85149"
-                             : level === "warning" ? "#d29922"
-                             : level === "genai" ? "#d2a8ff"
-                             : level === "protocol" ? "#58a6ff"
-                             : "#7ee787"
-                        font.family: "monospace"
+                        color: Theme.levelColor(level)
+                        font.family: Theme.fontMono
                         font.pixelSize: 11
                         font.bold: true
                         Layout.preferredWidth: 78
                     }
                     Label {
                         text: event
-                        color: "#c9d1d9"
-                        font.family: "monospace"
+                        color: Theme.text
+                        font.family: Theme.fontMono
                         font.pixelSize: 11
                         Layout.preferredWidth: 120
                     }
                     Label {
                         text: details
-                        color: "#8b949e"
-                        font.family: "monospace"
+                        color: Theme.textMuted
+                        font.family: Theme.fontMono
                         font.pixelSize: 11
                         elide: Text.ElideRight
                         Layout.fillWidth: true
