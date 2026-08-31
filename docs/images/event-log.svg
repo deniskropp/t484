@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="240" viewBox="0 0 720 240" role="img" aria-label="OcsEventLogView">
+  <rect width="720" height="240" fill="#0f172a"/>
+  <text x="16" y="28" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#e2e8f0">Event log</text>
+  <rect x="16" y="44" rx="4" width="40" height="22" fill="#7c3aed"/>
+  <text x="36" y="59" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#ffffff">all</text>
+  <text x="70" y="59" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">info warning error genai protocol</text>
+  <rect x="16" y="80" width="688" height="28" fill="#111827"/>
+  <text x="24" y="98" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">21:18:02</text>
+  <text x="110" y="98" font-family="Fira Code, monospace" font-size="11" font-weight="700" fill="#22d3ee">protocol</text>
+  <text x="200" y="98" font-family="Fira Code, monospace" font-size="11" fill="#e2e8f0">ingest</text>
+  <text x="300" y="98" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">seed.ocs loaded · 8 sections</text>
+  <rect x="16" y="108" width="688" height="28" fill="#0f172a"/>
+  <text x="24" y="126" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">21:18:11</text>
+  <text x="110" y="126" font-family="Fira Code, monospace" font-size="11" font-weight="700" fill="#a78bfa">genai</text>
+  <text x="200" y="126" font-family="Fira Code, monospace" font-size="11" fill="#e2e8f0">create</text>
+  <text x="300" y="126" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">gemini-3.7-flash · env:GEMINI_API_KEY</text>
+  <rect x="16" y="136" width="688" height="28" fill="#111827"/>
+  <text x="24" y="154" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">21:18:14</text>
+  <text x="110" y="154" font-family="Fira Code, monospace" font-size="11" font-weight="700" fill="#34d399">info</text>
+  <text x="200" y="154" font-family="Fira Code, monospace" font-size="11" fill="#e2e8f0">turn</text>
+  <text x="300" y="154" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">KickFlow reply appended</text>
+  <rect x="16" y="164" width="688" height="28" fill="#0f172a"/>
+  <text x="24" y="182" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">21:18:20</text>
+  <text x="110" y="182" font-family="Fira Code, monospace" font-size="11" font-weight="700" fill="#fbbf24">warning</text>
+  <text x="200" y="182" font-family="Fira Code, monospace" font-size="11" fill="#e2e8f0">gate</text>
+  <text x="300" y="182" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">coherence 0.71 · below 0.85</text>
+</svg>

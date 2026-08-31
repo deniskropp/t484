@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="320" viewBox="0 0 400 320" role="img" aria-label="OcsMetricsPanelView">
+  <rect width="400" height="320" fill="#1e293b"/>
+  <text x="16" y="32" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#e2e8f0">Metrics</text>
+  <text x="16" y="64" font-family="Inter, sans-serif" font-size="12" fill="#94a3b8">Active Sections</text>
+  <text x="280" y="64" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">12</text>
+  <text x="16" y="86" font-family="Inter, sans-serif" font-size="12" fill="#94a3b8">GenAI Calls</text>
+  <text x="280" y="86" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">4</text>
+  <text x="16" y="108" font-family="Inter, sans-serif" font-size="12" fill="#94a3b8">Last Response</text>
+  <text x="280" y="108" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">1.82 s</text>
+  <text x="16" y="130" font-family="Inter, sans-serif" font-size="12" fill="#94a3b8">Errors</text>
+  <text x="280" y="130" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">0</text>
+  <text x="16" y="152" font-family="Inter, sans-serif" font-size="12" fill="#94a3b8">Coherence</text>
+  <text x="280" y="152" font-family="Fira Code, monospace" font-size="13" fill="#34d399">95 %</text>
+  <text x="16" y="186" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">coherence</text>
+  <rect x="16" y="194" width="368" height="10" rx="4" fill="#1e293b" stroke="#334155"/>
+  <rect x="16" y="194" width="350" height="10" rx="4" fill="#34d399"/>
+  <text x="16" y="226" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">busy</text>
+  <rect x="16" y="234" width="368" height="10" rx="4" fill="#1e293b" stroke="#334155"/>
+  <rect x="16" y="234" width="8" height="10" rx="4" fill="#a78bfa"/>
+  <text x="16" y="266" font-family="Fira Code, monospace" font-size="11" fill="#94a3b8">sections</text>
+  <rect x="16" y="274" width="368" height="10" rx="4" fill="#1e293b" stroke="#334155"/>
+  <rect x="16" y="274" width="184" height="10" rx="4" fill="#22d3ee"/>
+  <text x="16" y="308" font-family="Fira Code, monospace" font-size="11" fill="#64748b">idle</text>
+</svg>
