@@ -8,9 +8,17 @@ ApplicationWindow {
     width: 1600
     height: 900
     visible: true
-    color: themeName === "Light" ? "#f6f8fa" : "#0d1117"
+    color: Theme.bg
+    palette.window: Theme.bg
+    palette.windowText: Theme.text
+    palette.base: Theme.bgRaised
+    palette.text: Theme.text
+    palette.button: Theme.bgPanel
+    palette.buttonText: Theme.text
+    palette.highlight: Theme.violetDeep
+    palette.highlightedText: "#ffffff"
     readonly property var protocol: engine
-    title: "t484 Protocol Console — Source: "
+    title: "t484 Protocol Console \u2014 Source: "
            + (protocol && protocol.genaiReady
               ? protocol.genaiSource
               : "NO KEY")
@@ -29,6 +37,9 @@ ApplicationWindow {
     property real avgResponseTime: 0
     property int responseSamples: 0
     property real busyStartedAt: 0
+
+    onThemeNameChanged: Theme.apply(themeName)
+    Component.onCompleted: Theme.apply(themeName)
 
     header: ProtocolStatusBar {
         id: statusBar
@@ -52,9 +63,9 @@ ApplicationWindow {
         Rectangle {
             Layout.fillWidth: true
             height: 36
-            color: "#161b22"
-            border.color: "#21262d"
-            border.width: 1
+            color: Theme.bgRaised
+            border.color: Theme.borderSubtle
+            border.width: Theme.borderWidth
 
             RowLayout {
                 anchors.fill: parent
@@ -68,8 +79,8 @@ ApplicationWindow {
                           + " | Gated: " + (appWindow.protocol ? appWindow.protocol.gated : false)
                           + " | Busy: " + (appWindow.protocol ? appWindow.protocol.busy : false)
                           + " | Errors: " + (appWindow.protocol ? appWindow.protocol.errorCount : 0)
-                    color: "#c9d1d9"
-                    font.family: "monospace"
+                    color: Theme.text
+                    font.family: Theme.fontMono
                     font.pixelSize: 12
                 }
 
@@ -77,8 +88,8 @@ ApplicationWindow {
 
                 Label {
                     text: "view"
-                    color: "#8b949e"
-                    font.family: "monospace"
+                    color: Theme.textMuted
+                    font.family: Theme.fontMono
                     font.pixelSize: 11
                 }
                 ComboBox {
@@ -91,8 +102,8 @@ ApplicationWindow {
 
                 Label {
                     text: "cmd/mode"
-                    color: "#8b949e"
-                    font.family: "monospace"
+                    color: Theme.textMuted
+                    font.family: Theme.fontMono
                     font.pixelSize: 11
                 }
                 ComboBox {
@@ -115,7 +126,7 @@ ApplicationWindow {
             Rectangle {
                 SplitView.preferredWidth: appWindow.viewMode === "dev" ? 420 : 560
                 SplitView.minimumWidth: 360
-                color: "#1e1e1e"
+                color: Theme.bg
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -229,12 +240,12 @@ ApplicationWindow {
             TextArea {
                 text: appWindow.protocol ? appWindow.protocol.sourceText : ""
                 readOnly: true
-                color: "#8b949e"
-                font.family: "monospace"
+                color: Theme.textMuted
+                font.family: Theme.fontMono
                 font.pixelSize: 11
                 wrapMode: Text.Wrap
                 selectByMouse: true
-                background: Rectangle { color: "#010409" }
+                background: Rectangle { color: Theme.bgSunken }
             }
         }
     }
