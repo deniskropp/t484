@@ -7,27 +7,13 @@ Rectangle {
     color: "#1a1a1a"
 
     property var protocol: null
+    property var logModel: eventLogModel
     property string filter: "all"
-    property int maxRows: 200
-
-    ListModel { id: logModel }
 
     function matches(level) {
         if (root.filter === "all")
             return true
         return level === root.filter
-    }
-
-    function appendEvent(level, event, details) {
-        const row = {
-            time: Qt.formatTime(new Date(), "hh:mm:ss"),
-            event: event || "",
-            details: details || "",
-            level: level || "info"
-        }
-        logModel.insert(0, row)
-        while (logModel.count > root.maxRows)
-            logModel.remove(logModel.count - 1)
     }
 
     ColumnLayout {
@@ -55,7 +41,10 @@ Rectangle {
             Item { Layout.fillWidth: true }
             Button {
                 text: "Clear"
-                onClicked: logModel.clear()
+                onClicked: {
+                    if (root.logModel)
+                        root.logModel.clear()
+                }
             }
         }
 
@@ -64,7 +53,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            model: logModel
+            model: root.logModel
             delegate: Rectangle {
                 visible: root.matches(level)
                 width: logsList.width
