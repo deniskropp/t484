@@ -23,6 +23,8 @@ ProtocolEngineQt ──wraps── NodeEngine + SectionListModel + GenAiClient
 |---|---|
 | `loadText(text)` | parse, replace `m_sections`, `refreshState()` |
 | `emitText()` | serialize current document |
+| `exportNexus(genaiAxis=0.5)` | stamp `protocol/ocs [version=0.6.0]`, write axes into `display/meta`, scrub secrets, return text |
+| `importNexus(text)` | `loadText` of a `protocol/ocs` document. No second store |
 | `submit(section)` | replace first section of the same `type()` |
 | `append(section)` | always push |
 | `setMode(mode)` | submit `cmd/mode` |
@@ -30,6 +32,14 @@ ProtocolEngineQt ──wraps── NodeEngine + SectionListModel + GenAiClient
 | `sectionsByFamily` / `findByType` | lookup |
 
 `refreshState()` runs `deriveCoherence(m_sections)` after every mutation.
+
+`exportNexus` is allowed while gated (read + export metadata). `genaiAxis` is a Qt-only overlay (`ready && !busy` → 1.0, else 0.5). Secrets never enter the file.
+
+Operator bindings already on main:
+
+- `/exec nexus-export` → `exportNexus()` (ChatSession, no LLM)
+- console Export / Import / Copy actions
+- round-trip tests for seed + nexus fixtures
 
 ## Halt gate
 
@@ -40,15 +50,15 @@ While gated:
 - ChatSession skips mutations other than halt/mode.
 - `ProtocolEngineQt` must not call GenAI.
 - KickGuard replies with `flow/chat:KickGuard` + `query/clarify:consent`.
-- Export (read `emitText`) remains legal. Import of a halted document stays gated.
+- `exportNexus` remains legal. Import of a halted document stays gated.
 
-Resume = `loadText` of a `protocol/ocs` document that does not contain `cmd/halt`.
+Resume = `loadText` / `importNexus` of a `protocol/ocs` document that does not contain `cmd/halt`.
 
-## Coherence heuristic (v0.4)
+## Coherence heuristic
 
 `deriveCoherence` in `CoherenceState.h`. Deterministic. Base `0.45`, clamp `[0,1]`.
 
-| Signal | Delta |
+| Signal | Scalar delta |
 |---|---|
 | `protocol/ocs` present | +0.12 |
 | `context/klmx` present | +0.12 |
@@ -61,9 +71,21 @@ The first such line (truncated to 32 chars) becomes `currentTasId`.
 `cmd/mode` qualifier overwrites `mode`.
 Status: `gated` if halt, else `running` if TAS, else `idle`.
 
-This is **not** CoherenceMonitorBridge. v0.6 adds named axes on top of the scalar
-(`protocol`, `klmx`, `objective`, `tas`, `consent`, `dialogue`, `genai`) and
-records them in `display/meta`. See [plans/v0.6/README.md](plans/v0.6/README.md).
+### Volumetric axes (additive)
+
+`CoherenceState.axes` (`VolumetricAxes`). Status bar still shows the scalar.
+
+| Axis | Source | Score |
+|---|---|---|
+| `protocol` | `protocol/ocs` | 1 or 0 |
+| `klmx` | `context/klmx` | 1 or 0 |
+| `objective` | `data/obj` | 1 or 0 |
+| `tas` | TAS/PTAS step count | `min(1, steps/5)` |
+| `consent` | absence of `cmd/halt` | 1 or 0 |
+| `dialogue` | `flow/chat` host/replies | `min(1, host*0.25 + replies*0.15)` |
+| `genai` | STL default 0.5; Qt overlays ready && !busy | never a secret |
+
+Export records axes in `display/meta`. CoherenceMonitorBridge remains the later replacement behind `deriveCoherence`.
 
 ## `NodeEngine`
 
@@ -80,12 +102,12 @@ No extra store. No second state machine.
 `ProtocolEngineQt` is the only object QML should see as `engine` /
 `appWindow.protocol`. It:
 
-1. Forwards load/emit/halt/submit/mode.
+1. Forwards load/emit/halt/submit/mode/exportNexus/importNexus.
 2. Resets `SectionListModel` from `sections()`.
 3. Runs `ChatSession::send` on `sendChat`.
 4. Optionally calls `GenAiClient` when `requestLlm && !gated && genaiReady`.
 5. Exposes `busy`, `genaiReady`, `genaiModel`, `genaiSource` (source label only).
 
 Do not invent chrome properties on the engine (`genaiCallCount`, `avgResponseTime`,
-`logsModel`). Derive those in QML from `turnCompleted` / `busy` edges / local models.
+`logsModel`). Derive those in QML from `turnCompleted` / `busy` edges / `EventLogModel`.
 See [CONSOLE.md](CONSOLE.md).
