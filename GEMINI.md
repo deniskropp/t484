@@ -29,7 +29,7 @@ Do not claim v0.6 shipped until `nexus-v0.6.ocs` round-trips in `ocsnode_protoco
 | Console views + `t484-console` (`console.qml`) | shipped |
 | `Theme` singleton (OCS Slate Dark / Light) | shipped |
 | KickLangEditorView / TasBoardView / ConsentGateDialog | planned (Phase E / v0.5) |
-| `cmd/exec:nexus-export` + volumetric axes | planned ([v0.6](docs/plans/v0.6/)) |
+| `cmd/exec:nexus-export` + one-file import | implemented; full v0.6 Nexus (Phase E + bridge) still planned |
 
 ## Project structure
 
@@ -151,11 +151,11 @@ Non-goals: no new section families; no keys in the export; no parallel chat stor
 |---|---|---|
 | N0 | Freeze export grammar + fixture parses today | plan artifacts landed |
 | N1 | `protocol/ocs` stamp `[version=0.6.0] [repo=deniskropp/t484] [ref=main]` | written into fixture |
-| N2 | `cmd/exec:nexus-export` → `emitText()` + header; no key material | specified, not in C++ |
-| N3 | Volumetric axes on `CoherenceState` (scalar kept) | specified, not in C++ |
+| N2 | `cmd/exec:nexus-export` → `exportNexus()` + header; no key material | implemented (`/exec nexus-export`, `importNexus` = `loadText`) |
+| N3 | Volumetric axes on `CoherenceState` (scalar kept) | axes fields filled; Qt genai overlay on export |
 | N4 | KickLangEditorView + TasBoardView + ConsentGateDialog (Phase E / v0.5) | named; identifiers reserved |
 | N5 | CoherenceMonitorBridge adapter behind `deriveCoherence` | noted; heuristic stays |
-| N6 | Round-trip tests + console “Export Nexus” action | not started |
+| N6 | Round-trip tests + console “Export Nexus” action | implemented |
 | N7 | Berlin Node / EmbodiedPipe grounding | optional, not critical path |
 
 Volumetric axes (additive; status bar still shows scalar `coherence ∈ [0,1]`): `protocol`, `klmx`, `objective`, `tas`, `consent`, `dialogue`, `genai` (Qt-only health, never a secret in the file). Export records axes in `display/meta`.

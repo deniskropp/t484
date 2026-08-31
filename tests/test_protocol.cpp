@@ -10,6 +10,11 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
+
+#ifndef OCSNODE_FIXTURE_DIR
+#define OCSNODE_FIXTURE_DIR "."
+#endif
 
 static int g_failed = 0;
 static int g_passed = 0;
@@ -33,6 +38,19 @@ static std::string slurp(const std::string &path)
     return ss.str();
 }
 
+static bool sectionsLossless(const std::vector<ocsnode::Section> &a,
+                             const std::vector<ocsnode::Section> &b)
+{
+    if (a.size() != b.size())
+        return false;
+    for (std::size_t i = 0; i < a.size(); ++i) {
+        if (a[i].family != b[i].family || a[i].path != b[i].path
+            || a[i].qualifier != b[i].qualifier || a[i].body != b[i].body)
+            return false;
+    }
+    return true;
+}
+
 static const char *kMini = "\xE2\xAB\xBB" "protocol/ocs: [node=OCS/Root]\n"
                            "\xE2\xAB\xBB" "context/klmx:Kick/Lang\n"
                            "hello molecule\n"
@@ -40,6 +58,66 @@ static const char *kMini = "\xE2\xAB\xBB" "protocol/ocs: [node=OCS/Root]\n"
                            "\xE2\xAB\xBB" "data/tas:\n"
                            "- alpha\n"
                            "- beta\n";
+
+static const char *kSecretDoc =
+    "\xE2\xAB\xBB"
+    "protocol/ocs: [node=OCS/Root]\n"
+    "\xE2\xAB\xBB"
+    "cmd/mode:Hybrid\n"
+    "\xE2\xAB\xBB"
+    "data/obj:\nkeep the objective\n"
+    "\xE2\xAB\xBB"
+    "data/tas:\nN2 export\nN6 tests\n"
+    "\xE2\xAB\xBB"
+    "flow/chat:host\n"
+    "GEMINI_API_KEY=super-secret-test-value\n"
+    "x-goog-api-key: AIzaSyDummyTestKeyValue0000000000\n";
+
+static void testFixtureRoundTrip(ocsnode::ProtocolParser &parser,
+                                 ocsnode::ProtocolEmitter &emitter,
+                                 const std::string &path, const char *label)
+{
+    auto fixture = slurp(path);
+    auto fr = parser.parse(fixture);
+    check(fr.ok() && !fr.sections.empty(), (std::string(label) + " parses").c_str());
+    auto again = parser.parse(emitter.emitText(fr.sections));
+    check(again.ok() && sectionsLossless(fr.sections, again.sections),
+          (std::string(label) + " lossless parse(emit(parse))").c_str());
+
+    ocsnode::ProtocolEngine fe;
+    auto loaded = fe.loadText(fixture);
+    check(loaded.ok(), (std::string(label) + " engine load").c_str());
+    auto fromEngine = parser.parse(fe.emitText());
+    check(fromEngine.ok() && sectionsLossless(fe.sections(), fromEngine.sections),
+          (std::string(label) + " engine emit lossless").c_str());
+
+    const auto snap = fe.exportNexus();
+    check(snap.find("GEMINI_API_KEY=") == std::string::npos
+              && snap.find("AIza") == std::string::npos,
+          (std::string(label) + " export has no raw secrets").c_str());
+    check(snap.find("[version=0.6.0]") != std::string::npos,
+          (std::string(label) + " export stamps version").c_str());
+    check(snap.find("Nexus axes (export)") != std::string::npos,
+          (std::string(label) + " export writes axes").c_str());
+
+    ocsnode::ProtocolEngine imported;
+    auto ir = imported.importNexus(snap);
+    check(ir.ok(), (std::string(label) + " importNexus ok").c_str());
+    check(imported.state().activeSteps == fe.state().activeSteps,
+          (std::string(label) + " import restores activeSteps").c_str());
+    check(imported.state().gated == fe.state().gated,
+          (std::string(label) + " import restores gated").c_str());
+    if (const auto *obj = fe.findByType("data/obj")) {
+        const auto *importedObj = imported.findByType("data/obj");
+        check(importedObj && importedObj->body == obj->body,
+              (std::string(label) + " import restores data/obj").c_str());
+    }
+    auto snapAgain = parser.parse(imported.emitText());
+    auto snapParsed = parser.parse(snap);
+    check(snapParsed.ok() && snapAgain.ok()
+              && sectionsLossless(snapParsed.sections, snapAgain.sections),
+          (std::string(label) + " imported snapshot lossless").c_str());
+}
 
 int main(int argc, char **argv)
 {
@@ -157,16 +235,77 @@ int main(int argc, char **argv)
     check(loadedDoc.ok && loadEngine.findByType("context/klmx") != nullptr, "sigil paste loads document");
     check(loadEngine.findByType("data/tas") != nullptr, "loaded tas preserved");
 
+    ProtocolEngine nexusEngine;
+    nexusEngine.loadText(kMini);
+    ChatSession nexusSession(nexusEngine);
+    auto exported = nexusSession.send("/exec nexus-export");
+    check(exported.ok, "slash nexus-export ok");
+    check(!exported.requestLlm, "slash nexus-export does not call llm");
+    check(nexusEngine.findByType("protocol/ocs") != nullptr, "export keeps protocol/ocs");
+    check(nexusEngine.emitText().find("[version=0.6.0]") != std::string::npos,
+          "slash export stamps version on living document");
+    check(nexusEngine.findByType("display/meta") != nullptr, "slash export writes display/meta");
+
+    ProtocolEngine secretEngine;
+    secretEngine.loadText(kSecretDoc);
+    const auto secretSnap = secretEngine.exportNexus();
+    check(secretSnap.find("super-secret-test-value") == std::string::npos, "export scrubs GEMINI_API_KEY value");
+    check(secretSnap.find("AIzaSyDummyTestKeyValue0000000000") == std::string::npos,
+          "export scrubs Google API key material");
+    check(secretSnap.find("env:GEMINI_API_KEY") != std::string::npos
+              || secretSnap.find("env:x-goog-api-key") != std::string::npos,
+          "export keeps env: label");
+    check(secretSnap.find("keep the objective") != std::string::npos, "export keeps living objective");
+    ProtocolEngine secretImported;
+    secretImported.importNexus(secretSnap);
+    check(secretImported.state().activeSteps == secretEngine.state().activeSteps,
+          "secret-scrubbed import restores TAS steps");
+
+    ProtocolEngine gatedExport;
+    gatedExport.loadText(kMini);
+    gatedExport.requestHalt("export-while-gated");
+    ChatSession gatedSession(gatedExport);
+    const auto beforeGated = gatedExport.findByType("data/obj");
+    auto gatedTurn = gatedSession.send("/exec nexus-export");
+    check(gatedTurn.gated && gatedExport.state().gated, "gated export stays gated");
+    check(!gatedTurn.requestLlm, "gated export does not call llm");
+    check(gatedExport.findByType("cmd/halt") != nullptr, "gated export keeps halt");
+    const auto snapGated = gatedExport.exportNexus();
+    check(snapGated.find("cmd/halt") != std::string::npos, "gated snapshot includes halt");
+    ProtocolEngine gatedImported;
+    gatedImported.importNexus(snapGated);
+    check(gatedImported.state().gated, "import of halted snapshot stays gated");
+    (void)beforeGated;
+
+    ProtocolEngine importChat;
+    importChat.loadText(kMini);
+    ChatSession importSession(importChat);
+    const std::string importPaste = std::string("\xE2\xAB\xBB") + "protocol/ocs: [node=OCS/Root] [version=0.6.0]\n"
+                                    + "\xE2\xAB\xBB" + "cmd/mode:Fluid\n"
+                                    + "\xE2\xAB\xBB" + "data/obj:\nimported objective\n"
+                                    + "\xE2\xAB\xBB" + "data/tas:\nI1 one\nI2 two\nI3 three\n";
+    auto importedTurn = importSession.send(importPaste);
+    check(importedTurn.ok, "protocol/ocs paste import ok");
+    check(importChat.state().mode == "Fluid", "import restores mode");
+    check(importChat.findByType("data/obj") && importChat.findByType("data/obj")->body.find("imported objective") != std::string::npos,
+          "import restores objective");
+    check(importChat.state().activeSteps == 3, "import restores three TAS steps");
+    check(!importChat.state().gated, "halt-free import is not gated");
+
+    check(nexusEngine.state().axes.protocol == 1.0, "axis protocol");
+    check(nexusEngine.state().axes.klmx == 1.0, "axis klmx");
+    check(nexusEngine.state().axes.consent == 1.0, "axis consent open");
+    check(gatedExport.state().axes.consent == 0.0, "axis consent gated");
+    check(secretEngine.state().axes.objective == 1.0, "axis objective");
+    check(secretEngine.state().axes.tas > 0.0, "axis tas");
+
+    const std::string fixtureDir = OCSNODE_FIXTURE_DIR;
+    testFixtureRoundTrip(parser, emitter, fixtureDir + "/seed.ocs", "seed.ocs");
+    testFixtureRoundTrip(parser, emitter, fixtureDir + "/nexus-v0.6.ocs", "nexus-v0.6.ocs");
+    testFixtureRoundTrip(parser, emitter, fixtureDir + "/seed-nexus.ocs", "seed-nexus.ocs");
+
     if (argc > 1) {
-        auto fixture = slurp(argv[1]);
-        auto fr = parser.parse(fixture);
-        check(fr.ok() && fr.sections.size() >= 4, "fixture seed.ocs parses");
-        ProtocolEngine fe;
-        fe.loadText(fixture);
-        check(fe.findByType("data/obj") != nullptr, "fixture has data/obj");
-        check(fe.findByType("data/tas") != nullptr, "fixture has data/tas");
-        auto again = parser.parse(emitter.emitText(fr.sections));
-        check(again.ok() && again.sections.size() == fr.sections.size(), "fixture round-trip");
+        testFixtureRoundTrip(parser, emitter, argv[1], "argv fixture");
     }
 
     std::cout << g_passed << " passed, " << g_failed << " failed\n";

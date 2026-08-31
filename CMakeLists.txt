@@ -30,7 +30,7 @@ add_test(NAME protocol_core
 )
 
 # --- Qt display (optional) -------------------------------------------------
-find_package(Qt6 QUIET COMPONENTS Core Gui Qml Quick QuickControls2 Network)
+find_package(Qt6 QUIET COMPONENTS Core Gui Qml Quick QuickControls2 Network QuickDialogs2)
 
 if(Qt6_FOUND)
     set(CMAKE_AUTOMOC ON)
@@ -133,6 +133,7 @@ if(Qt6_FOUND)
             ocsnode_engine
             Qt6::Quick
             Qt6::QuickControls2
+            Qt6::QuickDialogs2
     )
 
     function(t484_add_app target)

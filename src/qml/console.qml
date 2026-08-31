@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 import QtQuick.Layouts
 import OcsNode 1.0
 
@@ -116,6 +117,19 @@ ApplicationWindow {
                             appWindow.protocol.setMode(model[index])
                     }
                 }
+
+                Button {
+                    text: "Export Nexus"
+                    onClicked: exportDialog.open()
+                }
+                Button {
+                    text: "Import Nexus"
+                    onClicked: importDialog.open()
+                }
+                Button {
+                    text: "Copy snapshot"
+                    onClicked: appWindow.copyNexusSnapshot()
+                }
             }
         }
 
@@ -224,6 +238,9 @@ ApplicationWindow {
                     onTasStripVisibleChanged: appWindow.tasStripVisible = tasStripVisible
                     onMoleculeVisibleChanged: appWindow.moleculeVisible = moleculeVisible
                     onShowRawSectionsChanged: appWindow.showRawSections = showRawSections
+                    onExportNexusRequested: exportDialog.open()
+                    onImportNexusRequested: importDialog.open()
+                    onCopySnapshotRequested: appWindow.copyNexusSnapshot()
                 }
 
                 OcsEventLogView {
@@ -295,5 +312,67 @@ ApplicationWindow {
         function onTurnCompleted(ok) {
             appWindow.genaiCallCount += 1
         }
+    }
+
+    function nexusFileName() {
+        const d = new Date()
+        const pad = function (n) { return (n < 10 ? "0" : "") + n }
+        return "nexus-" + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + ".ocs"
+    }
+
+    function copyNexusSnapshot() {
+        if (!appWindow.protocol)
+            return false
+        clipHelper.text = appWindow.protocol.exportNexus()
+        clipHelper.selectAll()
+        clipHelper.copy()
+        if (eventLogModel)
+            eventLogModel.appendEvent("info", "nexus-export", "copied snapshot")
+        return true
+    }
+
+    function exportNexusTo(url) {
+        if (!appWindow.protocol)
+            return false
+        const ok = appWindow.protocol.saveNexusToFile(url)
+        if (eventLogModel)
+            eventLogModel.appendEvent(ok ? "info" : "error", "nexus-export",
+                                      ok ? String(url) : "save failed")
+        return ok
+    }
+
+    function importNexusFrom(url) {
+        if (!appWindow.protocol)
+            return false
+        const ok = appWindow.protocol.loadNexusFromFile(url)
+        if (eventLogModel)
+            eventLogModel.appendEvent(ok ? "info" : "error", "nexus-import",
+                                      ok ? String(url) : "load failed")
+        return ok
+    }
+
+    TextEdit {
+        id: clipHelper
+        visible: false
+        width: 0
+        height: 0
+    }
+
+    FileDialog {
+        id: exportDialog
+        title: "Export Nexus"
+        fileMode: FileDialog.SaveFile
+        nameFilters: ["OCS protocol (*.ocs)", "All files (*)"]
+        defaultSuffix: "ocs"
+        currentFile: "file:" + appWindow.nexusFileName()
+        onAccepted: appWindow.exportNexusTo(selectedFile)
+    }
+
+    FileDialog {
+        id: importDialog
+        title: "Import Nexus"
+        fileMode: FileDialog.OpenFile
+        nameFilters: ["OCS protocol (*.ocs)", "All files (*)"]
+        onAccepted: appWindow.importNexusFrom(selectedFile)
     }
 }

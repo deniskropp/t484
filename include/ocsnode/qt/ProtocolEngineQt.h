@@ -53,6 +53,10 @@ public:
 
     Q_INVOKABLE bool loadText(const QString &text);
     Q_INVOKABLE QString emitText() const;
+    Q_INVOKABLE QString exportNexus();
+    Q_INVOKABLE bool importNexus(const QString &text);
+    Q_INVOKABLE bool saveNexusToFile(const QString &path);
+    Q_INVOKABLE bool loadNexusFromFile(const QString &path);
     Q_INVOKABLE void requestHalt(const QString &reason);
     Q_INVOKABLE void submitMap(const QVariantMap &payload);
     Q_INVOKABLE QString sectionBody(const QString &type) const;

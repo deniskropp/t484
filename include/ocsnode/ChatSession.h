@@ -29,6 +29,8 @@ public:
 
     static bool containsSigil(const std::string &text);
     static bool isStatefulType(const std::string &type);
+    static bool isNexusExport(const Section &section);
+    static bool isNexusImport(const Section &section);
 
 private:
     void applyIngested(const std::vector<Section> &ingested, ChatTurnResult &out);

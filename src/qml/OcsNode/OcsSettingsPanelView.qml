@@ -16,6 +16,10 @@ Rectangle {
     property bool showRawSections: false
     property bool verboseLogging: false
 
+    signal exportNexusRequested()
+    signal importNexusRequested()
+    signal copySnapshotRequested()
+
     onThemeNameChanged: Theme.apply(themeName)
 
     ColumnLayout {
@@ -157,6 +161,25 @@ Rectangle {
                               + (root.protocol ? Math.round(root.protocol.coherence * 100) + "%" : "\u2014")
                         color: Theme.text
                         font.family: Theme.fontMono
+                    }
+                    Label {
+                        text: "One-file KickLang snapshot (protocol/ocs). Export is allowed while gated."
+                        color: Theme.textFaint
+                        wrapMode: Text.Wrap
+                        width: parent.width
+                        font.pixelSize: 11
+                    }
+                    Button {
+                        text: "Export Nexus"
+                        onClicked: root.exportNexusRequested()
+                    }
+                    Button {
+                        text: "Import Nexus"
+                        onClicked: root.importNexusRequested()
+                    }
+                    Button {
+                        text: "Copy snapshot"
+                        onClicked: root.copySnapshotRequested()
                     }
                 }
             }

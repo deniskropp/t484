@@ -29,6 +29,29 @@ bool startsWithIgnoreCase(const std::string &text, const std::string &prefix)
     return true;
 }
 
+bool equalsIgnoreCase(const std::string &a, const std::string &b)
+{
+    if (a.size() != b.size())
+        return false;
+    for (std::size_t i = 0; i < a.size(); ++i) {
+        if (std::tolower(static_cast<unsigned char>(a[i]))
+            != std::tolower(static_cast<unsigned char>(b[i])))
+            return false;
+    }
+    return true;
+}
+
+bool execLooksLike(const Section &section, const char *name)
+{
+    if (section.type() != "cmd/exec")
+        return false;
+    if (equalsIgnoreCase(section.qualifier, name))
+        return true;
+    const auto body = trim(section.body);
+    return equalsIgnoreCase(body, name) || startsWithIgnoreCase(body, std::string(name) + " ")
+        || startsWithIgnoreCase(body, std::string(name) + "\n");
+}
+
 Section makeSection(std::string family, std::string path, std::string qualifier,
                     std::string body)
 {
@@ -119,6 +142,16 @@ bool ChatSession::isStatefulType(const std::string &type)
         || type == "data/ptas" || type == "context/klmx";
 }
 
+bool ChatSession::isNexusExport(const Section &section)
+{
+    return execLooksLike(section, "nexus-export");
+}
+
+bool ChatSession::isNexusImport(const Section &section)
+{
+    return execLooksLike(section, "nexus-import");
+}
+
 ChatTurnResult ChatSession::send(const std::string &text)
 {
     ChatTurnResult out;
@@ -154,7 +187,20 @@ ChatTurnResult ChatSession::send(const std::string &text)
     } else if (startsWithIgnoreCase(raw, "/mode")) {
         ingested.push_back(makeSection("cmd", "mode", slashArg(raw, "/mode"), {}));
     } else if (startsWithIgnoreCase(raw, "/exec")) {
-        ingested.push_back(makeSection("cmd", "exec", "ocs-node-engine", slashArg(raw, "/exec")));
+        const auto arg = slashArg(raw, "/exec");
+        std::string first = arg;
+        std::string rest;
+        const auto sp = arg.find_first_of(" \t\n");
+        if (sp != std::string::npos) {
+            first = arg.substr(0, sp);
+            rest = trim(arg.substr(sp + 1));
+        }
+        if (equalsIgnoreCase(first, "nexus-export"))
+            ingested.push_back(makeSection("cmd", "exec", "nexus-export", rest));
+        else if (equalsIgnoreCase(first, "nexus-import"))
+            ingested.push_back(makeSection("cmd", "exec", "nexus-import", rest));
+        else
+            ingested.push_back(makeSection("cmd", "exec", "ocs-node-engine", arg));
     } else if (startsWithIgnoreCase(raw, "/obj")) {
         ingested.push_back(makeSection("data", "obj", {}, slashArg(raw, "/obj")));
     } else if (startsWithIgnoreCase(raw, "/tas")) {
@@ -162,11 +208,30 @@ ChatTurnResult ChatSession::send(const std::string &text)
     } else {
         ingested.push_back(makeSection("flow", "chat", "host", raw));
     }
-    out.ingested = ingested;
-
-    const bool replacedDocument = std::any_of(
+    bool replacedDocument = std::any_of(
         ingested.begin(), ingested.end(),
         [](const Section &s) { return s.type() == "protocol/ocs"; });
+
+    if (!replacedDocument) {
+        std::string importBody;
+        for (const auto &sec : ingested) {
+            if (!isNexusImport(sec) || sec.body.empty() || !containsSigil(sec.body))
+                continue;
+            importBody = sec.body;
+            break;
+        }
+        if (!importBody.empty()) {
+            auto nested = m_parser.parse(importBody);
+            const bool hasOcs = std::any_of(
+                nested.sections.begin(), nested.sections.end(),
+                [](const Section &s) { return s.type() == "protocol/ocs"; });
+            if (nested.ok() && hasOcs) {
+                ingested = std::move(nested.sections);
+                replacedDocument = true;
+            }
+        }
+    }
+    out.ingested = ingested;
 
     if (replacedDocument) {
         ProtocolEmitter emitter;
@@ -178,13 +243,16 @@ ChatTurnResult ChatSession::send(const std::string &text)
 
     replyAfter(raw, ingested, replacedDocument, out);
     out.gated = m_engine.state().gated;
+    const bool nexusIo = std::any_of(ingested.begin(), ingested.end(), [](const Section &s) {
+        return ChatSession::isNexusExport(s) || ChatSession::isNexusImport(s);
+    });
     if (out.ok && !out.gated && !replacedDocument) {
         bool protocolOnly = false;
         if (ingested.size() == 1) {
             const auto t = ingested[0].type();
             protocolOnly = (t == "cmd/halt" || t == "cmd/mode");
         }
-        out.requestLlm = !protocolOnly;
+        out.requestLlm = !protocolOnly && !nexusIo;
     }
     return out;
 }
@@ -199,7 +267,17 @@ void ChatSession::applyIngested(const std::vector<Section> &ingested, ChatTurnRe
             && (sec.qualifier == "host" || sec.qualifier == "user")) {
             continue;
         }
-        if (alreadyGated && type != "cmd/halt" && type != "cmd/mode") {
+        if (alreadyGated && type != "cmd/halt" && type != "cmd/mode" && !isNexusExport(sec)
+            && !isNexusImport(sec)) {
+            continue;
+        }
+        if (isNexusExport(sec)) {
+            m_engine.append(sec);
+            (void)m_engine.exportNexus();
+            continue;
+        }
+        if (isNexusImport(sec)) {
+            m_engine.append(sec);
             continue;
         }
         if (type == "cmd/halt") {
@@ -227,6 +305,12 @@ void ChatSession::replyAfter(const std::string &raw, const std::vector<Section> 
 {
     const auto &st = m_engine.state();
 
+    bool hadNexusExport = false;
+    for (const auto &s : ingested) {
+        if (isNexusExport(s))
+            hadNexusExport = true;
+    }
+
     if (replacedDocument) {
         auto ack = makeSection(
             "flow", "chat", "KickFlow",
@@ -239,6 +323,26 @@ void ChatSession::replyAfter(const std::string &raw, const std::vector<Section> 
             auto g = makeSection("query", "clarify", "consent",
                                  "KickGuard: loaded document is gated (" + st.haltReason
                                      + "). Paste a ⫻protocol/ocs document without ⫻cmd/halt to resume.");
+            m_engine.append(g);
+            out.replies.push_back(std::move(g));
+        }
+        return;
+    }
+
+    if (hadNexusExport) {
+        auto ack = makeSection(
+            "flow", "chat", "KickFlow",
+            "Nexus export ready. Snapshot is the living protocol document "
+            "(exportNexus / emitText). Header stamped [version=0.6.0]. "
+            "Secrets scrubbed. Paste a ⫻protocol/ocs document to import.");
+        m_engine.append(ack);
+        out.replies.push_back(std::move(ack));
+        if (st.gated) {
+            auto g = makeSection(
+                "flow", "chat", "KickGuard",
+                "Export is allowed while gated (read). Halt remains closed: "
+                    + (st.haltReason.empty() ? std::string("halt") : st.haltReason)
+                    + "\nResume = load a ⫻protocol/ocs document without ⫻cmd/halt.");
             m_engine.append(g);
             out.replies.push_back(std::move(g));
         }

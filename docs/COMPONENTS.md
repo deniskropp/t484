@@ -84,6 +84,7 @@ Round-trip: `parse(emitText(parse(x)))` preserves count, qualifier, and body (se
 | `mode` | `Fluid` \| `Swarm` \| `Predictive` \| `Hybrid` (from `cmd/mode` qualifier) |
 | `status` | `idle` \| `running` \| `gated` \| `complete` \| `error` |
 | `coherence` | `0…1`, heuristic from presence of protocol/klmx/obj/tas minus halt |
+| `axes` | volumetric `protocol` `klmx` `objective` `tas` `consent` `dialogue` `genai` (scalar kept) |
 | `gated` | true iff a `cmd/halt` section exists |
 | `haltReason` | halt qualifier or body |
 | `currentTasId` | first TAS step id scraped from `data/tas` / `data/ptas` |
@@ -98,7 +99,9 @@ Qt-free document + state machine.
 | Method | Mutates | Notes |
 |---|---|---|
 | `loadText(text)` | replaces `m_sections` | parse + `refreshState()` |
-| `emitText()` | no | emitter over current sections |
+| `emitText()` | no | emitter over current sections (lossless) |
+| `exportNexus(genaiAxis=0.5)` | stamps `protocol/ocs`, upserts `display/meta` axes | secret-scrubbed one-file snapshot; allowed while gated |
+| `importNexus(text)` | same as `loadText` | re-ingest a `protocol/ocs` document |
 | `sections()` / `state()` / `errors()` | no | |
 | `setMode(mode)` | `cmd/mode` | submit-or-replace |
 | `submit(section)` | first matching `type()` | **replace** (stateful) |
@@ -208,7 +211,10 @@ QObject wrapper around `NodeEngine` + `SectionListModel` + `GenAiClient`.
 | Method | Contract |
 |---|---|
 | `loadText(text)` | ingest; sync model |
-| `emitText()` | current document |
+| `emitText()` | current document (lossless) |
+| `exportNexus()` | stamp + axes + scrub; overlays genai axis from `genaiReady && !busy` |
+| `importNexus(text)` | `loadText` |
+| `saveNexusToFile(path)` / `loadNexusFromFile(path)` | one-file `.ocs` I/O (`file:` URLs accepted) |
 | `requestHalt(reason)` | abort GenAI + `cmd/halt` |
 | `submitMap(payload)` | map `sectionType` / `qualifier` / `body` (aliases `molecule`, `formula`) → `submit` |
 | `sectionBody(type)` | first matching body or `""` |

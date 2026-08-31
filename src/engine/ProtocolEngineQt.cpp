@@ -1,6 +1,9 @@
 #include "ocsnode/qt/ProtocolEngineQt.h"
 #include "ocsnode/ChatSession.h"
 
+#include <QFile>
+#include <QUrl>
+
 namespace ocsnode {
 namespace {
 
@@ -141,6 +144,53 @@ bool ProtocolEngineQt::loadText(const QString &text)
 QString ProtocolEngineQt::emitText() const
 {
     return QString::fromStdString(m_node.protocol().emitText());
+}
+
+namespace {
+
+QString localPathFromUrl(const QString &path)
+{
+    if (path.startsWith(QLatin1String("file:")))
+        return QUrl(path).toLocalFile();
+    return path;
+}
+
+} // namespace
+
+QString ProtocolEngineQt::exportNexus()
+{
+    const double genaiAxis = (genaiReady() && !busy()) ? 1.0 : 0.5;
+    const auto snap = m_node.protocol().exportNexus(genaiAxis);
+    syncFromCore();
+    return QString::fromStdString(snap);
+}
+
+bool ProtocolEngineQt::importNexus(const QString &text)
+{
+    return loadText(text);
+}
+
+bool ProtocolEngineQt::saveNexusToFile(const QString &path)
+{
+    const QString local = localPathFromUrl(path);
+    if (local.isEmpty())
+        return false;
+    QFile f(local);
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate))
+        return false;
+    const QByteArray data = exportNexus().toUtf8();
+    return f.write(data) == data.size();
+}
+
+bool ProtocolEngineQt::loadNexusFromFile(const QString &path)
+{
+    const QString local = localPathFromUrl(path);
+    if (local.isEmpty())
+        return false;
+    QFile f(local);
+    if (!f.open(QIODevice::ReadOnly))
+        return false;
+    return importNexus(QString::fromUtf8(f.readAll()));
 }
 
 void ProtocolEngineQt::requestHalt(const QString &reason)

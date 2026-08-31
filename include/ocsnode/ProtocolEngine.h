@@ -19,6 +19,15 @@ public:
     ParseResult loadText(const std::string &text);
     std::string emitText() const;
 
+    // One-file KickLang snapshot. Stamps protocol/ocs [version=0.6.0],
+    // writes volumetric axes into display/meta, scrubs secrets, returns
+    // the emitted document. Allowed while gated (read + export metadata).
+    // genaiAxis is a Qt-only overlay (ready && !busy → 1.0, else 0.5).
+    std::string exportNexus(double genaiAxis = 0.5);
+
+    // Import is loadText of a protocol/ocs document. No second store.
+    ParseResult importNexus(const std::string &text);
+
     const std::vector<Section> &sections() const { return m_sections; }
     const CoherenceState &state() const { return m_state; }
     const std::vector<ParseError> &errors() const { return m_errors; }

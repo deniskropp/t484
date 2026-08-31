@@ -54,7 +54,7 @@ Rectangle {
             clip: true
             TextArea {
                 id: input
-                placeholderText: "Message (Google GenAI), \u2afb protocol, or /mode /halt /exec /obj /tas"
+                placeholderText: "Message (Google GenAI), \u2afb protocol, or /mode /halt /exec /obj /tas /exec nexus-export"
                 enabled: !root.busy
                 color: Theme.text
                 placeholderTextColor: Theme.textFaint

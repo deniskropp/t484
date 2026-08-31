@@ -7,6 +7,16 @@
 
 namespace ocsnode {
 
+struct VolumetricAxes {
+    double protocol = 0.0;
+    double klmx = 0.0;
+    double objective = 0.0;
+    double tas = 0.0;
+    double consent = 1.0;
+    double dialogue = 0.0;
+    double genai = 0.5; // STL default; Qt façade overlays ready && !busy
+};
+
 struct CoherenceState {
     std::string mode = "Hybrid";   // Fluid | Swarm | Predictive | Hybrid
     std::string status = "idle";   // idle | running | gated | complete | error
@@ -15,6 +25,7 @@ struct CoherenceState {
     std::string haltReason;
     std::string currentTasId;
     int activeSteps = 0;
+    VolumetricAxes axes;
 };
 
 // Deterministic v0.2 heuristic — replaced later by CoherenceMonitorBridge.
@@ -26,6 +37,8 @@ inline CoherenceState deriveCoherence(const std::vector<Section> &sections)
     bool hasObj = false;
     bool hasTas = false;
     bool hasHalt = false;
+    int hostTurns = 0;
+    int replies = 0;
 
     for (const auto &sec : sections) {
         const auto t = sec.type();
@@ -35,6 +48,12 @@ inline CoherenceState deriveCoherence(const std::vector<Section> &sections)
             hasKlmx = true;
         if (t == "data/obj")
             hasObj = true;
+        if (t == "flow/chat") {
+            if (sec.qualifier == "host" || sec.qualifier == "user")
+                ++hostTurns;
+            else
+                ++replies;
+        }
         if (t == "data/tas" || t == "data/ptas") {
             hasTas = true;
             int steps = 0;
@@ -88,6 +107,14 @@ inline CoherenceState deriveCoherence(const std::vector<Section> &sections)
     s.coherence = std::clamp(c, 0.0, 1.0);
     s.gated = hasHalt;
     s.status = hasHalt ? "gated" : (hasTas ? "running" : "idle");
+
+    s.axes.protocol = hasProtocol ? 1.0 : 0.0;
+    s.axes.klmx = hasKlmx ? 1.0 : 0.0;
+    s.axes.objective = hasObj ? 1.0 : 0.0;
+    s.axes.tas = s.activeSteps > 0 ? std::min(1.0, s.activeSteps / 5.0) : 0.0;
+    s.axes.consent = hasHalt ? 0.0 : 1.0;
+    s.axes.dialogue = std::min(1.0, hostTurns * 0.25 + replies * 0.15);
+    s.axes.genai = 0.5;
     return s;
 }
 
