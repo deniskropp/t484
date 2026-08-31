@@ -6,6 +6,8 @@ Source of truth for color and type on every QML surface. Implemented as the
 Dark is the product theme. Light is the accessibility twin. Settings → General
 writes `Theme.name`. No view should introduce a new hex.
 
+Panel plates for every shipped surface: [`PANELS.md`](PANELS.md).
+
 ## Palette (Dark / product)
 
 | Token | Hex | Use |
@@ -48,3 +50,13 @@ Resolved by `Theme.roleAccent(qualifier, family, isHost)` and `Theme.roleFill(..
 CMake marks `QT_QML_SINGLETON_TYPE TRUE` and aliases the file to the module root.
 `main.qml` / `console.qml` bind `ApplicationWindow.color` and `palette.*` to Theme.
 `OcsSettingsPanelView` writes `Theme.name` when the user picks Dark or Light.
+
+## Gallery
+
+![ProtocolStatusBar](images/protocol-status-bar.svg)
+
+![TasStatusBarView](images/tas-status-bar.svg)
+
+![Role-coded bubbles](images/chat-bubbles.svg)
+
+![Composer](images/composer.svg)
