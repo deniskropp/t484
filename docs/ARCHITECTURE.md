@@ -1,9 +1,10 @@
-# t484 Architecture (v0.3 interactive chat)
+# t484 Architecture (v0.4 chat + protocol console)
 
 Source of truth: this repository. The `ocs-node-engine` skill is the forge, not a second product tree.  
-Component and QML/C++ interface catalog: [COMPONENTS.md](COMPONENTS.md).
+Component and QML/C++ interface catalog: [COMPONENTS.md](COMPONENTS.md).  
+Console shell notes: [CONSOLE.md](CONSOLE.md).
 
-The Qt shell is an **OCS-compliant chat**: the transcript is the protocol section list. No parallel message store.
+The Qt shell is an **OCS-compliant chat**: the transcript is the protocol section list. No parallel message store. The protocol console is a second ApplicationWindow over the **same** engine, models, and views.
 
 ## Modules
 
@@ -12,7 +13,7 @@ The Qt shell is an **OCS-compliant chat**: the transcript is the protocol sectio
 | protocol | `include/ocsnode/*` + `src/protocol/` | C++20 STL only | Parse / emit ⫻ sections, `ChatSession` |
 | engine | `src/engine/` | protocol + Qt6 Core | `ProtocolEngine` QObject, halt gate, coherence, `sendChat` |
 | components | `src/components/` | Qt6 Core | QObject models (`*Model` / `*Item`) |
-| qml | `src/qml/OcsNode/` | engine + components | Chat transcript + composer + inspector |
+| qml | `src/qml/OcsNode/` + `main.qml` + `console.qml` | engine + components | Chat + console shells |
 | tests | `tests/` | protocol | Round-trip + chat-turn fixtures, no Qt required |
 
 ## Naming (frozen)
@@ -26,7 +27,7 @@ The Qt shell is an **OCS-compliant chat**: the transcript is the protocol sectio
 
 Never register a C++ type and a QML file under the same identifier.
 
-## Protocol surface (subset implemented in v0.3)
+## Protocol surface (subset implemented)
 
 ```
 ⫻protocol/ocs:
@@ -41,7 +42,7 @@ Never register a C++ type and a QML file under the same identifier.
 `submit` replaces the first section of the same type (state: mode, halt, obj, tas, klmx).  
 `append` always pushes (conversation: `flow/chat`, `query/clarify`, `cmd/exec`, `display/content`).
 
-Parser is line-oriented. A section starts on a sigil line (`U+2AFB`) and runs until the next sigil or EOF. Nested `⫻end/` is recognized but not expanded in v0.3.
+Parser is line-oriented. A section starts on a sigil line (`U+2AFB`) and runs until the next sigil or EOF. Nested `⫻end/` is recognized but not expanded.
 
 ## Chat turn rules
 
@@ -52,12 +53,22 @@ Parser is line-oriented. A section starts on a sigil line (`U+2AFB`) and runs un
 5. Natural-language turns request Google GenAI (Interactions API, `gemini-3.7-flash`). KickGuard forbids the call while gated. `/halt` and `/mode` do not call the model.
 6. Qt `GenAiClient` is the only network path. Protocol core stays offline. API key from `GEMINI_API_KEY` / `GOOGLE_API_KEY` only.
 
+## Shells
+
+| Binary | QML entry | Default |
+|---|---|---|
+| `t484` | `src/qml/main.qml` | compact chat; `--console` loads the dashboard |
+| `t484-console` | `src/qml/console.qml` | three-pane operator dashboard; `--chat` loads the compact shell |
+
+Both binaries share `ProtocolEngineQt`, `TasStatusModel`, `KlmxMoleculeItem`, and the OcsNode views.
+
 ## Build
 
 ```bash
 cmake -S . -B build
 cmake --build build
 ./build/ocsnode_protocol_tests
-# Qt app (when Qt6 is available):
+# Qt apps (when Qt6 is available):
 ./build/t484
+./build/t484-console
 ```
