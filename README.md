@@ -10,6 +10,8 @@ The chat transcript **is** the living protocol document. Host turns are `flow/ch
 
 Visual system: [docs/THEME.md](docs/THEME.md). Every QML surface as a plate: [docs/PANELS.md](docs/PANELS.md).
 
+Next surface (plan only): [docs/plans/v0.6/](docs/plans/v0.6/) — OCS/Node Nexus + one-file KickLang export. Fixture: [`src/assets/nexus-v0.6.ocs`](src/assets/nexus-v0.6.ocs).
+
 ## Status (v0.4 — chat + protocol console)
 
 | Piece | State |
@@ -26,7 +28,8 @@ Visual system: [docs/THEME.md](docs/THEME.md). Every QML surface as a plate: [do
 | `Theme` singleton (OCS Slate) | shipped |
 | `t484` chat shell (`src/qml/main.qml`) | shipped |
 | `t484-console` dashboard (`src/qml/console.qml`) | shipped |
-| KickLangEditor / TasBoard / ConsentGateDialog | planned (Phase E) |
+| KickLangEditor / TasBoard / ConsentGateDialog | planned (Phase E / v0.5) |
+| OCS/Node Nexus one-file export | planned ([v0.6](docs/plans/v0.6/)) |
 
 ## Layout
 
@@ -40,12 +43,14 @@ src/qml/main.qml          chat shell
 src/qml/console.qml       protocol console shell
 src/qml/OcsNode/          Theme.qml + *View.qml + qmldir
 src/assets/seed.ocs       startup protocol document (welcome turn)
+src/assets/nexus-v0.6.ocs v0.6 Nexus snapshot (plan fixture)
 tests/                    protocol round-trip
 docs/ARCHITECTURE.md      module + naming freeze
 docs/COMPONENTS.md        C++ / QML / protocol interface catalog
 docs/CONSOLE.md           console layout and binding notes
 docs/THEME.md             OCS Slate tokens
 docs/PANELS.md            every surface rendered
+docs/plans/v0.6/          Nexus export + volumetric coherence plan
 docs/images/              SVG plates
 ```
 
