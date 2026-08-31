@@ -1,6 +1,7 @@
 # t484 Architecture (v0.3 interactive chat)
 
-Source of truth: this repository. The `ocs-node-engine` skill is the forge, not a second product tree.
+Source of truth: this repository. The `ocs-node-engine` skill is the forge, not a second product tree.  
+Component and QML/C++ interface catalog: [COMPONENTS.md](COMPONENTS.md).
 
 The Qt shell is an **OCS-compliant chat**: the transcript is the protocol section list. No parallel message store.
 

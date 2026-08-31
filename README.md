@@ -35,6 +35,7 @@ src/qml/OcsNode/          *View.qml + qmldir (chat + inspector)
 src/assets/seed.ocs       startup protocol document (welcome turn)
 tests/                    protocol round-trip
 docs/ARCHITECTURE.md      module + naming freeze
+docs/COMPONENTS.md        C++ / QML / protocol interface catalog
 ```
 
 C++ type and QML file never share an identifier.
