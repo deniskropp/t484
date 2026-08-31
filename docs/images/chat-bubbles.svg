@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" role="img" aria-label="OcsChatBubbleView roles">
+  <rect width="720" height="420" fill="#0f172a"/>
+  <rect x="200" y="20" width="500" height="72" rx="8" fill="#134e4a" stroke="#2dd4bf"/>
+  <text x="216" y="42" font-family="Fira Code, monospace" font-size="12" font-weight="700" fill="#2dd4bf">\u2afbflow/chat:host</text>
+  <text x="216" y="64" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">/exec tas:coherence-lock</text>
+  <rect x="20" y="112" width="500" height="72" rx="8" fill="#1c1408" stroke="#f59e0b"/>
+  <text x="36" y="134" font-family="Fira Code, monospace" font-size="12" font-weight="700" fill="#f59e0b">\u2afbflow/chat:KickForge</text>
+  <text x="36" y="156" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">Extract layout. Seal window geometry.</text>
+  <rect x="20" y="204" width="500" height="72" rx="8" fill="#042f2e" stroke="#22d3ee"/>
+  <text x="36" y="226" font-family="Fira Code, monospace" font-size="12" font-weight="700" fill="#22d3ee">\u2afbflow/chat:KickFlow</text>
+  <text x="36" y="248" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">Stream tiles. Compose transcript.</text>
+  <rect x="20" y="296" width="500" height="72" rx="8" fill="#1e1033" stroke="#a78bfa"/>
+  <text x="36" y="318" font-family="Fira Code, monospace" font-size="12" font-weight="700" fill="#a78bfa">\u2afbflow/chat:KickGuard</text>
+  <text x="36" y="340" font-family="Fira Code, monospace" font-size="13" fill="#e2e8f0">Coherence 0.95 · gate COMPLETE</text>
+</svg>
