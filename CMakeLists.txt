@@ -59,6 +59,7 @@ if(Qt6_FOUND)
     set(T484_QML_FILES
         src/qml/main.qml
         src/qml/console.qml
+        src/qml/OcsNode/Theme.qml
         src/qml/OcsNode/OcsSectionView.qml
         src/qml/OcsNode/ProtocolStatusBar.qml
         src/qml/OcsNode/TasStatusBarView.qml
@@ -76,6 +77,10 @@ if(Qt6_FOUND)
         PROPERTIES QT_RESOURCE_ALIAS "main.qml")
     set_source_files_properties(src/qml/console.qml
         PROPERTIES QT_RESOURCE_ALIAS "console.qml")
+    set_source_files_properties(src/qml/OcsNode/Theme.qml
+        PROPERTIES
+            QT_RESOURCE_ALIAS "Theme.qml"
+            QT_QML_SINGLETON_TYPE TRUE)
     set_source_files_properties(src/qml/OcsNode/OcsSectionView.qml
         PROPERTIES QT_RESOURCE_ALIAS "OcsSectionView.qml")
     set_source_files_properties(src/qml/OcsNode/ProtocolStatusBar.qml
