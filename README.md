@@ -1,14 +1,14 @@
 # t484 — OCS/Node Engine
 
 **OCS/Node Engine for OCS/Display**  
-C++20 protocol core + optional Qt 6 / QML **interactive chat**.
+C++20 protocol core + optional Qt 6 / QML **interactive chat** and **protocol console**.
 
 Part of the Orion Collective System (OCS v2.1).  
 Canonical product repo for the `ocs-node-engine` skill.
 
 The chat transcript **is** the living protocol document. Host turns are `⫻flow/chat:host`; KickForge / KickFlow / KickGuard reply as first-class sections. Halt remains a first-class command.
 
-## Status (v0.3 — interactive chat)
+## Status (v0.4 — chat + protocol console)
 
 | Piece | State |
 |---|---|
@@ -21,6 +21,8 @@ The chat transcript **is** the living protocol document. Host turns are `⫻flow
 | `KlmxMoleculeItem` + `KlmxMoleculeSpaceView` | shipped |
 | `OcsChatTranscriptView` + `OcsComposerView` | shipped |
 | `OcsSectionView` bound to engine model | shipped |
+| `t484` chat shell (`src/qml/main.qml`) | shipped |
+| `t484-console` dashboard (`src/qml/console.qml`) | shipped |
 | KickLangEditor / TasBoard / ConsentGateDialog | planned (Phase E) |
 
 ## Layout
@@ -31,11 +33,14 @@ include/ocsnode/qt/       QObject wrappers (Model / Item)
 src/protocol/             STL parser + emitter
 src/engine/               ProtocolEngine + Qt façade
 src/components/           TasStatusModel, KlmxMoleculeItem
-src/qml/OcsNode/          *View.qml + qmldir (chat + inspector)
+src/qml/main.qml          chat shell
+src/qml/console.qml       protocol console shell
+src/qml/OcsNode/          *View.qml + qmldir
 src/assets/seed.ocs       startup protocol document (welcome turn)
 tests/                    protocol round-trip
 docs/ARCHITECTURE.md      module + naming freeze
 docs/COMPONENTS.md        C++ / QML / protocol interface catalog
+docs/CONSOLE.md           console layout and binding notes
 ```
 
 C++ type and QML file never share an identifier.
@@ -54,7 +59,9 @@ Qt 6 display (when Qt6 is on `CMAKE_PREFIX_PATH`):
 ```bash
 cmake -S . -B build -DCMAKE_PREFIX_PATH=/path/to/Qt6
 cmake --build build
-./build/t484
+./build/t484              # compact chat
+./build/t484-console      # three-pane protocol console
+./build/t484 --console    # same console from the chat binary
 ```
 
 ## Chat (OCS)

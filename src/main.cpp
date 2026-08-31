@@ -39,16 +39,29 @@ static QString loadSeed()
         "context/klmx:Kick/Lang\nfallback seed\n");
 }
 
-static QUrl mainQmlUrl()
+static bool wantsConsole(const QStringList &args)
 {
+#ifdef T484_SHELL_CONSOLE
+    if (args.contains(QStringLiteral("--chat")))
+        return false;
+    return true;
+#else
+    return args.contains(QStringLiteral("--console"));
+#endif
+}
+
+static QUrl mainQmlUrl(bool console)
+{
+    const QString name = console ? QStringLiteral("console.qml")
+                                 : QStringLiteral("main.qml");
     const QString path = firstExisting({
-        QStringLiteral(":/qt/qml/OcsNode/main.qml"),
-        QStringLiteral(":/OcsNode/src/qml/main.qml"),
-        QStringLiteral(":/OcsNode/main.qml"),
+        QStringLiteral(":/qt/qml/OcsNode/") + name,
+        QStringLiteral(":/OcsNode/src/qml/") + name,
+        QStringLiteral(":/OcsNode/") + name,
     });
     if (!path.isEmpty())
         return QUrl(QStringLiteral("qrc") + path);
-    return QUrl(QStringLiteral("qrc:/qt/qml/OcsNode/main.qml"));
+    return QUrl(QStringLiteral("qrc:/qt/qml/OcsNode/") + name);
 }
 
 int main(int argc, char *argv[])
@@ -56,14 +69,19 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     app.setOrganizationName(QStringLiteral("Exit"));
     app.setApplicationName(QStringLiteral("t484"));
-    app.setApplicationDisplayName(QStringLiteral("OCS/Node Chat"));
+
+    const bool console = wantsConsole(app.arguments());
+    app.setApplicationDisplayName(console
+        ? QStringLiteral("t484 Protocol Console")
+        : QStringLiteral("OCS/Node Chat"));
 
     ocsnode::ProtocolEngineQt engine;
     ocsnode::TasStatusModel tasModel;
     ocsnode::KlmxMoleculeItem klmxItem;
 
     engine.setActor(QStringLiteral("KickFlow"));
-    std::fprintf(stderr, "t484: genai ready=%s source=%s model=%s\n",
+    std::fprintf(stderr, "t484: shell=%s genai ready=%s source=%s model=%s\n",
+                 console ? "console" : "chat",
                  engine.genaiReady() ? "yes" : "no",
                  qPrintable(engine.genaiSource().isEmpty()
                                 ? QStringLiteral("(none)")
@@ -86,7 +104,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty(QStringLiteral("tasModel"), &tasModel);
     ctx->setContextProperty(QStringLiteral("klmxItem"), &klmxItem);
 
-    const QUrl url = mainQmlUrl();
+    const QUrl url = mainQmlUrl(console);
     QObject::connect(
         &qml, &QQmlApplicationEngine::objectCreationFailed,
         &app, []() { QCoreApplication::exit(-1); },
