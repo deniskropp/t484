@@ -1,0 +1,22 @@
+⫻protocol/ocs: [node=OCS/Root]
+⫻context/klmx:Kick/Lang
+OCS/Node Engine active
+Project: deniskropp/t484
+Mode: Hybrid
+Branch: refactor/layout-v0.2
+
+⫻cmd/mode:Hybrid
+⫻data/obj:
+Make t484 a real C++/QML protocol engine with one source of truth.
+
+⫻data/tas:
+P0 Confirm SoT = deniskropp/t484
+P1 Naming table locked
+P2 Module dirs + qmldir + CMake split
+P3 Existing UI still launches
+P4 Section + Parser + ProtocolEngine + tests
+P5 Bind OcsSectionView to engine model
+P6 Migrate TasStatus + Klmx under new names
+
+⫻display/header:
+OCS/Node Engine — t484 v0.2
