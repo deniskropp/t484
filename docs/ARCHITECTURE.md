@@ -1,7 +1,11 @@
 # t484 Architecture (v0.4 chat + protocol console)
 
 Source of truth: this repository. The `ocs-node-engine` skill is the forge, not a second product tree.  
+Documentation map: [INDEX.md](INDEX.md).  
 Component and QML/C++ interface catalog: [COMPONENTS.md](COMPONENTS.md).  
+Protocol grammar: [PROTOCOL.md](PROTOCOL.md).  
+Engine + halt + coherence: [ENGINE.md](ENGINE.md).  
+Chat turns: [CHAT.md](CHAT.md).  
 Console shell notes: [CONSOLE.md](CONSOLE.md).
 
 The Qt shell is an **OCS-compliant chat**: the transcript is the protocol section list. No parallel message store. The protocol console is a second ApplicationWindow over the **same** engine, models, and views.
@@ -72,3 +76,5 @@ cmake --build build
 ./build/t484
 ./build/t484-console
 ```
+
+See [BUILD.md](BUILD.md) for targets and [OPERATOR.md](OPERATOR.md) for launch / key lookup.

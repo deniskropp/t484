@@ -8,6 +8,8 @@ Canonical product repo for the `ocs-node-engine` skill.
 
 The chat transcript **is** the living protocol document. Host turns are `flow/chat:host`; KickForge / KickFlow / KickGuard reply as first-class sections. Halt remains a first-class command.
 
+**Docs:** [docs/INDEX.md](docs/INDEX.md) — architecture, protocol grammar, engine, chat turns, operator runbook, build, OCS integration, glossary.
+
 Visual system: [docs/THEME.md](docs/THEME.md). Every QML surface as a plate: [docs/PANELS.md](docs/PANELS.md).
 
 Next surface (plan only): [docs/plans/v0.6/](docs/plans/v0.6/) — OCS/Node Nexus + one-file KickLang export. Fixture: [`src/assets/nexus-v0.6.ocs`](src/assets/nexus-v0.6.ocs).
@@ -45,7 +47,15 @@ src/qml/OcsNode/          Theme.qml + *View.qml + qmldir
 src/assets/seed.ocs       startup protocol document (welcome turn)
 src/assets/nexus-v0.6.ocs v0.6 Nexus snapshot (plan fixture)
 tests/                    protocol round-trip
+docs/INDEX.md             documentation map
 docs/ARCHITECTURE.md      module + naming freeze
+docs/PROTOCOL.md          ⫻ grammar as implemented
+docs/ENGINE.md            document engine, halt, coherence
+docs/CHAT.md              ChatSession turn machine
+docs/OPERATOR.md          run chat / console / GenAI
+docs/BUILD.md             CMake targets and tests
+docs/OCS-INTEGRATION.md   Node inside OCS v2.1
+docs/GLOSSARY.md          terms
 docs/COMPONENTS.md        C++ / QML / protocol interface catalog
 docs/CONSOLE.md           console layout and binding notes
 docs/THEME.md             OCS Slate tokens
@@ -74,6 +84,8 @@ cmake --build build
 ./build/t484-console      # three-pane protocol console
 ./build/t484 --console    # same console from the chat binary
 ```
+
+Full operator notes: [docs/OPERATOR.md](docs/OPERATOR.md). Full CMake map: [docs/BUILD.md](docs/BUILD.md).
 
 ## Chat (OCS)
 
@@ -108,6 +120,7 @@ cmd/exec:ocs-node-engine
 ```
 
 This repository is the source of truth. Skill `generated/` is staging only.
+How the Node sits next to protocol-export, enforcer, Berlin Node, and Flow Nexus: [docs/OCS-INTEGRATION.md](docs/OCS-INTEGRATION.md).
 
 ## License
 

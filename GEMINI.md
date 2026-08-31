@@ -2,6 +2,8 @@
 
 This project is the C++20 canonical protocol core and optional Qt6/QML **interactive chat** plus **protocol console** for the Orion Collective System (OCS v2.1). It provides the `ocs-node-engine` functionality. The chat transcript is the living protocol document (`flow/chat` turns + three-agent replies). Natural-language Send calls the Google GenAI **Interactions API** (`POST /v1beta/interactions`, model `gemini-3.7-flash`) using `GEMINI_API_KEY`.
 
+Human documentation map: `docs/INDEX.md`.
+
 ## Project Structure
 
 - `include/ocsnode/`: Public headers, including core `Section`, `ProtocolParser`, `ProtocolEmitter`, and `ProtocolEngine`. The `qt/` subdirectory contains QObject wrappers (models/items).
@@ -10,7 +12,7 @@ This project is the C++20 canonical protocol core and optional Qt6/QML **interac
 - `src/components/`: QObject implementations (`TasStatusModel`, `KlmxMoleculeItem`).
 - `src/qml/`: QML views and the OcsNode module. `main.qml` is the chat shell; `console.qml` is the three-pane protocol console.
 - `tests/`: Protocol round-trip tests and fixtures.
-- `docs/`: Architectural documentation (`CONSOLE.md` for the dashboard shell).
+- `docs/`: Full architecture pack — start at `docs/INDEX.md`. Also `CONSOLE.md`, `THEME.md`, `PANELS.md`, `plans/v0.6/`.
 
 ## Building and Running
 
@@ -33,6 +35,8 @@ cmake --build build
 ./build/t484
 ./build/t484-console
 ```
+
+See `docs/BUILD.md` and `docs/OPERATOR.md`.
 
 ## Development Conventions
 
