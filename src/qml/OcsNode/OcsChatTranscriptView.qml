@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import OcsNode 1.0
 
 ListView {
     id: root
@@ -9,17 +10,17 @@ ListView {
     property int fontPointSize: 13
     property string themeName: "Dark"
 
-    readonly property bool light: themeName === "Light"
-
     clip: true
     spacing: 10
     boundsBehavior: Flickable.StopAtBounds
     model: protocol ? protocol.sections : null
 
+    onThemeNameChanged: Theme.apply(themeName)
+
     Rectangle {
         anchors.fill: parent
         z: -1
-        color: root.light ? "#f6f8fa" : "#0d1117"
+        color: Theme.bg
     }
 
     delegate: OcsChatBubbleView {

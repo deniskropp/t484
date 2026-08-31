@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="280" viewBox="0 0 560 280" role="img" aria-label="OcsSettingsPanelView">
+  <rect width="560" height="280" fill="#1e293b"/>
+  <text x="20" y="32" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#e2e8f0">Settings</text>
+  <text x="28" y="64" font-family="Inter, sans-serif" font-size="13" fill="#22d3ee">General</text>
+  <text x="120" y="64" font-family="Inter, sans-serif" font-size="13" fill="#94a3b8">GenAI</text>
+  <text x="190" y="64" font-family="Inter, sans-serif" font-size="13" fill="#94a3b8">Interface</text>
+  <text x="280" y="64" font-family="Inter, sans-serif" font-size="13" fill="#94a3b8">Developer</text>
+  <rect x="20" y="72" width="64" height="2" fill="#22d3ee"/>
+  <text x="20" y="108" font-family="Inter, sans-serif" font-size="12" fill="#94a3b8">Theme</text>
+  <rect x="20" y="118" width="200" height="28" rx="4" fill="#111827" stroke="#334155"/>
+  <text x="32" y="137" font-family="Inter, sans-serif" font-size="13" fill="#e2e8f0">Dark</text>
+  <text x="20" y="172" font-family="Inter, sans-serif" font-size="12" fill="#94a3b8">Font Size: 12</text>
+  <rect x="20" y="184" width="240" height="6" rx="3" fill="#0b1220"/>
+  <rect x="20" y="184" width="80" height="6" rx="3" fill="#22d3ee"/>
+  <circle cx="100" cy="187" r="7" fill="#7c3aed"/>
+  <rect x="20" y="214" width="14" height="14" rx="3" fill="#7c3aed"/>
+  <text x="42" y="226" font-family="Inter, sans-serif" font-size="13" fill="#e2e8f0">Auto-scroll transcript</text>
+</svg>

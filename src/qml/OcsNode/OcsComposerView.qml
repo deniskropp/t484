@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import OcsNode 1.0
 
 Rectangle {
     id: root
@@ -16,10 +17,10 @@ Rectangle {
     readonly property string genaiSource: protocol ? protocol.genaiSource : ""
     readonly property string haltReason: protocol ? protocol.haltReason : ""
 
-    color: "#0d1117"
-    border.color: gated ? "#f85149" : "#30363d"
-    border.width: 1
-    radius: 8
+    color: Theme.bg
+    border.color: gated ? Theme.danger : Theme.border
+    border.width: Theme.borderWidth
+    radius: Theme.radius
     implicitHeight: col.implicitHeight + 20
 
     ColumnLayout {
@@ -32,16 +33,16 @@ Rectangle {
             visible: root.gated
             Layout.fillWidth: true
             implicitHeight: gateLabel.implicitHeight + 12
-            color: "#3d1f24"
-            radius: 4
+            color: Theme.gateFill
+            radius: Theme.radiusSm
             Label {
                 id: gateLabel
                 anchors.fill: parent
                 anchors.margins: 6
                 text: "KickGuard · gated" + (root.haltReason.length ? (": " + root.haltReason) : "")
-                      + "  — paste ⫻protocol/ocs without ⫻cmd/halt to resume"
-                color: "#f85149"
-                font.family: "monospace"
+                      + "  — paste \u2afbprotocol/ocs without \u2afbcmd/halt to resume"
+                color: Theme.danger
+                font.family: Theme.fontMono
                 font.pixelSize: 11
                 wrapMode: Text.Wrap
             }
@@ -53,19 +54,19 @@ Rectangle {
             clip: true
             TextArea {
                 id: input
-                placeholderText: "Message (Google GenAI), ⫻ protocol, or /mode /halt /exec /obj /tas"
+                placeholderText: "Message (Google GenAI), \u2afb protocol, or /mode /halt /exec /obj /tas"
                 enabled: !root.busy
-                color: "#c9d1d9"
-                placeholderTextColor: "#6e7681"
-                font.family: "monospace"
+                color: Theme.text
+                placeholderTextColor: Theme.textFaint
+                font.family: Theme.fontMono
                 font.pixelSize: 13
                 wrapMode: Text.Wrap
                 selectByMouse: true
                 background: Rectangle {
-                    color: "#161b22"
-                    border.color: "#30363d"
-                    border.width: 1
-                    radius: 4
+                    color: Theme.bgRaised
+                    border.color: Theme.border
+                    border.width: Theme.borderWidth
+                    radius: Theme.radiusSm
                 }
                 Keys.onPressed: function (event) {
                     if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
@@ -86,8 +87,8 @@ Rectangle {
                       : (root.genaiReady
                          ? ("Enter send · " + root.genaiModel + " · " + root.genaiSource)
                          : "no Gemini key in this process — .env or launch env")
-                color: root.genaiReady ? "#6e7681" : "#d29922"
-                font.family: "monospace"
+                color: root.genaiReady ? Theme.textFaint : Theme.warning
+                font.family: Theme.fontMono
                 font.pixelSize: 10
                 Layout.fillWidth: true
             }
@@ -96,7 +97,7 @@ Rectangle {
                 onClicked: root.inspectorToggled()
             }
             Button {
-                text: "Halt"
+                text: "/halt"
                 onClicked: {
                     if (root.protocol)
                         root.protocol.requestHalt("user-gate-from-composer")
@@ -104,7 +105,7 @@ Rectangle {
             }
             Button {
                 id: sendBtn
-                text: root.busy ? "…" : "Send"
+                text: root.busy ? "…" : "/exec"
                 highlighted: true
                 enabled: !root.busy && input.text.trim().length > 0
                 onClicked: root.send()

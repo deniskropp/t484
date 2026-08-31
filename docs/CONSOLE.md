@@ -2,6 +2,8 @@
 
 Second Qt 6 shell for the same `ProtocolEngineQt`. The chat app (`./build/t484`) stays the compact two-pane transcript. The console (`./build/t484-console`) is the three-pane operator dashboard from the pasted layout.
 
+Rendered plates for every pane: [`PANELS.md`](PANELS.md). Theme tokens: [`THEME.md`](THEME.md).
+
 ## Layout
 
 ```
@@ -10,8 +12,14 @@ Second Qt 6 shell for the same `ProtocolEngineQt`. The chat app (`./build/t484`)
 │ transcript           │ settings tabs             │ metrics        │
 │ composer             │ event log                 │ live meters    │
 │ TAS + molecule       │                           │                │
-└──────────────────────────────────────────────────────────────────┘
+└───────────────────────────────────────────────────────────────┘
 ```
+
+![Settings](images/settings-panel.svg)
+
+![Event log](images/event-log.svg)
+
+![Metrics](images/metrics-panel.svg)
 
 ## Binding rules
 

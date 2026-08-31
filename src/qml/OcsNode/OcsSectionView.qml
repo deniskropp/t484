@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import OcsNode 1.0
 
 Rectangle {
     id: root
@@ -10,10 +11,10 @@ Rectangle {
     property string sectionBody: ""
     property bool collapsed: false
 
-    color: "#161b22"
-    border.color: "#30363d"
-    border.width: 1
-    radius: 8
+    color: Theme.bgRaised
+    border.color: Theme.border
+    border.width: Theme.borderWidth
+    radius: Theme.radius
     implicitHeight: collapsed ? headerRow.implicitHeight + 24 : 160
 
     ColumnLayout {
@@ -27,8 +28,8 @@ Rectangle {
 
             Label {
                 text: "\u2afb" + root.sectionType + (root.qualifier.length ? (":" + root.qualifier) : "")
-                color: "#7ee787"
-                font.family: "monospace"
+                color: Theme.emerald
+                font.family: Theme.fontMono
                 font.pixelSize: 14
                 font.bold: true
                 elide: Text.ElideRight
@@ -37,7 +38,7 @@ Rectangle {
 
             Label {
                 text: root.collapsed ? "\u25b6" : "\u25bc"
-                color: "#8b949e"
+                color: Theme.textMuted
                 font.pixelSize: 12
                 MouseArea {
                     anchors.fill: parent
@@ -53,8 +54,8 @@ Rectangle {
             clip: true
             TextArea {
                 text: root.sectionBody
-                color: "#c9d1d9"
-                font.family: "monospace"
+                color: Theme.text
+                font.family: Theme.fontMono
                 font.pixelSize: 13
                 wrapMode: Text.Wrap
                 readOnly: true

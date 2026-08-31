@@ -1,4 +1,5 @@
 module OcsNode
+singleton Theme 1.0 Theme.qml
 OcsSectionView 1.0 OcsSectionView.qml
 ProtocolStatusBar 1.0 ProtocolStatusBar.qml
 TasStatusBarView 1.0 TasStatusBarView.qml

@@ -1,10 +1,11 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import OcsNode 1.0
 
 Rectangle {
     id: root
-    color: "#222222"
+    color: Theme.bgPanel
 
     property var protocol: null
     property string themeName: "Dark"
@@ -15,6 +16,8 @@ Rectangle {
     property bool showRawSections: false
     property bool verboseLogging: false
 
+    onThemeNameChanged: Theme.apply(themeName)
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 10
@@ -22,7 +25,8 @@ Rectangle {
 
         Label {
             text: "Settings"
-            color: "#c9d1d9"
+            color: Theme.text
+            font.family: Theme.fontUi
             font.bold: true
             font.pixelSize: 14
         }
@@ -48,13 +52,13 @@ Rectangle {
                     id: generalCol
                     width: parent.width
                     spacing: 8
-                    Label { text: "Theme"; color: "#8b949e" }
+                    Label { text: "Theme"; color: Theme.textMuted; font.family: Theme.fontUi }
                     ComboBox {
                         model: ["Dark", "Light"]
                         currentIndex: root.themeName === "Light" ? 1 : 0
                         onActivated: root.themeName = model[index]
                     }
-                    Label { text: "Font Size: " + root.fontPointSize; color: "#8b949e" }
+                    Label { text: "Font Size: " + root.fontPointSize; color: Theme.textMuted; font.family: Theme.fontUi }
                     Slider {
                         from: 10
                         to: 22
@@ -79,7 +83,7 @@ Rectangle {
                     spacing: 8
                     Label {
                         text: "Key source (read-only — never written into the protocol document)"
-                        color: "#8b949e"
+                        color: Theme.textMuted
                         wrapMode: Text.Wrap
                         width: parent.width
                     }
@@ -90,7 +94,7 @@ Rectangle {
                               ? root.protocol.genaiSource
                               : "NO KEY in this process"
                     }
-                    Label { text: "Model"; color: "#8b949e" }
+                    Label { text: "Model"; color: Theme.textMuted }
                     TextField {
                         width: parent.width
                         readOnly: true
@@ -98,7 +102,7 @@ Rectangle {
                     }
                     Label {
                         text: "Set GEMINI_API_KEY / GEMINI_MODEL in the process env or .env. Fallback chain is engine-side (3.7 → 3.6 → 3.5)."
-                        color: "#6e7681"
+                        color: Theme.textFaint
                         wrapMode: Text.Wrap
                         width: parent.width
                         font.pixelSize: 11
@@ -144,15 +148,15 @@ Rectangle {
                         onToggled: root.verboseLogging = checked
                     }
                     Label {
-                        text: "Actor: " + (root.protocol ? root.protocol.actor : "—")
-                        color: "#c9d1d9"
-                        font.family: "monospace"
+                        text: "Actor: " + (root.protocol ? root.protocol.actor : "\u2014")
+                        color: Theme.text
+                        font.family: Theme.fontMono
                     }
                     Label {
                         text: "Coherence: "
-                              + (root.protocol ? Math.round(root.protocol.coherence * 100) + "%" : "—")
-                        color: "#c9d1d9"
-                        font.family: "monospace"
+                              + (root.protocol ? Math.round(root.protocol.coherence * 100) + "%" : "\u2014")
+                        color: Theme.text
+                        font.family: Theme.fontMono
                     }
                 }
             }

@@ -6,7 +6,9 @@ C++20 protocol core + optional Qt 6 / QML **interactive chat** and **protocol co
 Part of the Orion Collective System (OCS v2.1).  
 Canonical product repo for the `ocs-node-engine` skill.
 
-The chat transcript **is** the living protocol document. Host turns are `⫻flow/chat:host`; KickForge / KickFlow / KickGuard reply as first-class sections. Halt remains a first-class command.
+The chat transcript **is** the living protocol document. Host turns are `flow/chat:host`; KickForge / KickFlow / KickGuard reply as first-class sections. Halt remains a first-class command.
+
+Visual system: [docs/THEME.md](docs/THEME.md). Every QML surface as a plate: [docs/PANELS.md](docs/PANELS.md).
 
 ## Status (v0.4 — chat + protocol console)
 
@@ -21,6 +23,7 @@ The chat transcript **is** the living protocol document. Host turns are `⫻flow
 | `KlmxMoleculeItem` + `KlmxMoleculeSpaceView` | shipped |
 | `OcsChatTranscriptView` + `OcsComposerView` | shipped |
 | `OcsSectionView` bound to engine model | shipped |
+| `Theme` singleton (OCS Slate) | shipped |
 | `t484` chat shell (`src/qml/main.qml`) | shipped |
 | `t484-console` dashboard (`src/qml/console.qml`) | shipped |
 | KickLangEditor / TasBoard / ConsentGateDialog | planned (Phase E) |
@@ -35,12 +38,15 @@ src/engine/               ProtocolEngine + Qt façade
 src/components/           TasStatusModel, KlmxMoleculeItem
 src/qml/main.qml          chat shell
 src/qml/console.qml       protocol console shell
-src/qml/OcsNode/          *View.qml + qmldir
+src/qml/OcsNode/          Theme.qml + *View.qml + qmldir
 src/assets/seed.ocs       startup protocol document (welcome turn)
 tests/                    protocol round-trip
 docs/ARCHITECTURE.md      module + naming freeze
 docs/COMPONENTS.md        C++ / QML / protocol interface catalog
 docs/CONSOLE.md           console layout and binding notes
+docs/THEME.md             OCS Slate tokens
+docs/PANELS.md            every surface rendered
+docs/images/              SVG plates
 ```
 
 C++ type and QML file never share an identifier.
@@ -68,11 +74,11 @@ cmake --build build
 
 Composer accepts:
 
-- natural language → `⫻flow/chat:host` then Google GenAI **Interactions API** (`gemini-3.7-flash` unless `GEMINI_MODEL` is set)
-- raw `⫻` sections (a `protocol/ocs` block replaces the document)
+- natural language → host turn then Google GenAI **Interactions API** (`gemini-3.7-flash` unless `GEMINI_MODEL` is set)
+- raw protocol sections (a `protocol/ocs` block replaces the document)
 - `/mode` `/halt` `/exec` `/obj` `/tas` — `/halt` and `/mode` stay local (no LLM)
 
-KickGuard blocks mutation **and** genai transport while gated except `/halt` and `/mode`. Resume by pasting a `⫻protocol/ocs` document without `⫻cmd/halt`.
+KickGuard blocks mutation **and** genai transport while gated except `/halt` and `/mode`. Resume by pasting a protocol document without halt.
 
 ```bash
 export GEMINI_API_KEY="…"    # https://aistudio.google.com/apikey
@@ -93,7 +99,7 @@ The key is never written into the protocol document. Calls use `POST https://gen
 ## OCS Integration
 
 ```
-⫻cmd/exec:ocs-node-engine
+cmd/exec:ocs-node-engine
 ```
 
 This repository is the source of truth. Skill `generated/` is staging only.
