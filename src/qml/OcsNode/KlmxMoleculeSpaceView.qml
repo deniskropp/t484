@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import OcsNode 1.0
 
 Rectangle {
     id: root
@@ -19,10 +20,10 @@ Rectangle {
     signal accepted(var payload)
     signal validationRequested(string formula)
 
-    color: "#0d1117"
-    border.color: coherence > 0.85 ? "#238636" : (coherence > 0.6 ? "#9e6a03" : "#da3633")
-    border.width: 1
-    radius: 8
+    color: Theme.bg
+    border.color: Theme.coherenceColor(coherence)
+    border.width: Theme.borderWidth
+    radius: Theme.radius
 
     ColumnLayout {
         anchors.fill: parent
@@ -32,37 +33,62 @@ Rectangle {
             spacing: 12
             Label {
                 text: "\u2afb" + root.sectionType + ":" + root.molecule
-                color: "#7ee787"; font.family: "monospace"; font.pixelSize: 14; font.bold: true
+                color: Theme.emerald
+                font.family: Theme.fontMono
+                font.pixelSize: 14
+                font.bold: true
             }
             Item { Layout.fillWidth: true }
             Rectangle {
-                radius: 3; color: "#21262d"
-                implicitWidth: modeLabel.implicitWidth + 12; implicitHeight: 22
-                Label { id: modeLabel; anchors.centerIn: parent; text: root.mode; font.family: "monospace"; font.pixelSize: 11; color: "#58a6ff" }
+                radius: Theme.radiusSm
+                color: Theme.bgPanel
+                implicitWidth: modeLabel.implicitWidth + 12
+                implicitHeight: 22
+                Label {
+                    id: modeLabel
+                    anchors.centerIn: parent
+                    text: root.mode
+                    font.family: Theme.fontMono
+                    font.pixelSize: 11
+                    color: Theme.cyan
+                }
             }
             ProgressBar { from: 0; to: 1; value: root.coherence; implicitWidth: 70; implicitHeight: 6 }
-            Label { text: Math.round(root.coherence * 100) + "%"; font.family: "monospace"; font.pixelSize: 11; color: "#8b949e" }
+            Label {
+                text: Math.round(root.coherence * 100) + "%"
+                font.family: Theme.fontMono
+                font.pixelSize: 11
+                color: Theme.textMuted
+            }
         }
         GridLayout {
             columns: 4; columnSpacing: 16; rowSpacing: 6; Layout.fillWidth: true
-            Label { text: "Space"; color: "#8b949e"; font.pixelSize: 11 }
-            Label { text: root.space; color: "#c9d1d9"; font.family: "monospace"; font.pixelSize: 12; Layout.fillWidth: true }
-            Label { text: "Scope"; color: "#8b949e"; font.pixelSize: 11 }
-            Label { text: root.scope; color: "#c9d1d9"; font.family: "monospace"; font.pixelSize: 12; Layout.fillWidth: true }
-            Label { text: "Model"; color: "#8b949e"; font.pixelSize: 11 }
-            Label { text: root.modelName.length ? root.modelName : "—"; color: "#c9d1d9"; font.family: "monospace"; font.pixelSize: 12; Layout.fillWidth: true }
-            Label { text: "Ref"; color: "#8b949e"; font.pixelSize: 11 }
-            Label { text: root.reference.length ? root.reference : "—"; color: "#c9d1d9"; font.family: "monospace"; font.pixelSize: 12; elide: Text.ElideMiddle; Layout.fillWidth: true }
+            Label { text: "Space"; color: Theme.textMuted; font.family: Theme.fontUi; font.pixelSize: 11 }
+            Label { text: root.space; color: Theme.text; font.family: Theme.fontMono; font.pixelSize: 12; Layout.fillWidth: true }
+            Label { text: "Scope"; color: Theme.textMuted; font.family: Theme.fontUi; font.pixelSize: 11 }
+            Label { text: root.scope; color: Theme.text; font.family: Theme.fontMono; font.pixelSize: 12; Layout.fillWidth: true }
+            Label { text: "Model"; color: Theme.textMuted; font.family: Theme.fontUi; font.pixelSize: 11 }
+            Label { text: root.modelName.length ? root.modelName : "\u2014"; color: Theme.text; font.family: Theme.fontMono; font.pixelSize: 12; Layout.fillWidth: true }
+            Label { text: "Ref"; color: Theme.textMuted; font.family: Theme.fontUi; font.pixelSize: 11 }
+            Label { text: root.reference.length ? root.reference : "\u2014"; color: Theme.text; font.family: Theme.fontMono; font.pixelSize: 12; elide: Text.ElideMiddle; Layout.fillWidth: true }
         }
-        Label { text: "Formula"; color: "#8b949e"; font.pixelSize: 11 }
+        Label { text: "Formula"; color: Theme.textMuted; font.family: Theme.fontUi; font.pixelSize: 11 }
         ScrollView {
             Layout.fillWidth: true; Layout.fillHeight: true; clip: true
             TextArea {
                 id: formulaArea
                 text: root.model ? root.model.formula : ""
-                color: "#c9d1d9"; font.family: "monospace"; font.pixelSize: 13
-                wrapMode: Text.Wrap; readOnly: !root.editable
-                background: Rectangle { color: "#161b22"; border.color: "#30363d"; border.width: 1; radius: 4 }
+                color: Theme.text
+                font.family: Theme.fontMono
+                font.pixelSize: 13
+                wrapMode: Text.Wrap
+                readOnly: !root.editable
+                background: Rectangle {
+                    color: Theme.bgRaised
+                    border.color: Theme.border
+                    border.width: Theme.borderWidth
+                    radius: Theme.radiusSm
+                }
                 selectByMouse: true
                 onTextChanged: if (root.model && root.editable) root.model.formula = text
             }
@@ -73,13 +99,14 @@ Rectangle {
                 text: root.validationStatus
                 color: {
                     switch (root.validationStatus) {
-                    case "valid": return "#3fb950"
-                    case "invalid": return "#f85149"
-                    case "validating": return "#d29922"
-                    default: return "#8b949e"
+                    case "valid": return Theme.success
+                    case "invalid": return Theme.danger
+                    case "validating": return Theme.warning
+                    default: return Theme.textMuted
                     }
                 }
-                font.family: "monospace"; font.pixelSize: 11
+                font.family: Theme.fontMono
+                font.pixelSize: 11
             }
             Item { Layout.fillWidth: true }
             Button {
@@ -92,7 +119,8 @@ Rectangle {
             }
             Button {
                 text: "Submit"
-                enabled: root.editable; highlighted: true
+                enabled: root.editable
+                highlighted: true
                 onClicked: {
                     var payload = {
                         "sectionType": root.sectionType,
