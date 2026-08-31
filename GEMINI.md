@@ -4,7 +4,7 @@ C++20 canonical protocol core plus optional Qt 6 / QML **interactive chat** and 
 
 The chat transcript **is** the living protocol document (`flow/chat` turns + three-agent replies). There is no parallel message store. Halt is first-class. Natural-language Send uses the Google GenAI **Interactions API** (`POST /v1beta/interactions`, default model `gemini-3.7-flash`) with `GEMINI_API_KEY`.
 
-**Shipped product: v0.4** (CMake `0.4.0`). Next major surface is **v0.6 OCS/Node Nexus** — plan only, see [docs/plans/v0.6/](docs/plans/v0.6/).
+**Shipped product: v0.4** (CMake `0.4.0`). Next major surface is **v0.6 OCS/Node Nexus** — export/import + axes shipped; Phase E UI and CoherenceMonitorBridge still planned. See [docs/plans/v0.6/](docs/plans/v0.6/) and the human map [docs/INDEX.md](docs/INDEX.md).
 
 ## Status
 
@@ -14,9 +14,9 @@ The chat transcript **is** the living protocol document (`flow/chat` turns + thr
 | v0.3 | OCS chat, `flow/chat`, GenAI Interactions API |
 | **v0.4 (shipped)** | `t484-console` three-pane dashboard, `EventLogModel`, OCS Slate theme, shared `OcsNode` QML module |
 | **v0.5 (planned)** | Phase E UI: KickLangEditorView, TasBoardView, ConsentGateDialog |
-| **v0.6 (plan only)** | Volumetric Coherence Nexus + lossless one-file KickLang export/import |
+| **v0.6 (partial)** | `exportNexus` / `importNexus`, volumetric axes, console Export/Import/Copy; Phase E + bridge still planned |
 
-Do not claim v0.6 shipped until `nexus-v0.6.ocs` round-trips in `ocsnode_protocol_tests` and export/import is wired. `src/assets/seed-nexus.ocs` is a **loadable v0.6.0-pre** fixture; it does **not** replace `seed.ocs`.
+Do not claim the full Nexus (Phase E + CoherenceMonitorBridge) shipped. `src/assets/seed-nexus.ocs` is a **loadable v0.6.0-pre** fixture; it does **not** replace `seed.ocs`.
 
 | Piece | State |
 |---|---|
@@ -46,7 +46,15 @@ src/assets/seed.ocs       startup protocol document (welcome turn)
 src/assets/seed-nexus.ocs loadable v0.6.0-pre Nexus seed (halt-free)
 src/assets/nexus-v0.6.ocs v0.6 plan fixture (one-file KickLang export)
 tests/                    protocol round-trip + GenAI parse (no network)
+docs/INDEX.md             documentation map
 docs/ARCHITECTURE.md      module + naming freeze
+docs/PROTOCOL.md          protocol grammar as implemented
+docs/ENGINE.md            document engine, halt, coherence, Nexus export
+docs/CHAT.md              ChatSession turn machine
+docs/OPERATOR.md          run chat / console / GenAI
+docs/BUILD.md             CMake targets and tests
+docs/OCS-INTEGRATION.md   Node inside OCS v2.1
+docs/GLOSSARY.md          terms
 docs/COMPONENTS.md        C++ / QML / protocol interface catalog
 docs/CONSOLE.md           console layout and binding notes
 docs/THEME.md             OCS Slate tokens
@@ -84,6 +92,8 @@ cmake --build build
 
 Tests: `ocsnode_protocol_tests` (STL only) and `ocsnode_genai_tests` (Qt Core+Network, parse/dotenv only). No test talks to the network.
 
+See `docs/BUILD.md` and `docs/OPERATOR.md`.
+
 ## Chat (OCS)
 
 Composer accepts:
@@ -91,6 +101,7 @@ Composer accepts:
 - natural language → `flow/chat:host` then GenAI (`gemini-3.7-flash` unless `GEMINI_MODEL` is set)
 - raw protocol sections (a `protocol/ocs` block **loads** / replaces the document)
 - `/mode` `/halt` `/exec` `/obj` `/tas` — `/halt` and `/mode` stay local (no LLM)
+- `/exec nexus-export` → `exportNexus()` (no LLM)
 
 KickGuard blocks mutation **and** GenAI transport while gated except `/halt` and `/mode`. Resume by loading a protocol document **without** `cmd/halt`. No invented `cmd/resume`.
 
@@ -111,17 +122,7 @@ QML shells must bind children with `protocol: appWindow.protocol` (alias of cont
 
 ## Protocol surface (implemented subset)
 
-```
-⫻protocol/ocs:
-⫻context/...
-⫻cmd/exec: | ⫻cmd/halt: | ⫻cmd/mode: | ⫻cmd/lang:
-⫻data/obj: | ⫻data/tas: | ⫻data/ptas:
-⫻flow/chat:<host|KickForge|KickFlow|KickGuard>
-⫻query/clarify:
-⫻display/...
-```
-
-Parser is line-oriented (`⫻` U+2AFB). A section runs until the next sigil or EOF. Nested `⫻end/` is recognized but not expanded.
+Parser is line-oriented (U+2AFB). A section runs until the next sigil or EOF. Nested end-sections are recognized but not expanded.
 
 - **submit** replaces the first section of the same type (state: mode, halt, obj, tas, klmx).
 - **append** always pushes (conversation: `flow/chat`, `query/clarify`, `cmd/exec`, `display/content`).
@@ -138,12 +139,7 @@ Parser is line-oriented (`⫻` U+2AFB). A section runs until the next sigil or E
 
 Roadmap: [docs/plans/v0.6/README.md](docs/plans/v0.6/README.md). Grammar: [NEXUS-EXPORT.md](docs/plans/v0.6/NEXUS-EXPORT.md). TAS: [TAS.md](docs/plans/v0.6/TAS.md).
 
-Living objective:
-
-```
-⫻data/obj:
-Make t484 a Nexus whose entire operator state is one KickLang/OCS file — exportable, re-ingestible, consent-gated.
-```
+Living objective: make t484 a Nexus whose entire operator state is one KickLang/OCS file — exportable, re-ingestible, consent-gated.
 
 Non-goals: no new section families; no keys in the export; no parallel chat store; no `cmd/resume`.
 
@@ -151,14 +147,14 @@ Non-goals: no new section families; no keys in the export; no parallel chat stor
 |---|---|---|
 | N0 | Freeze export grammar + fixture parses today | plan artifacts landed |
 | N1 | `protocol/ocs` stamp `[version=0.6.0] [repo=deniskropp/t484] [ref=main]` | written into fixture |
-| N2 | `cmd/exec:nexus-export` → `exportNexus()` + header; no key material | implemented (`/exec nexus-export`, `importNexus` = `loadText`) |
+| N2 | `cmd/exec:nexus-export` → `exportNexus()` + header; no key material | implemented |
 | N3 | Volumetric axes on `CoherenceState` (scalar kept) | axes fields filled; Qt genai overlay on export |
 | N4 | KickLangEditorView + TasBoardView + ConsentGateDialog (Phase E / v0.5) | named; identifiers reserved |
 | N5 | CoherenceMonitorBridge adapter behind `deriveCoherence` | noted; heuristic stays |
-| N6 | Round-trip tests + console “Export Nexus” action | implemented |
+| N6 | Round-trip tests + console Export Nexus action | implemented |
 | N7 | Berlin Node / EmbodiedPipe grounding | optional, not critical path |
 
-Volumetric axes (additive; status bar still shows scalar `coherence ∈ [0,1]`): `protocol`, `klmx`, `objective`, `tas`, `consent`, `dialogue`, `genai` (Qt-only health, never a secret in the file). Export records axes in `display/meta`.
+Volumetric axes (additive; status bar still shows scalar coherence): `protocol`, `klmx`, `objective`, `tas`, `consent`, `dialogue`, `genai` (Qt-only health, never a secret in the file). Export records axes in `display/meta`.
 
 Import is existing behavior: paste or load a document that contains `protocol/ocs`. Export while gated is allowed (read). Import that contains `cmd/halt` stays gated.
 
@@ -170,4 +166,4 @@ Implementation that mutates `src/` still needs an explicit operator go (KickGuar
 cmd/exec:ocs-node-engine
 ```
 
-This repository is the source of truth.
+This repository is the source of truth. Integration narrative: [docs/OCS-INTEGRATION.md](docs/OCS-INTEGRATION.md).
