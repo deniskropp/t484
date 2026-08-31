@@ -41,6 +41,12 @@ if(Qt6_FOUND)
         src/engine/SectionListModel.cpp
         src/components/TasStatusModel.cpp
         src/components/KlmxMoleculeItem.cpp
+        # Q_OBJECT lives in these headers (not next to the .cpp files);
+        # listing them is required for AUTOMOC to generate vtables/signals.
+        include/ocsnode/qt/ProtocolEngineQt.h
+        include/ocsnode/qt/SectionListModel.h
+        include/ocsnode/qt/TasStatusModel.h
+        include/ocsnode/qt/KlmxMoleculeItem.h
     )
 
     qt_add_qml_module(t484

@@ -3,7 +3,7 @@
 
 namespace ocsnode {
 
-std::string ProtocolEmitter::emit(const Section &section) const
+std::string ProtocolEmitter::emitText(const Section &section) const
 {
     std::string out;
     out += ProtocolParser::kSigilUtf8;
@@ -25,13 +25,13 @@ std::string ProtocolEmitter::emit(const Section &section) const
     return out;
 }
 
-std::string ProtocolEmitter::emit(const std::vector<Section> &sections) const
+std::string ProtocolEmitter::emitText(const std::vector<Section> &sections) const
 {
     std::string out;
     for (std::size_t i = 0; i < sections.size(); ++i) {
         if (i)
             out += '\n';
-        out += emit(sections[i]);
+        out += emitText(sections[i]);
     }
     return out;
 }

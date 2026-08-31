@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     }
 
     ProtocolEmitter emitter;
-    auto text = emitter.emit(r.sections);
+    auto text = emitter.emitText(r.sections);
     auto r2 = parser.parse(text);
     check(r2.ok() && r2.sections.size() == r.sections.size(), "round-trip count");
     if (r2.ok() && r2.sections.size() == r.sections.size()) {
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
         fe.loadText(fixture);
         check(fe.findByType("data/obj") != nullptr, "fixture has data/obj");
         check(fe.findByType("data/tas") != nullptr, "fixture has data/tas");
-        auto again = parser.parse(emitter.emit(fr.sections));
+        auto again = parser.parse(emitter.emitText(fr.sections));
         check(again.ok() && again.sections.size() == fr.sections.size(), "fixture round-trip");
     }
 

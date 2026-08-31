@@ -13,7 +13,7 @@ ParseResult ProtocolEngine::loadText(const std::string &text)
 
 std::string ProtocolEngine::emitText() const
 {
-    return m_emitter.emit(m_sections);
+    return m_emitter.emitText(m_sections);
 }
 
 void ProtocolEngine::setMode(const std::string &mode)

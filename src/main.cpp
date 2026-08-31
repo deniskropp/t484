@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty(QStringLiteral("tasModel"), &tasModel);
     ctx->setContextProperty(QStringLiteral("klmxItem"), &klmxItem);
 
-    const QUrl url(u"qrc:/qt/qml/OcsNode/main.qml"_qs);
+    const QUrl url(QStringLiteral("qrc:/qt/qml/OcsNode/main.qml"));
     QObject::connect(
         &qml, &QQmlApplicationEngine::objectCreationFailed,
         &app, []() { QCoreApplication::exit(-1); },

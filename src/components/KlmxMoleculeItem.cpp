@@ -81,7 +81,7 @@ void KlmxMoleculeItem::submitMolecule(const QVariantMap &payload)
 void KlmxMoleculeItem::validateFormula()
 {
     emit validationRequested(m_formula);
-    if (m_formula.empty()) {
+    if (m_formula.isEmpty()) {
         setValidationStatus(QStringLiteral("invalid"));
         return;
     }
