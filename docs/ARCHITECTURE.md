@@ -1,7 +1,11 @@
 # t484 Architecture (v0.4 chat + protocol console)
 
 Source of truth: this repository. The `ocs-node-engine` skill is the forge, not a second product tree.  
+Documentation map: [INDEX.md](INDEX.md).  
 Component and QML/C++ interface catalog: [COMPONENTS.md](COMPONENTS.md).  
+Protocol grammar: [PROTOCOL.md](PROTOCOL.md).  
+Engine + halt + coherence + Nexus export: [ENGINE.md](ENGINE.md).  
+Chat turns: [CHAT.md](CHAT.md).  
 Console shell notes: [CONSOLE.md](CONSOLE.md).
 
 The Qt shell is an **OCS-compliant chat**: the transcript is the protocol section list. No parallel message store. The protocol console is a second ApplicationWindow over the **same** engine, models, and views.
@@ -10,11 +14,11 @@ The Qt shell is an **OCS-compliant chat**: the transcript is the protocol sectio
 
 | Module | Path | Depends on | Role |
 |---|---|---|---|
-| protocol | `include/ocsnode/*` + `src/protocol/` | C++20 STL only | Parse / emit ⫻ sections, `ChatSession` |
-| engine | `src/engine/` | protocol + Qt6 Core | `ProtocolEngine` QObject, halt gate, coherence, `sendChat` |
+| protocol | `include/ocsnode/*` + `src/protocol/` | C++20 STL only | Parse / emit sections, `ChatSession` |
+| engine | `src/engine/` | protocol + Qt6 Core | `ProtocolEngine` QObject, halt gate, coherence, `sendChat`, `exportNexus` |
 | components | `src/components/` | Qt6 Core | QObject models (`*Model` / `*Item`) |
 | qml | `src/qml/OcsNode/` + `main.qml` + `console.qml` | engine + components | Chat + console shells |
-| tests | `tests/` | protocol | Round-trip + chat-turn fixtures, no Qt required |
+| tests | `tests/` | protocol | Round-trip + chat-turn + nexus fixtures, no Qt required |
 
 ## Naming (frozen)
 
@@ -30,24 +34,24 @@ Never register a C++ type and a QML file under the same identifier.
 ## Protocol surface (subset implemented)
 
 ```
-⫻protocol/ocs:
-⫻context/...
-⫻cmd/exec: | ⫻cmd/halt: | ⫻cmd/mode: | ⫻cmd/lang:
-⫻data/obj: | ⫻data/tas: | ⫻data/ptas:
-⫻flow/chat:<host|KickForge|KickFlow|KickGuard>
-⫻query/clarify:
-⫻display/...
+protocol/ocs
+context/...
+cmd/exec | cmd/halt | cmd/mode | cmd/lang
+data/obj | data/tas | data/ptas
+flow/chat:<host|KickForge|KickFlow|KickGuard>
+query/clarify
+display/...
 ```
 
 `submit` replaces the first section of the same type (state: mode, halt, obj, tas, klmx).  
 `append` always pushes (conversation: `flow/chat`, `query/clarify`, `cmd/exec`, `display/content`).
 
-Parser is line-oriented. A section starts on a sigil line (`U+2AFB`) and runs until the next sigil or EOF. Nested `⫻end/` is recognized but not expanded.
+Parser is line-oriented. A section starts on a sigil line (`U+2AFB`) and runs until the next sigil or EOF. Nested end-sections are recognized but not expanded.
 
 ## Chat turn rules
 
-1. Host input always records `⫻flow/chat:host` with the raw text (unless the paste contains `protocol/ocs`, which **loads** a new document).
-2. Slash commands map onto existing families only (`cmd/mode`, `cmd/halt`, `cmd/exec`, `data/obj`, `data/tas`).
+1. Host input always records `flow/chat:host` with the raw text (unless the paste contains `protocol/ocs`, which **loads** a new document).
+2. Slash commands map onto existing families only (`cmd/mode`, `cmd/halt`, `cmd/exec`, `data/obj`, `data/tas`). `/exec nexus-export` calls `exportNexus()` and does not call the model.
 3. While gated, KickGuard replies with `flow/chat:KickGuard` + `query/clarify:consent`. Mutations other than halt/mode are skipped.
 4. Resume is loading a `protocol/ocs` document that does not contain `cmd/halt`. No invented `cmd/resume`.
 5. Natural-language turns request Google GenAI (Interactions API, `gemini-3.7-flash`). KickGuard forbids the call while gated. `/halt` and `/mode` do not call the model.
@@ -72,3 +76,5 @@ cmake --build build
 ./build/t484
 ./build/t484-console
 ```
+
+See [BUILD.md](BUILD.md) for targets and [OPERATOR.md](OPERATOR.md) for launch / key lookup.
