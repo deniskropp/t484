@@ -47,11 +47,13 @@ if(Qt6_FOUND)
         src/engine/SectionListModel.cpp
         src/components/TasStatusModel.cpp
         src/components/KlmxMoleculeItem.cpp
+        src/components/EventLogModel.cpp
         include/ocsnode/qt/ProtocolEngineQt.h
         include/ocsnode/qt/GenAiClient.h
         include/ocsnode/qt/SectionListModel.h
         include/ocsnode/qt/TasStatusModel.h
         include/ocsnode/qt/KlmxMoleculeItem.h
+        include/ocsnode/qt/EventLogModel.h
     )
 
     set(T484_QML_FILES

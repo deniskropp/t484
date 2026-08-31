@@ -1,3 +1,4 @@
+#include "ocsnode/qt/EventLogModel.h"
 #include "ocsnode/qt/GenAiClient.h"
 #include "ocsnode/qt/KlmxMoleculeItem.h"
 #include "ocsnode/qt/ProtocolEngineQt.h"
@@ -78,6 +79,7 @@ int main(int argc, char *argv[])
     ocsnode::ProtocolEngineQt engine;
     ocsnode::TasStatusModel tasModel;
     ocsnode::KlmxMoleculeItem klmxItem;
+    ocsnode::EventLogModel eventLogModel;
 
     engine.setActor(QStringLiteral("KickFlow"));
     std::fprintf(stderr, "t484: shell=%s genai ready=%s source=%s model=%s\n",
@@ -93,6 +95,47 @@ int main(int argc, char *argv[])
     }
     if (app.arguments().contains(QStringLiteral("--genai-status")))
         return engine.genaiReady() ? 0 : 1;
+
+    QObject::connect(&engine, &ocsnode::ProtocolEngineQt::turnCompleted,
+                     &eventLogModel, [&eventLogModel](bool ok) {
+        eventLogModel.appendEvent(ok ? QStringLiteral("info") : QStringLiteral("error"),
+                                  QStringLiteral("turnCompleted"),
+                                  ok ? QStringLiteral("ok") : QStringLiteral("failed"));
+    });
+    QObject::connect(&engine, &ocsnode::ProtocolEngineQt::stateChanged,
+                     &eventLogModel, [&engine, &eventLogModel]() {
+        eventLogModel.appendEvent(QStringLiteral("protocol"),
+                                  QStringLiteral("state"),
+                                  engine.status()
+                                      + QStringLiteral(" gated=")
+                                      + (engine.gated() ? QStringLiteral("true")
+                                                        : QStringLiteral("false"))
+                                      + QStringLiteral(" errors=")
+                                      + QString::number(engine.errorCount()));
+    });
+    QObject::connect(&engine, &ocsnode::ProtocolEngineQt::haltRequested,
+                     &eventLogModel, [&eventLogModel](const QString &reason) {
+        eventLogModel.appendEvent(QStringLiteral("warning"),
+                                  QStringLiteral("halt"),
+                                  reason);
+    });
+    QObject::connect(&engine, &ocsnode::ProtocolEngineQt::busyChanged,
+                     &eventLogModel, [&engine, &eventLogModel]() {
+        eventLogModel.appendEvent(QStringLiteral("genai"),
+                                  QStringLiteral("busy"),
+                                  engine.busy() ? QStringLiteral("start")
+                                                : QStringLiteral("end"));
+    });
+
+    eventLogModel.appendEvent(QStringLiteral("info"),
+                              QStringLiteral("boot"),
+                              console ? QStringLiteral("t484 Protocol Console")
+                                      : QStringLiteral("OCS/Node Chat"));
+    eventLogModel.appendEvent(QStringLiteral("genai"),
+                              QStringLiteral("source"),
+                              engine.genaiReady() ? engine.genaiSource()
+                                                  : QStringLiteral("NO KEY"));
+
     engine.loadText(loadSeed());
 
     if (const auto body = engine.sectionBody(QStringLiteral("context/klmx")); !body.isEmpty())
@@ -103,6 +146,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty(QStringLiteral("engine"), &engine);
     ctx->setContextProperty(QStringLiteral("tasModel"), &tasModel);
     ctx->setContextProperty(QStringLiteral("klmxItem"), &klmxItem);
+    ctx->setContextProperty(QStringLiteral("eventLogModel"), &eventLogModel);
 
     const QUrl url = mainQmlUrl(console);
     QObject::connect(
