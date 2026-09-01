@@ -36,6 +36,7 @@ public:
     void submit(const Section &section);
     void append(const Section &section);
     void requestHalt(const std::string &reason);
+    bool resumeFromHalt();
     void setHaltHandler(HaltHandler h) { m_halt = std::move(h); }
 
     std::vector<Section> sectionsByFamily(const std::string &family) const;

@@ -1,8 +1,7 @@
 # t484 documentation index
 
 Canonical product docs for the **OCS/Node Engine** (`deniskropp/t484`).
-Shipped product is **v0.4** (chat + protocol console + OCS Slate).
-Nexus **export/import + volumetric axes** are implemented on main; Phase E UI and CoherenceMonitorBridge are still planned.
+Shipped product is **v0.6** (chat + protocol console + OCS Slate + Nexus export/import + Phase E UI + CoherenceMonitorBridge).
 The `ocs-node-engine` skill is the forge. This repository is the source of truth.
 
 ## Start here
@@ -22,7 +21,7 @@ The `ocs-node-engine` skill is the forge. This repository is the source of truth
 | Console shell layout | [CONSOLE.md](CONSOLE.md) |
 | QML plates | [PANELS.md](PANELS.md) |
 | Color / type tokens | [THEME.md](THEME.md) |
-| Nexus plan (remaining Phase E / bridge) | [plans/v0.6/README.md](plans/v0.6/README.md) |
+| Nexus roadmap and plan | [plans/v0.6/README.md](plans/v0.6/README.md) |
 
 ## Invariants (do not drift)
 
@@ -42,8 +41,8 @@ The `ocs-node-engine` skill is the forge. This repository is the source of truth
 | `t484` chat + `t484-console` | shipped |
 | OCS Slate theme + panel plates | shipped |
 | `exportNexus` / `importNexus` + console actions + axes | shipped |
-| KickLangEditor / TasBoard / ConsentGateDialog | planned (Phase E / v0.5) |
-| CoherenceMonitorBridge behind `deriveCoherence` | planned |
+| `KickLangEditorView` / `TasBoardView` / `ConsentGateDialog` | shipped (Phase E / v0.6) |
+| `CoherenceMonitorBridge` behind `deriveCoherence` | shipped |
 
 Generated 2026-09-01 from t484@main (including Nexus export commit `2c4be7b`).
 The engine remains the authority if a sentence here and a header disagree — fix the sentence.

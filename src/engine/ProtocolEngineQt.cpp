@@ -201,6 +201,14 @@ void ProtocolEngineQt::requestHalt(const QString &reason)
     emit busyChanged();
 }
 
+bool ProtocolEngineQt::resumeFromHalt()
+{
+    const bool ok = m_node.protocol().resumeFromHalt();
+    if (ok)
+        syncFromCore();
+    return ok;
+}
+
 void ProtocolEngineQt::submitMap(const QVariantMap &payload)
 {
     Section s;

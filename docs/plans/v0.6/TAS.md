@@ -15,14 +15,17 @@ Purified from the living objective: *push relevant v0.6 plans to GitHub and defi
 | N6 | Tests + console action | listed; implementation is post-plan | N0 N2 |
 | N7 | Berlin / EmbodiedPipe | optional, not critical path | — |
 
-## Current cycle (this commit)
+## Current cycle (v0.6.0 shipped)
 
 - [x] N0 grammar + fixture landed as plan artifacts
 - [x] N1 stamp written into fixture header
-- [x] N2 / N3 / N4 / N5 specified, not implemented in C++
-- [ ] N6 implementation
-- [ ] N7 optional grounding
+- [x] N2 cmd/exec:nexus-export implemented via exportNexus()
+- [x] N3 volumetric coherence axes on CoherenceState
+- [x] N4 Phase E views: KickLangEditorView, TasBoardView, ConsentGateDialog
+- [x] N5 CoherenceMonitorBridge adapter behind deriveCoherence
+- [x] N6 Round-trip tests + console / editor / board actions
+- [ ] N7 optional grounding (Berlin Node / EmbodiedPipe)
 
 ## Halt / consent
 
-Implementation work that mutates `src/` still requires an explicit operator go (KickGuard). This commit only writes `docs/plans/v0.6/*` and `src/assets/nexus-v0.6.ocs`.
+Halt remains first-class. ConsentGateDialog enables inspection and clean un-gating (`resumeFromHalt()`) by loading the living document without `cmd/halt`. No invented `cmd/resume`.

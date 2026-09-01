@@ -73,4 +73,73 @@ void TasStatusModel::submitStatusUpdate(const QVariantMap &payload)
         emit haltRequested(payload.value(QStringLiteral("reason")).toString());
 }
 
+QVariantList TasStatusModel::parseTasEntries(const QString &tasText, const QString &ptasText) const
+{
+    QVariantList list;
+    auto parseLines = [&](const QString &text, const QString &kind) {
+        const auto lines = text.split(QLatin1Char('\n'), Qt::SkipEmptyParts);
+        for (const QString &rawLine : lines) {
+            QString line = rawLine.trimmed();
+            if (line.isEmpty())
+                continue;
+
+            QVariantMap item;
+            item[QStringLiteral("kind")] = kind;
+            item[QStringLiteral("raw")] = line;
+
+            QString status = QStringLiteral("open");
+            if (line.startsWith(QLatin1String("- [x] ")) || line.startsWith(QLatin1String("[x] "))) {
+                status = QStringLiteral("done");
+                line = line.mid(line.indexOf(QLatin1Char(']')) + 1).trimmed();
+            } else if (line.startsWith(QLatin1String("- [ ] ")) || line.startsWith(QLatin1String("[ ] "))) {
+                status = QStringLiteral("open");
+                line = line.mid(line.indexOf(QLatin1Char(']')) + 1).trimmed();
+            } else if (line.startsWith(QLatin1Char('-')) || line.startsWith(QLatin1Char('*'))) {
+                line = line.mid(1).trimmed();
+            }
+
+            int spaceIdx = line.indexOf(QLatin1Char(' '));
+            QString firstToken = spaceIdx > 0 ? line.left(spaceIdx) : line;
+            QString remainder = spaceIdx > 0 ? line.mid(spaceIdx + 1).trimmed() : QString();
+
+            QString id = firstToken;
+            if (firstToken.contains(QLatin1String("-done"))) {
+                status = QStringLiteral("done");
+                id = firstToken.left(firstToken.indexOf(QLatin1String("-done")));
+            } else if (firstToken.contains(QLatin1String("-partial")) || firstToken.contains(QLatin1String("-progress"))) {
+                status = QStringLiteral("active");
+                id = firstToken.left(firstToken.indexOf(QLatin1Char('-')));
+            } else if (firstToken.contains(QLatin1String("-open")) || firstToken.contains(QLatin1String("-planned"))) {
+                status = QStringLiteral("open");
+                id = firstToken.left(firstToken.indexOf(QLatin1Char('-')));
+            } else if (firstToken.contains(QLatin1String("-blocked"))) {
+                status = QStringLiteral("blocked");
+                id = firstToken.left(firstToken.indexOf(QLatin1String("-blocked")));
+            } else if (firstToken.contains(QLatin1String("-policy"))) {
+                status = QStringLiteral("policy");
+                id = firstToken.left(firstToken.indexOf(QLatin1String("-policy")));
+            } else if (kind == QStringLiteral("tas") && status == QStringLiteral("open")) {
+                status = QStringLiteral("active");
+            }
+
+            item[QStringLiteral("id")] = id;
+            item[QStringLiteral("title")] = remainder.isEmpty() ? firstToken : remainder;
+            item[QStringLiteral("status")] = status;
+            list.append(item);
+        }
+    };
+
+    if (!tasText.isEmpty())
+        parseLines(tasText, QStringLiteral("tas"));
+    if (!ptasText.isEmpty())
+        parseLines(ptasText, QStringLiteral("ptas"));
+
+    return list;
+}
+
+void TasStatusModel::refreshTasModel(const QString &tasText, const QString &ptasText)
+{
+    setTasModel(parseTasEntries(tasText, ptasText));
+}
+
 } // namespace ocsnode

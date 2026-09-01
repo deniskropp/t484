@@ -29,6 +29,7 @@ ProtocolEngineQt wraps NodeEngine + SectionListModel + GenAiClient
 | `append(section)` | always push |
 | `setMode(mode)` | submit `cmd/mode` |
 | `requestHalt(reason)` | submit `cmd/halt`, fire `HaltHandler` |
+| `resumeFromHalt()` | remove all `cmd/halt` sections, `refreshState()` (un-gate) |
 | `sectionsByFamily` / `findByType` | lookup |
 
 `refreshState()` runs `deriveCoherence(m_sections)` after every mutation.
@@ -85,7 +86,7 @@ Status: `gated` if halt, else `running` if TAS, else `idle`.
 | `dialogue` | `flow/chat` host/replies | `min(1, host*0.25 + replies*0.15)` |
 | `genai` | STL default 0.5; Qt overlays ready && !busy | never a secret |
 
-Export records axes in `display/meta`. CoherenceMonitorBridge remains the later replacement behind `deriveCoherence`.
+Export records axes in `display/meta`. `CoherenceMonitorBridge` routes `deriveCoherence` through `ICoherenceMonitorBridge` (defaulting to `DefaultCoherenceMonitorBridge`).
 
 ## `NodeEngine`
 

@@ -439,13 +439,14 @@ No test talks to the network.
 
 ---
 
-## 8. Planned (Phase E)
+---
 
-Not shipped. Do not reuse these identifiers for C++ types if a QML file of the same name exists.
+## 8. Phase E surfaces & Coherence Bridge (v0.6 shipped)
 
-- KickLangEditor
-- TasBoard
-- ConsentGateDialog (halt is currently chrome + `query/clarify:consent`, not a modal)
+- `KickLangEditorView.qml`: interactive editor over living protocol document with section navigator, format, and load.
+- `TasBoardView.qml`: Kanban board categorized by task state bound to `TasStatusModel` / sections.
+- `ConsentGateDialog.qml`: modal overlay over halt condition; resume = un-gate without `cmd/halt`.
+- `CoherenceMonitorBridge.h`: `ICoherenceMonitorBridge` / `DefaultCoherenceMonitorBridge` adapter interface behind `deriveCoherence`.
 
 ---
 
@@ -457,6 +458,7 @@ Not shipped. Do not reuse these identifiers for C++ types if a QML file of the s
 | `include/ocsnode/ProtocolParser.h` | parser |
 | `include/ocsnode/ProtocolEmitter.h` | emitter |
 | `include/ocsnode/CoherenceState.h` | `deriveCoherence` |
+| `include/ocsnode/CoherenceMonitorBridge.h` | coherence bridge adapter & registry |
 | `include/ocsnode/ProtocolEngine.h` | document engine |
 | `include/ocsnode/NodeEngine.h` | actor façade |
 | `include/ocsnode/ChatSession.h` | turn processor |
@@ -465,6 +467,10 @@ Not shipped. Do not reuse these identifiers for C++ types if a QML file of the s
 | `include/ocsnode/qt/GenAiClient.h` | Interactions API |
 | `include/ocsnode/qt/TasStatusModel.h` | TAS model |
 | `include/ocsnode/qt/KlmxMoleculeItem.h` | KLMX item |
-| `src/qml/main.qml` | shell |
+| `src/qml/main.qml` | compact chat shell |
+| `src/qml/console.qml` | protocol console shell |
+| `src/qml/OcsNode/KickLangEditorView.qml` | KickLang editor |
+| `src/qml/OcsNode/TasBoardView.qml` | TAS Kanban board |
+| `src/qml/OcsNode/ConsentGateDialog.qml` | consent gate modal |
 | `src/qml/OcsNode/*.qml` | views |
 | `src/assets/seed.ocs` | startup document |

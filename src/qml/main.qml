@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 import QtQuick.Layouts
 import OcsNode 1.0
 
@@ -134,4 +135,22 @@ ApplicationWindow {
     Binding { target: tasModel; property: "gated"; value: appWindow.protocol.gated }
     Binding { target: klmxItem; property: "coherence"; value: appWindow.protocol.coherence }
     Binding { target: klmxItem; property: "mode"; value: appWindow.protocol.mode }
+
+    FileDialog {
+        id: exportDialog
+        title: "Export Nexus"
+        fileMode: FileDialog.SaveFile
+        nameFilters: ["OCS protocol (*.ocs)", "All files (*)"]
+        defaultSuffix: "ocs"
+        onAccepted: {
+            if (appWindow.protocol)
+                appWindow.protocol.saveNexusToFile(selectedFile)
+        }
+    }
+
+    ConsentGateDialog {
+        id: consentGate
+        protocol: appWindow.protocol
+        onExportNexusRequested: exportDialog.open()
+    }
 }
