@@ -1,0 +1,149 @@
+⫻protocol/ocs: [node=OCS/Root] [repo=deniskropp/t484] [ref=main] [kind=architecture-explore] [session=2026-09-01] [version=0.4.0]
+⫻cmd/exec:ocs-node-engine
+⫻cmd/mode:Hybrid
+⫻cmd/lang:EN
+⫻context/klmx:Kick/Lang
+OCS/Node Architecture Explore — living seed for ProtocolEngine::loadText
+Project: deniskropp/t484
+Skill: ocs-node-engine
+Product tree: deniskropp/t484 (canonical)
+Skill generated/: staging only
+Mode: Hybrid
+Surface: architecture snapshot (chat + protocol console v0.4)
+Branch: main
+SHA: 691e709ca76f6178e880509c3a1e3f1b532c2998
+Host: Berlin Node participant (Fujitsu ESPRIMO P420, KDE neon Wayland)
+Loadable: yes
+Gated: false
+Notes: no cmd/halt; no key material; extra display body is human orientation only.
+
+⫻data/obj:
+Make the OCS/Node architecture visible as one living stack —
+protocol core to engine to Qt facade to QML shells to OCS swarm —
+so Denis can choose the next TAS without inventing a second source of truth.
+The transcript is the protocol section list. This file is that list.
+
+⫻data/tas:
+A0 Five-layer stack mapped (protocol, engine, Qt facade, QML shells, OCS swarm)
+A1 Naming freeze recorded (C++ *Model/*Item vs QML *View.qml)
+A2 Protocol families bound to Section + submit/append rules
+A3 Chat-turn + KickGuard halt rules sealed
+A4 v0.4 shipped vs v0.5 Phase E vs v0.6 Nexus plan distinguished
+A5 Export this exploration as a seed .ocs for ProtocolEngine::loadText
+A6 Next cut (open): dive C++ path | dive QML path | v0.6 N0 | Berlin Node ground
+
+⫻data/ptas:
+A5-done This document is the export. Paste into t484 or call loadText.
+A0-done Layers match docs/ARCHITECTURE.md module table.
+A3-done Halt remains first-class; resume = load without cmd/halt.
+A4-done Shipped = v0.4; Nexus = plan only (docs/plans/v0.6/).
+A6-open Operator pick required. No mutation of t484 until consent.
+
+⫻display/header:
+OCS/Node Architecture Explore — t484 v0.4 seed
+
+⫻display/meta:
+Layer table
+  protocol/ocs     document identity + version + kind=architecture-explore
+  context/klmx     KickLang molecule / space / repo binding
+  cmd/*            exec ocs-node-engine, mode Hybrid, lang EN
+  data/obj + tas   living objective and explore steps
+  data/ptas        purified status of those steps
+  flow/chat        host + triad turns that produced this map
+  display/meta     operator architecture notes
+
+Axes (v0.4 scalar coherence; v0.6 named axes planned)
+  protocol  present
+  klmx      present
+  objective present
+  tas       present
+  consent   open (no cmd/halt)
+  dialogue  host + KickForge + KickFlow + KickGuard
+  genai     not invoked this session (no transport, no key)
+
+Modules (docs/ARCHITECTURE.md)
+  protocol   include/ocsnode/* + src/protocol/     C++20 STL
+  engine     src/engine/                           protocol + Qt6 Core
+  components src/components/                       *Model / *Item
+  qml        src/qml/OcsNode/ + main.qml + console.qml
+  tests      tests/                                round-trip, no Qt
+
+Stack (top to bottom)
+  OCS Swarm / Orchestrator
+    KickForge KickFlow KickGuard CoherenceMonitorBridge
+    living-objective-tas-flow ocs-protocol-enforcer
+  Display shells
+    t484            src/qml/main.qml
+    t484-console    src/qml/console.qml
+  Qt facade
+    ProtocolEngineQt SectionListModel TasStatusModel
+    KlmxMoleculeItem EventLogModel GenAiClient
+  Engine
+    ProtocolEngine NodeEngine deriveCoherence
+    submit = replace-same-type
+    append = conversation
+  Protocol core (offline)
+    Section ProtocolParser ProtocolEmitter ChatSession CoherenceState
+
+Protocol surface implemented
+  protocol/ocs
+  context/...
+  cmd/exec cmd/halt cmd/mode cmd/lang
+  data/obj data/tas data/ptas
+  flow/chat:<host|KickForge|KickFlow|KickGuard>
+  query/clarify
+  display/...
+
+Chat-turn rules
+  1 Host input records flow/chat:host unless paste contains protocol/ocs (load).
+  2 Slash commands map onto existing families only.
+  3 While gated, KickGuard replies flow/chat:KickGuard + query/clarify:consent.
+  4 Resume = load a protocol/ocs document without cmd/halt.
+  5 Natural language may call GenAI; /halt and /mode stay local.
+  6 GenAiClient is the only network path. Keys never enter this file.
+
+Version vector
+  v0.2 STL core + first QML bindings
+  v0.3 Interactive OCS chat, flow/chat, GenAI Interactions
+  v0.4 t484-console, EventLog, OCS Slate — SHIPPED
+  v0.5 Phase E UI: KickLangEditor TasBoard ConsentGateDialog — PLANNED
+  v0.6 Nexus one-file export + volumetric axes — PLAN (docs/plans/v0.6/)
+
+Paths
+  docs/ARCHITECTURE.md
+  docs/COMPONENTS.md
+  docs/CONSOLE.md
+  docs/THEME.md
+  docs/PANELS.md
+  docs/plans/v0.6/NEXUS-EXPORT.md
+  src/assets/seed.ocs
+  src/assets/seed-nexus.ocs
+  src/assets/nexus-v0.6.ocs
+
+Not a chat snippet. Not an incidental log.
+This file is the living protocol snapshot of the 2026-09-01 architecture explore.
+
+⫻flow/chat:host
+Explore OCS Node architecture
+
+⫻flow/chat:KickForge
+Forge: extracted TAS A0-A6 from t484 ARCHITECTURE.md, ocs-node-engine skill,
+protocol-schema.md, qml-components.md, and the live tree at SHA 691e709.
+Public API freeze respected. Volumetric Nexus remains a target, not shipped.
+
+⫻flow/chat:KickFlow
+Flow: five-layer stack, naming freeze, submit/append split, and chat-turn
+rules bound into this document. loadText of a protocol/ocs block replaces
+the engine document. emitText writes it back. Same vector drives chat and
+console shells.
+
+⫻flow/chat:KickGuard
+Guard: seed contains no cmd/halt and no key material. Gate stays open.
+Do not treat this file as shipped v0.6. Do not push to deniskropp/t484
+without a further consent gate. Resume contract unchanged: load a document
+without cmd/halt.
+
+⫻flow/chat:KickFlow
+Export complete. Paste this file into t484 (composer or --console) or call
+ProtocolEngine::loadText on its UTF-8 bytes. Next open TAS is A6.
+/mode Hybrid · /halt reason · /exec cmd · /obj living objective · /tas step list

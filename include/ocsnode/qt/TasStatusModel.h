@@ -49,6 +49,8 @@ public slots:
     void applyFromEngine(const QString &status, const QString &mode,
                          qreal coherence, int steps, const QString &tasId, bool gated);
     void submitStatusUpdate(const QVariantMap &payload);
+    Q_INVOKABLE QVariantList parseTasEntries(const QString &tasText, const QString &ptasText = QString()) const;
+    Q_INVOKABLE void refreshTasModel(const QString &tasText, const QString &ptasText = QString());
 
 signals:
     void sectionTypeChanged();

@@ -4,7 +4,7 @@ C++20 canonical protocol core plus optional Qt 6 / QML **interactive chat** and 
 
 The chat transcript **is** the living protocol document (`flow/chat` turns + three-agent replies). There is no parallel message store. Halt is first-class. Natural-language Send uses the Google GenAI **Interactions API** (`POST /v1beta/interactions`, default model `gemini-3.7-flash`) with `GEMINI_API_KEY`.
 
-**Shipped product: v0.4** (CMake `0.4.0`). Next major surface is **v0.6 OCS/Node Nexus** — export/import + axes shipped; Phase E UI and CoherenceMonitorBridge still planned. See [docs/plans/v0.6/](docs/plans/v0.6/) and the human map [docs/INDEX.md](docs/INDEX.md).
+**Shipped product: v0.6 (OCS/Node Nexus)** (CMake `0.6.0`). Lossless one-file Nexus export/import, volumetric axes, Phase E UI (`KickLangEditorView`, `TasBoardView`, `ConsentGateDialog`), and `CoherenceMonitorBridge` shipped. See [docs/plans/v0.6/](docs/plans/v0.6/) and the human map [docs/INDEX.md](docs/INDEX.md).
 
 ## Status
 
@@ -12,11 +12,9 @@ The chat transcript **is** the living protocol document (`flow/chat` turns + thr
 |---|---|
 | v0.2 | STL protocol core, QML views, engine bindings |
 | v0.3 | OCS chat, `flow/chat`, GenAI Interactions API |
-| **v0.4 (shipped)** | `t484-console` three-pane dashboard, `EventLogModel`, OCS Slate theme, shared `OcsNode` QML module |
-| **v0.5 (planned)** | Phase E UI: KickLangEditorView, TasBoardView, ConsentGateDialog |
-| **v0.6 (partial)** | `exportNexus` / `importNexus`, volumetric axes, console Export/Import/Copy; Phase E + bridge still planned |
-
-Do not claim the full Nexus (Phase E + CoherenceMonitorBridge) shipped. `src/assets/seed-nexus.ocs` is a **loadable v0.6.0-pre** fixture; it does **not** replace `seed.ocs`.
+| v0.4 | `t484-console` three-pane dashboard, `EventLogModel`, OCS Slate theme, shared `OcsNode` QML module |
+| v0.5 | Phase E UI: `KickLangEditorView`, `TasBoardView`, `ConsentGateDialog` |
+| **v0.6 (shipped)** | `exportNexus` / `importNexus`, volumetric axes, `CoherenceMonitorBridge`, console & chat integration, round-trip tests |
 
 | Piece | State |
 |---|---|
@@ -28,8 +26,9 @@ Do not claim the full Nexus (Phase E + CoherenceMonitorBridge) shipped. `src/ass
 | Chat views + `t484` (`main.qml`) | shipped |
 | Console views + `t484-console` (`console.qml`) | shipped |
 | `Theme` singleton (OCS Slate Dark / Light) | shipped |
-| KickLangEditorView / TasBoardView / ConsentGateDialog | planned (Phase E / v0.5) |
-| `cmd/exec:nexus-export` + one-file import | implemented; full v0.6 Nexus (Phase E + bridge) still planned |
+| `KickLangEditorView` / `TasBoardView` / `ConsentGateDialog` | shipped (Phase E / v0.6) |
+| `CoherenceMonitorBridge` + volumetric axes | shipped |
+| `cmd/exec:nexus-export` + one-file import | shipped |
 
 ## Project structure
 
@@ -149,8 +148,8 @@ Non-goals: no new section families; no keys in the export; no parallel chat stor
 | N1 | `protocol/ocs` stamp `[version=0.6.0] [repo=deniskropp/t484] [ref=main]` | written into fixture |
 | N2 | `cmd/exec:nexus-export` → `exportNexus()` + header; no key material | implemented |
 | N3 | Volumetric axes on `CoherenceState` (scalar kept) | axes fields filled; Qt genai overlay on export |
-| N4 | KickLangEditorView + TasBoardView + ConsentGateDialog (Phase E / v0.5) | named; identifiers reserved |
-| N5 | CoherenceMonitorBridge adapter behind `deriveCoherence` | noted; heuristic stays |
+| N4 | KickLangEditorView + TasBoardView + ConsentGateDialog (Phase E) | implemented |
+| N5 | CoherenceMonitorBridge adapter behind `deriveCoherence` | implemented |
 | N6 | Round-trip tests + console Export Nexus action | implemented |
 | N7 | Berlin Node / EmbodiedPipe grounding | optional, not critical path |
 

@@ -19,6 +19,9 @@ labels. They are not screenshots of a running binary.
 | `OcsSettingsPanelView` | console | [settings-panel.svg](images/settings-panel.svg) |
 | `OcsEventLogView` | console | [event-log.svg](images/event-log.svg) |
 | `OcsMetricsPanelView` | console | [metrics-panel.svg](images/metrics-panel.svg) |
+| `KickLangEditorView` | editor | live document editor + section navigator |
+| `TasBoardView` | TAS board | Kanban task tracking by state |
+| `ConsentGateDialog` | modal | halt gate inspection + un-gate action |
 
 `OcsChatTranscriptView` is the ListView that hosts `OcsChatBubbleView`; it has
 no chrome of its own beyond `Theme.bg`.
@@ -91,11 +94,23 @@ Level color from `Theme.levelColor`.
 
 Meters: coherence, busy, errors, sections. No extra chart dependency.
 
+## KickLangEditorView
+
+Interactive KickLang protocol document editor. Displays the full document in a syntax-highlighted well with a section navigator sidebar, "Apply / Ingest", "Re-emit", "Format Nexus", and "Export / Copy" snapshot actions.
+
+## TasBoardView
+
+Kanban-style task board organizing steps from `data/tas` and `data/ptas` across four status columns: `ACTIVE`, `OPEN / PLANNED`, `COMPLETED`, and `BLOCKED / POLICY`, with live coherence and active step progress.
+
+## ConsentGateDialog
+
+Modal consent dialog rendered when `protocol.gated == true` (triggered by `cmd/halt`). Displays halt reason, explains KickGuard safety constraints, and provides one-click un-gate/resume via `protocol.resumeFromHalt()`.
+
 ---
 
 ## Shell composition
 
-`main.qml` (chat): status bar → TAS strip → transcript + composer | KLMX + raw source.
+`main.qml` (chat): status bar → TAS strip → transcript + composer | KLMX + raw source; `ConsentGateDialog` overlay.
 
 `console.qml` (dashboard): status bar → view/mode strip → transcript + composer
-+ TAS/KLMX | settings + event log | metrics.
++ TAS/KLMX | settings + event log | metrics (modes: `chat`, `inspect`, `dev`, `editor`, `board`); `ConsentGateDialog` overlay.

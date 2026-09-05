@@ -1,9 +1,6 @@
-# t484 v0.6 — OCS/Node Nexus (plan)
+# t484 v0.6 — OCS/Node Nexus
 
-Status: **plan only**. Shipped product remains **v0.4** (chat + protocol console + OCS Slate).
-This folder is the living plan for the next major surface: **OCS/Node Nexus**.
-
-Source conversation: [OCS/Node Nexus Export](https://grok.com/share/c2hhcmQtMi1jb3B5_b5705408-6076-4c2c-b701-4a8ffd17ce60)
+Status: **shipped (v0.6.0)**. Lossless one-file Nexus export/import, volumetric axes, Phase E UI (`KickLangEditorView`, `TasBoardView`, `ConsentGateDialog`), and `CoherenceMonitorBridge`.
 Canonical repo: `deniskropp/t484` @ `main`.
 Skill: `ocs-node-engine`.
 

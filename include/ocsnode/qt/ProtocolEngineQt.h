@@ -58,6 +58,7 @@ public:
     Q_INVOKABLE bool saveNexusToFile(const QString &path);
     Q_INVOKABLE bool loadNexusFromFile(const QString &path);
     Q_INVOKABLE void requestHalt(const QString &reason);
+    Q_INVOKABLE bool resumeFromHalt();
     Q_INVOKABLE void submitMap(const QVariantMap &payload);
     Q_INVOKABLE QString sectionBody(const QString &type) const;
     Q_INVOKABLE bool sendChat(const QString &text);

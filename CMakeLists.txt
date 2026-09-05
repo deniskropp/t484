@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(t484 VERSION 0.4.0 LANGUAGES CXX)
+project(t484 VERSION 0.6.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -85,6 +85,9 @@ if(Qt6_FOUND)
         src/qml/OcsNode/OcsSettingsPanelView.qml
         src/qml/OcsNode/OcsEventLogView.qml
         src/qml/OcsNode/OcsMetricsPanelView.qml
+        src/qml/OcsNode/KickLangEditorView.qml
+        src/qml/OcsNode/TasBoardView.qml
+        src/qml/OcsNode/ConsentGateDialog.qml
     )
 
     # Keep sources under src/{qml,assets}/ but flatten them to the module root.
@@ -116,6 +119,12 @@ if(Qt6_FOUND)
         PROPERTIES QT_RESOURCE_ALIAS "OcsEventLogView.qml")
     set_source_files_properties(src/qml/OcsNode/OcsMetricsPanelView.qml
         PROPERTIES QT_RESOURCE_ALIAS "OcsMetricsPanelView.qml")
+    set_source_files_properties(src/qml/OcsNode/KickLangEditorView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "KickLangEditorView.qml")
+    set_source_files_properties(src/qml/OcsNode/TasBoardView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "TasBoardView.qml")
+    set_source_files_properties(src/qml/OcsNode/ConsentGateDialog.qml
+        PROPERTIES QT_RESOURCE_ALIAS "ConsentGateDialog.qml")
     set_source_files_properties(src/assets/seed.ocs
         PROPERTIES QT_RESOURCE_ALIAS "seed.ocs")
 

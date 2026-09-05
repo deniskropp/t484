@@ -299,6 +299,37 @@ int main(int argc, char **argv)
     check(secretEngine.state().axes.objective == 1.0, "axis objective");
     check(secretEngine.state().axes.tas > 0.0, "axis tas");
 
+    // resumeFromHalt tests
+    ProtocolEngine ungateEngine;
+    ungateEngine.loadText(kMini);
+    ungateEngine.requestHalt("gated-for-test");
+    check(ungateEngine.state().gated, "ungateEngine initially gated");
+    check(ungateEngine.findByType("cmd/halt") != nullptr, "halt section present");
+    bool ungateOk = ungateEngine.resumeFromHalt();
+    check(ungateOk, "resumeFromHalt returns true");
+    check(!ungateEngine.state().gated, "engine no longer gated after resumeFromHalt");
+    check(ungateEngine.findByType("cmd/halt") == nullptr, "halt section removed after resumeFromHalt");
+    check(ungateEngine.state().status == "running", "engine status restored to running");
+    check(ungateEngine.state().axes.consent == 1.0, "consent axis restored to 1.0");
+
+    // CoherenceMonitorBridge tests
+    class CustomTestBridge : public ICoherenceMonitorBridge {
+    public:
+        CoherenceState evaluate(const std::vector<Section> &) const override {
+            CoherenceState s;
+            s.coherence = 0.99;
+            s.status = "custom-bridge";
+            s.axes.protocol = 1.0;
+            return s;
+        }
+    };
+    CustomTestBridge customBridge;
+    CoherenceMonitorBridge::setBridge(&customBridge);
+    check(deriveCoherence({}).coherence == 0.99, "custom bridge evaluates coherence");
+    check(deriveCoherence({}).status == "custom-bridge", "custom bridge evaluates status");
+    CoherenceMonitorBridge::resetToDefault();
+    check(deriveCoherence({}).coherence == 0.45, "resetToDefault restores default heuristic");
+
     const std::string fixtureDir = OCSNODE_FIXTURE_DIR;
     testFixtureRoundTrip(parser, emitter, fixtureDir + "/seed.ocs", "seed.ocs");
     testFixtureRoundTrip(parser, emitter, fixtureDir + "/nexus-v0.6.ocs", "nexus-v0.6.ocs");

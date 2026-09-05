@@ -96,7 +96,7 @@ ApplicationWindow {
                 }
                 ComboBox {
                     id: viewSelector
-                    model: ["chat", "inspect", "dev"]
+                    model: ["chat", "inspect", "dev", "editor", "board"]
                     currentIndex: 0
                     implicitWidth: 120
                     onActivated: appWindow.viewMode = model[index]
@@ -133,7 +133,26 @@ ApplicationWindow {
             }
         }
 
+        KickLangEditorView {
+            visible: appWindow.viewMode === "editor"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            protocol: appWindow.protocol
+            onExportNexusRequested: exportDialog.open()
+            onImportNexusRequested: importDialog.open()
+            onCopySnapshotRequested: appWindow.copyNexusSnapshot()
+        }
+
+        TasBoardView {
+            visible: appWindow.viewMode === "board"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            model: tasModel
+            protocol: appWindow.protocol
+        }
+
         SplitView {
+            visible: appWindow.viewMode !== "editor" && appWindow.viewMode !== "board"
             Layout.fillWidth: true
             Layout.fillHeight: true
             orientation: Qt.Horizontal
@@ -374,5 +393,11 @@ ApplicationWindow {
         fileMode: FileDialog.OpenFile
         nameFilters: ["OCS protocol (*.ocs)", "All files (*)"]
         onAccepted: appWindow.importNexusFrom(selectedFile)
+    }
+
+    ConsentGateDialog {
+        id: consentGate
+        protocol: appWindow.protocol
+        onExportNexusRequested: exportDialog.open()
     }
 }

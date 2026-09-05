@@ -287,6 +287,19 @@ void ProtocolEngine::requestHalt(const std::string &reason)
         m_halt(reason);
 }
 
+bool ProtocolEngine::resumeFromHalt()
+{
+    const auto it = std::remove_if(m_sections.begin(), m_sections.end(), [](const Section &s) {
+        return s.type() == "cmd/halt";
+    });
+    if (it != m_sections.end()) {
+        m_sections.erase(it, m_sections.end());
+        refreshState();
+        return true;
+    }
+    return false;
+}
+
 void ProtocolEngine::refreshState()
 {
     m_state = deriveCoherence(m_sections);

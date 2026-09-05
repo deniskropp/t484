@@ -10,3 +10,6 @@ OcsComposerView 1.0 OcsComposerView.qml
 OcsSettingsPanelView 1.0 OcsSettingsPanelView.qml
 OcsEventLogView 1.0 OcsEventLogView.qml
 OcsMetricsPanelView 1.0 OcsMetricsPanelView.qml
+KickLangEditorView 1.0 KickLangEditorView.qml
+TasBoardView 1.0 TasBoardView.qml
+ConsentGateDialog 1.0 ConsentGateDialog.qml
