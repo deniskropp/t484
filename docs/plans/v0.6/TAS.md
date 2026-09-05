@@ -13,9 +13,9 @@ Purified from the living objective: *push relevant v0.6 plans to GitHub and defi
 | N4 | Phase E views | KickLangEditorView, TasBoardView, ConsentGateDialog named; identifiers not colliding | — |
 | N5 | Bridge hook | `deriveCoherence` remains; replacement noted as CoherenceMonitorBridge | N3 |
 | N6 | Tests + console action | listed; implementation is post-plan | N0 N2 |
-| N7 | Berlin / EmbodiedPipe | optional, not critical path | — |
+| N7 | Berlin / EmbodiedPipe | freeze mapping + halt-free fixture + round-trip; no new families | N0 |
 
-## Current cycle (v0.6.0 shipped)
+## Current cycle (v0.6.0 shipped + N7 grounding)
 
 - [x] N0 grammar + fixture landed as plan artifacts
 - [x] N1 stamp written into fixture header
@@ -24,8 +24,10 @@ Purified from the living objective: *push relevant v0.6 plans to GitHub and defi
 - [x] N4 Phase E views: KickLangEditorView, TasBoardView, ConsentGateDialog
 - [x] N5 CoherenceMonitorBridge adapter behind deriveCoherence
 - [x] N6 Round-trip tests + console / editor / board actions
-- [ ] N7 optional grounding (Berlin Node / EmbodiedPipe)
+- [x] N7 Berlin Node / EmbodiedPipe mapped onto frozen families (`docs/plans/v0.6/N7-BERLIN.md`, `src/assets/nexus-v0.6-berlin.ocs`)
 
 ## Halt / consent
 
 Halt remains first-class. ConsentGateDialog enables inspection and clean un-gating (`resumeFromHalt()`) by loading the living document without `cmd/halt`. No invented `cmd/resume`.
+
+N7 Berlin snapshots stay halt-free. Red-band hardware or unclear consent still uses `cmd/halt`, not a new family.
