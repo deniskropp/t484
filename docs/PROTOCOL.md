@@ -93,6 +93,7 @@ preserves section count, `family/path`, qualifier, and body
 - Startup: `src/assets/seed.ocs`
 - Loadable v0.6.0-pre: `src/assets/seed-nexus.ocs` (does not replace seed)
 - Plan fixture: `src/assets/nexus-v0.6.ocs`
+- N7 Berlin / EmbodiedPipe fixture: `src/assets/nexus-v0.6-berlin.ocs` (halt-free; `[node=Berlin]`)
 
 `exportNexus()` stamps `protocol/ocs` with `[version=0.6.0]` and writes axes into `display/meta`. Qualifier attributes are opaque text to the v0.4 parser.
 

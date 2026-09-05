@@ -104,6 +104,7 @@ Console Export / Import / Copy bind to `exportNexus` / `importNexus` / clipboard
 | `src/assets/seed.ocs` | startup document (qrc + disk fallback) |
 | `src/assets/seed-nexus.ocs` | loadable v0.6.0-pre (does not replace seed) |
 | `src/assets/nexus-v0.6.ocs` | Nexus fixture |
+| `src/assets/nexus-v0.6-berlin.ocs` | N7 Berlin Node / EmbodiedPipe (halt-free) |
 | `tests/fixtures/halt.ocs` | halt gate test |
 
 Seed load order in the GUI: qrc `:/qt/qml/OcsNode/seed.ocs`, then relative `src/assets/seed.ocs`.

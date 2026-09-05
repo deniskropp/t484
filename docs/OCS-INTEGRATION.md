@@ -77,7 +77,20 @@ Hardware anchor: Fujitsu ESPRIMO P420, KDE neon Wayland, 12 GiB, i3-4130, HD 440
 
 t484 can *run on* that machine. The Berlin skill registers the machine as an
 OCS participant with its own consent matrix (green / yellow / red halt on load).
-v0.6 TAS N7 parks EmbodiedPipe grounding **off the critical path**.
+
+N7 grounding (optional path, now specified): map identity and EmbodiedPipe onto
+**frozen families only**. See `docs/plans/v0.6/N7-BERLIN.md` and fixture
+`src/assets/nexus-v0.6-berlin.ocs`.
+
+| Concern | Family |
+|---|---|
+| identity | `protocol/ocs` `[node=Berlin]` |
+| activation | `cmd/exec:ocs-node-engine` |
+| pipe + fingerprint | `context/klmx` + `display/meta` |
+| consent question | `query/clarify:consent` |
+| overload | `cmd/halt` (resume = halt-free load) |
+
+Do not add `flow/berlin`, `data/hardware`, or `cmd/resume`.
 
 Operator rule on modest hardware: build protocol-core tests first; treat the
 Qt shells as the display, not as a local LLM host.
