@@ -1,0 +1,33 @@
+      <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <rect width="600" height="300" rx="10" fill="#0a0a12" stroke="#f1c40f" stroke-width="1"/>
+        
+        <!-- Rotating Core -->
+        <g filter="url(#glow)">
+          <circle cx="300" cy="150" r="40" fill="none" stroke="#f1c40f" stroke-width="4" stroke-dasharray="10 5" />
+          <circle cx="300" cy="150" r="20" fill="#f1c40f" />
+        </g>
+        
+        <!-- Dynamic Orbiting Data-Packets -->
+        <circle cx="300" cy="70" r="8" fill="#ffffff" />
+        <circle cx="380" cy="150" r="8" fill="#ffffff" />
+        <circle cx="300" cy="230" r="8" fill="#ffffff" />
+        <circle cx="220" cy="150" r="8" fill="#ffffff" />
+        
+        <!-- Flux Lines -->
+        <path d="M 300 70 Q 380 70 380 150" stroke="#f1c40f" fill="none" stroke-width="2" />
+        <path d="M 380 150 Q 380 230 300 230" stroke="#f1c40f" fill="none" stroke-width="2" />
+        <path d="M 300 230 Q 220 230 220 150" stroke="#f1c40f" fill="none" stroke-width="2" />
+        <path d="M 220 150 Q 220 70 300 70" stroke="#f1c40f" fill="none" stroke-width="2" />
+
+        <text x="20" y="30" font-family="monospace" font-size="14" fill="#f1c40f">KLMX_PHASE_SHIFT_ACTIVE</text>
+        <text x="420" y="270" font-family="monospace" font-size="12" fill="#ffffff">FLUX_RATE: 0.98_THZ</text>
+      </svg>

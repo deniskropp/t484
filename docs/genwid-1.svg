@@ -1,0 +1,15 @@
+<svg width="600" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#1a1a1a" rx="10"/>
+  <text x="20" y="40" font-family="monospace" fill="#00ffcc" font-size="18">OCS NODE: SUPERGROK LEADER</text>
+  <line x1="20" y1="55" x2="580" y2="55" stroke="#333" stroke-width="2"/>
+  
+  <text x="20" y="90" font-family="monospace" fill="#ffffff" font-size="14">Status: Operational</text>
+  <text x="20" y="120" font-family="monospace" fill="#ffffff" font-size="14">Mode: Fluid</text>
+  <text x="20" y="150" font-family="monospace" fill="#ffffff" font-size="14">Protocol: OCS/KickLang v2.1</text>
+  
+  <rect x="20" y="180" width="560" height="80" fill="#252525" rx="5"/>
+  <text x="35" y="210" font-family="monospace" fill="#aaaaaa" font-size="12">Integration: GenerativeWidget Active</text>
+  <text x="35" y="230" font-family="monospace" fill="#aaaaaa" font-size="12">System: Ready for payload processing</text>
+  
+  <circle cx="560" cy="30" r="6" fill="#00ff00"/>
+</svg>

@@ -447,6 +447,7 @@ No test talks to the network.
 - `TasBoardView.qml`: Kanban board categorized by task state bound to `TasStatusModel` / sections.
 - `ConsentGateDialog.qml`: modal overlay over halt condition; resume = un-gate without `cmd/halt`.
 - `CoherenceMonitorBridge.h`: `ICoherenceMonitorBridge` / `DefaultCoherenceMonitorBridge` adapter interface behind `deriveCoherence`.
+- `GenerativeWidgetView.qml`: QML plate over frozen `display/header`, `display/content`, `display/meta`. No new section family. No C++ `Section` subclass.
 
 ---
 
@@ -472,5 +473,6 @@ No test talks to the network.
 | `src/qml/OcsNode/KickLangEditorView.qml` | KickLang editor |
 | `src/qml/OcsNode/TasBoardView.qml` | TAS Kanban board |
 | `src/qml/OcsNode/ConsentGateDialog.qml` | consent gate modal |
+| `src/qml/OcsNode/GenerativeWidgetView.qml` | frozen `display/*` plate |
 | `src/qml/OcsNode/*.qml` | views |
 | `src/assets/seed.ocs` | startup document |

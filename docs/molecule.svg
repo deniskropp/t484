@@ -1,0 +1,28 @@
+      <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+            <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#2c3e50;stop-opacity:0" />
+          </radialGradient>
+        </defs>
+        <rect width="600" height="300" rx="10" fill="#050505" stroke="#e74c3c" stroke-width="1"/>
+        
+        <!-- Molecule Core -->
+        <circle cx="300" cy="150" r="60" fill="url(#grad1)" />
+        <circle cx="300" cy="150" r="30" fill="#ffffff" />
+        
+        <!-- Orbiting Nodes -->
+        <circle cx="300" cy="60" r="15" fill="#e74c3c" />
+        <circle cx="390" cy="150" r="15" fill="#e74c3c" />
+        <circle cx="300" cy="240" r="15" fill="#e74c3c" />
+        <circle cx="210" cy="150" r="15" fill="#e74c3c" />
+        
+        <!-- Connection Lines -->
+        <line x1="300" y1="75" x2="300" y2="120" stroke="#e74c3c" stroke-width="2" />
+        <line x1="315" y1="150" x2="360" y2="150" stroke="#e74c3c" stroke-width="2" />
+        <line x1="300" y1="180" x2="300" y2="225" stroke="#e74c3c" stroke-width="2" />
+        <line x1="225" y1="150" x2="270" y2="150" stroke="#e74c3c" stroke-width="2" />
+
+        <text x="20" y="30" font-family="monospace" font-size="14" fill="#e74c3c">KLMX_MOLECULE_STRUCTURE</text>
+        <text x="400" y="270" font-family="monospace" font-size="12" fill="#ffffff">STATE: STABLE_RECURSIVE</text>
+      </svg>

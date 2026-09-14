@@ -1,0 +1,30 @@
+      <svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+        <style>
+          .text { font-family: sans-serif; font-size: 12px; fill: #e0e0e0; }
+          .node { fill: #1a1a2e; stroke: #00f2ff; stroke-width: 2; }
+          .line { stroke: #333; stroke-width: 1; }
+        </style>
+        <!-- Connections -->
+        <line x1="300" y1="50" x2="150" y2="150" class="line" />
+        <line x1="300" y1="50" x2="450" y2="150" class="line" />
+        <line x1="150" y1="150" x2="150" y2="250" class="line" />
+        <line x1="450" y1="150" x2="450" y2="250" class="line" />
+        <line x1="150" y1="250" x2="300" y2="350" class="line" />
+        <line x1="450" y1="250" x2="300" y2="350" class="line" />
+        
+        <!-- Nodes -->
+        <circle cx="300" cy="50" r="15" class="node" />
+        <circle cx="150" cy="150" r="15" class="node" />
+        <circle cx="450" cy="150" r="15" class="node" />
+        <circle cx="150" cy="250" r="15" class="node" />
+        <circle cx="450" cy="250" r="15" class="node" />
+        <circle cx="300" cy="350" r="20" fill="#00f2ff" />
+        
+        <!-- Labels -->
+        <text x="260" y="30" class="text">Root (Node-01)</text>
+        <text x="60" y="155" class="text">6D-Manifold</text>
+        <text x="480" y="155" class="text">DimaFizz</text>
+        <text x="60" y="255" class="text">TFE Engine</text>
+        <text x="480" y="255" class="text">GWE Engine</text>
+        <text x="270" y="385" class="text" style="font-weight:bold">SYNTHESIS</text>
+      </svg>

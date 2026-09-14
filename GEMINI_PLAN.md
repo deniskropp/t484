@@ -3,7 +3,7 @@
 **Living Document / Master Execution Plan**  
 Canonical Repository: `deniskropp/t484` @ `main`  
 Canonical Product Skill: `ocs-node-engine`  
-Status: **Plan & Sequence Specification** (Shipped Baseline: **v0.4**, CMake `0.4.0`)
+Status: **v0.6.0 shipped** (CMake `0.6.0`). Plan retained as the execution record. N0–N7 complete; protocol tests round-trip `nexus-v0.6.ocs`.
 
 ---
 
@@ -28,7 +28,7 @@ The `.ocs` export is **not** a chat snippet, **not** an incidental log, and **no
 3. **No Parallel Store:** The `std::vector<Section>` inside [`ProtocolEngine`](file:///home/dok/Projects/t484/include/ocsnode/ProtocolEngine.h) remains the single source of truth for chat transcript, architecture, objective, TAS, and control state.
 4. **Consent & Halt Invariance:** `cmd/halt` is first-class. Export while gated is permitted (read-only snapshot). Import of a document containing `cmd/halt` stays gated. Resume is strictly achieved by loading a protocol document *without* `cmd/halt` (no invented `cmd/resume`).
 5. **Naming Freeze:** C++ types use `*Model` / `*Item` (`include/ocsnode/qt/`); QML views use `*View.qml` (`src/qml/OcsNode/`). C++ and QML identifiers must never collide.
-6. **No Phantom Claims:** Do not claim v0.6 shipped until `nexus-v0.6.ocs` round-trips losslessly in `ocsnode_protocol_tests` and export/import is wired end-to-end.
+6. **No Phantom Claims:** v0.6.0 is shipped: `nexus-v0.6.ocs` round-trips in `ocsnode_protocol_tests`; `exportNexus` / `importNexus` are wired. Do not claim a later version shipped until its fixture and tests exist. Do not invent section families beyond [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ---
 

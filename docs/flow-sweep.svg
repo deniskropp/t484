@@ -1,0 +1,16 @@
+      <svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#9b59b6;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="600" height="600" fill="#0f0f12" />
+        <!-- Grid Sweep Lines -->
+        <path d="M 50 50 L 550 50 M 50 150 L 550 150 M 50 250 L 550 250 M 50 350 L 550 350 M 50 450 L 550 450 M 50 550 L 550 550" stroke="#333" stroke-width="1" />
+        <path d="M 50 50 L 50 550 M 150 50 L 150 550 M 250 50 L 250 550 M 350 50 L 350 550 M 450 50 L 450 550 M 550 50 L 550 550" stroke="#333" stroke-width="1" />
+        <!-- Manifold Anomaly Projection -->
+        <circle cx="300" cy="300" r="80" fill="none" stroke="url(#grad1)" stroke-width="4" stroke-dasharray="10 5" />
+        <ellipse cx="300" cy="300" rx="120" ry="40" fill="none" stroke="#e74c3c" stroke-width="2" />
+        <text x="300" y="450" fill="#ffffff" font-family="monospace" font-size="12" text-anchor="middle">6D MANIFOLD: 2D PROJECTION [ACTIVE]</text>
+      </svg>

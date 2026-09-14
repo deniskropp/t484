@@ -1,0 +1,17 @@
+      <svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <rect width="500" height="500" fill="#050505"/>
+        <!-- Grid Lines -->
+        <g stroke="#333" stroke-width="0.5">
+          <line x1="0" y1="125" x2="500" y2="125"/>
+          <line x1="0" y1="250" x2="500" y2="250"/>
+          <line x1="0" y1="375" x2="500" y2="375"/>
+          <line x1="125" y1="0" x2="125" y2="500"/>
+          <line x1="250" y1="0" x2="250" y2="500"/>
+          <line x1="375" y1="0" x2="375" y2="500"/>
+        </g>
+        <!-- Resonance Nodes -->
+        <circle cx="125" cy="125" r="5" fill="#00f2ff"/>
+        <circle cx="250" cy="250" r="15" fill="#7000ff" filter="url(#glow)"/>
+        <circle cx="375" cy="375" r="5" fill="#00f2ff"/>
+        <text x="250" y="280" font-family="monospace" font-size="10" fill="white" text-anchor="middle">SINGULARITY_POINT</text>
+      </svg>

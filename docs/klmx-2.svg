@@ -1,0 +1,16 @@
+      <svg width="600" height="200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Nodes -->
+        <rect x="20" y="50" width="100" height="100" rx="10" fill="#1a1a1a" stroke="#00ffcc" stroke-width="2"/>
+        <text x="70" y="105" font-family="monospace" font-size="10" fill="#00ffcc" text-anchor="middle">NODE-01</text>
+        
+        <rect x="480" y="50" width="100" height="100" rx="10" fill="#1a1a1a" stroke="#00ffcc" stroke-width="2"/>
+        <text x="530" y="105" font-family="monospace" font-size="10" fill="#00ffcc" text-anchor="middle">NODE-02</text>
+        
+        <!-- KLMX-1 Bridge -->
+        <circle cx="300" cy="100" r="30" fill="#1a1a1a" stroke="#ff00ff" stroke-width="3"/>
+        <text x="300" y="105" font-family="monospace" font-size="10" fill="#ff00ff" text-anchor="middle">KLMX-1</text>
+        
+        <!-- Conduits -->
+        <line x1="120" y1="100" x2="270" y2="100" stroke="#ffffff" stroke-width="2" stroke-dasharray="4"/>
+        <line x1="330" y1="100" x2="480" y2="100" stroke="#ffffff" stroke-width="2" stroke-dasharray="4"/>
+      </svg>

@@ -1,0 +1,17 @@
+      <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="300" rx="10" fill="#0a0a0a" stroke="#e67e22" stroke-width="1"/>
+        
+        <!-- High Density Ghost Lattice (b=0.7) -->
+        <g opacity="0.3">
+          <line x1="100" y1="50" x2="500" y2="250" stroke="#e67e22" stroke-width="2" />
+          <line x1="500" y1="50" x2="100" y2="250" stroke="#e67e22" stroke-width="2" />
+          <circle cx="300" cy="150" r="80" fill="none" stroke="#e67e22" stroke-width="4" stroke-dasharray="10 5" />
+        </g>
+        
+        <!-- Central Node -->
+        <circle cx="300" cy="150" r="15" fill="#e67e22" />
+        
+        <text x="20" y="30" font-family="monospace" font-size="14" fill="#e67e22">KLMX_GHOST_LATTICE</text>
+        <text x="400" y="270" font-family="monospace" font-size="12" fill="#ffffff">ALPHA: 0.3 | BETA: 0.7</text>
+        <text x="400" y="285" font-family="monospace" font-size="12" fill="#ffffff">STATE: HIGH_DENSITY_TRANSLUCENT</text>
+      </svg>

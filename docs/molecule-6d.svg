@@ -1,0 +1,21 @@
+      <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Manifold Background -->
+        <circle cx="200" cy="200" r="180" fill="#0a0a0a" stroke="#333" stroke-width="2"/>
+        
+        <!-- Nodes -->
+        <circle cx="200" cy="50" r="10" fill="#00ffcc" /> <!-- Node-01 -->
+        <circle cx="350" cy="200" r="10" fill="#00ccff" /> <!-- Node-02 -->
+        <circle cx="120" cy="320" r="10" fill="#ff00cc" /> <!-- Node-0042 -->
+        
+        <!-- Bonds -->
+        <line x1="200" y1="50" x2="350" y2="200" stroke="#555" stroke-width="1" />
+        <line x1="200" y1="50" x2="120" y2="320" stroke="#555" stroke-width="1" />
+        
+        <!-- Anomaly (Sector B-4) -->
+        <circle cx="120" cy="320" r="20" fill="none" stroke="#ff0000" stroke-dasharray="4" />
+        
+        <!-- Labels -->
+        <text x="215" y="55" fill="white" font-size="12">Node-01 (Root)</text>
+        <text x="280" y="220" fill="white" font-size="12">Node-02 (Forge)</text>
+        <text x="50" y="350" fill="red" font-size="12">Sector B-4 (Patching)</text>
+      </svg>

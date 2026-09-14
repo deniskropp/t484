@@ -12,9 +12,9 @@ The chat transcript **is** the living protocol document. Host turns are `flow/ch
 
 Visual system: [docs/THEME.md](docs/THEME.md). Every QML surface as a plate: [docs/PANELS.md](docs/PANELS.md).
 
-Nexus export/import + volumetric axes are implemented (`exportNexus` / `importNexus`, `/exec nexus-export`, console Export/Import/Copy). Phase E UI and CoherenceMonitorBridge remain planned: [docs/plans/v0.6/](docs/plans/v0.6/). Fixture: [`src/assets/nexus-v0.6.ocs`](src/assets/nexus-v0.6.ocs).
+Nexus export/import + volumetric axes are implemented (`exportNexus` / `importNexus`, `/exec nexus-export`, console Export/Import/Copy). Phase E UI and `CoherenceMonitorBridge` shipped with v0.6: [docs/plans/v0.6/](docs/plans/v0.6/). Fixture: [`src/assets/nexus-v0.6.ocs`](src/assets/nexus-v0.6.ocs).
 
-## Status (v0.4 — chat + protocol console)
+## Status (v0.6 — Nexus + Phase E)
 
 | Piece | State |
 |---|---|
@@ -31,8 +31,9 @@ Nexus export/import + volumetric axes are implemented (`exportNexus` / `importNe
 | `t484` chat shell (`src/qml/main.qml`) | shipped |
 | `t484-console` dashboard (`src/qml/console.qml`) | shipped |
 | `exportNexus` / `importNexus` + axes | shipped |
-| KickLangEditor / TasBoard / ConsentGateDialog | planned (Phase E / v0.5) |
-| CoherenceMonitorBridge | planned ([v0.6](docs/plans/v0.6/)) |
+| `KickLangEditorView` / `TasBoardView` / `ConsentGateDialog` | shipped (Phase E / v0.6) |
+| `CoherenceMonitorBridge` | shipped ([v0.6](docs/plans/v0.6/)) |
+| `GenerativeWidgetView` | plate over frozen `display/*` (no new family) |
 
 ## Layout
 
@@ -61,7 +62,7 @@ docs/COMPONENTS.md        C++ / QML / protocol interface catalog
 docs/CONSOLE.md           console layout and binding notes
 docs/THEME.md             OCS Slate tokens
 docs/PANELS.md            every surface rendered
-docs/plans/v0.6/          Nexus plan (remaining Phase E / bridge)
+docs/plans/v0.6/          Nexus plan (v0.6.0 shipped, N0–N7)
 docs/images/              SVG plates
 ```
 

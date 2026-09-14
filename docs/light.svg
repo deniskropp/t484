@@ -1,0 +1,24 @@
+      <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="60%" stop-color="#3498db" stop-opacity="0.4" />
+            <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <rect width="600" height="300" rx="10" fill="#020202" />
+        
+        <!-- Structural Lattice -->
+        <g stroke="#3498db" stroke-width="1" opacity="0.6">
+          <line x1="300" y1="50" x2="300" y2="250" />
+          <line x1="100" y1="150" x2="500" y2="150" />
+          <circle cx="300" cy="150" r="100" fill="none" stroke-dasharray="5 5" />
+        </g>
+        
+        <!-- Photonic Core -->
+        <circle cx="300" cy="150" r="60" fill="url(#coreGlow)" />
+        <circle cx="300" cy="150" r="8" fill="#ffffff" />
+        
+        <text x="20" y="30" font-family="monospace" font-size="14" fill="#ffffff">L_KLMX_LUMINOUS_LATTICE</text>
+        <text x="400" y="285" font-family="monospace" font-size="12" fill="#3498db">STATE: COHERENT_ENERGY_STRUCTURE</text>
+      </svg>

@@ -22,6 +22,7 @@ labels. They are not screenshots of a running binary.
 | `KickLangEditorView` | editor | live document editor + section navigator |
 | `TasBoardView` | TAS board | Kanban task tracking by state |
 | `ConsentGateDialog` | modal | halt gate inspection + un-gate action |
+| `GenerativeWidgetView` | display plate | frozen `display/header` + `display/content` + `display/meta` |
 
 `OcsChatTranscriptView` is the ListView that hosts `OcsChatBubbleView`; it has
 no chrome of its own beyond `Theme.bg`.
@@ -105,6 +106,10 @@ Kanban-style task board organizing steps from `data/tas` and `data/ptas` across 
 ## ConsentGateDialog
 
 Modal consent dialog rendered when `protocol.gated == true` (triggered by `cmd/halt`). Displays halt reason, explains KickGuard safety constraints, and provides one-click un-gate/resume via `protocol.resumeFromHalt()`.
+
+## GenerativeWidgetView
+
+Read-only plate bound to frozen `display/header`, `display/content`, and `display/meta` via `protocol.sectionBody`. Does not invent `display/generative_widget` or any other family.
 
 ---
 

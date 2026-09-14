@@ -1,0 +1,22 @@
+      <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="300" rx="10" fill="#050505" stroke="#2ecc71" stroke-width="1"/>
+        
+        <!-- Gamma Oscillation Field (c=0.9) -->
+        <g opacity="0.3">
+          <circle cx="300" cy="150" r="120" fill="none" stroke="#2ecc71" stroke-width="0.9" stroke-dasharray="4 4" />
+          <circle cx="300" cy="150" r="90" fill="none" stroke="#2ecc71" stroke-width="0.9" stroke-dasharray="2 2" />
+        </g>
+        
+        <!-- Delta Spatial Expansion (d=2.0) -->
+        <g transform="scale(2.0) translate(-150, -75)">
+          <rect x="280" y="130" width="40" height="40" rx="5" fill="none" stroke="#2ecc71" stroke-width="2" />
+          <line x1="300" y1="150" x2="300" y2="100" stroke="#2ecc71" stroke-width="2" />
+        </g>
+        
+        <!-- Central Core -->
+        <circle cx="300" cy="150" r="10" fill="#2ecc71" />
+        
+        <text x="20" y="30" font-family="monospace" font-size="14" fill="#2ecc71">KLMX_EXPANDED_OSCILLATION</text>
+        <text x="400" y="250" font-family="monospace" font-size="12" fill="#ffffff">A:0.3 | B:0.7 | C:0.9 | D:2.0</text>
+        <text x="400" y="265" font-family="monospace" font-size="12" fill="#ffffff">STATE: MULTI_VARIABLE_SYNC</text>
+      </svg>

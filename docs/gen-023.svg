@@ -1,0 +1,18 @@
+      <svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="200" rx="8" fill="#121212" stroke="#333" stroke-width="2"/>
+        <text x="20" y="25" font-family="Courier New" font-size="12" fill="#888">OCS_GEN_WIDGET: gen-023</text>
+        
+        <!-- Data Flow Pulse -->
+        <path d="M 50 100 Q 100 50 150 100 T 250 100 T 350 100" 
+              fill="none" stroke="#ff0077" stroke-width="2">
+          <animate attributeName="d" 
+                   values="M 50 100 Q 100 50 150 100 T 250 100 T 350 100; 
+                           M 50 100 Q 100 150 150 100 T 250 100 T 350 100; 
+                           M 50 100 Q 100 50 150 100 T 250 100 T 350 100" 
+                   dur="1.5s" repeatCount="indefinite"/>
+        </path>
+        
+        <text x="200" y="180" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#555">
+          FLOW_STATUS: MONITORING_ACTIVE
+        </text>
+      </svg>

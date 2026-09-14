@@ -1,0 +1,62 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#1a2a6c;stop-opacity:0" />
+    </radialGradient>
+    <filter id="pulseGlow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="600" fill="#05050a" />
+
+  <!-- DenisHost (Grounded Axis) -->
+  <g id="DenisHost">
+    <line x1="300" y1="550" x2="300" y2="450" stroke="#33ffcc" stroke-width="4" stroke-dasharray="10 5" />
+    <circle cx="300" cy="550" r="15" fill="#33ffcc" />
+    <text x="300" y="585" fill="#33ffcc" font-family="monospace" text-anchor="middle" font-size="12">DENIS-HOST (ANCHOR)</text>
+  </g>
+
+  <!-- DimaCore (Living Central Organ) -->
+  <g id="DimaCore">
+    <circle cx="300" cy="300" r="80" fill="url(#coreGlow)" />
+    <circle cx="300" cy="300" r="40" fill="#ffffff" opacity="0.2" />
+    <text x="300" y="305" fill="#ffffff" font-family="monospace" text-anchor="middle" font-weight="bold">DIMA-CORE</text>
+  </g>
+
+  <!-- FizzOrchestrator (Outer Sheath) -->
+  <g id="FizzOrchestrator">
+    <circle cx="300" cy="300" r="140" fill="none" stroke="#ff00ff" stroke-width="2" stroke-dasharray="5 5" opacity="0.6" />
+    <text x="300" y="150" fill="#ff00ff" font-family="monospace" text-anchor="middle" font-size="10">FIZZ-ORCHESTRATOR</text>
+  </g>
+
+  <!-- Wave Propagation Rings (1-7) -->
+  <g id="WaveRings" stroke="#4a90e2" fill="none" stroke-width="1">
+    <circle cx="300" cy="300" r="90" />
+    <circle cx="300" cy="300" r="100" />
+    <circle cx="300" cy="300" r="110" />
+    <circle cx="300" cy="300" r="120" />
+    <circle cx="300" cy="300" r="130" />
+  </g>
+
+  <!-- Consent Thread (Luminous Link) -->
+  <path d="M 300 535 Q 450 300 300 160" stroke="#ffff00" stroke-width="2" fill="none" filter="url(#pulseGlow)" opacity="0.7">
+    <animate attributeName="stroke-dasharray" from="0,1000" to="1000,0" dur="4s" repeatCount="indefinite" />
+  </path>
+
+  <!-- Pulse Animation -->
+  <circle cx="300" cy="210" r="5" fill="#ffffff">
+    <animate attributeName="cy" values="210;390;210" dur="3s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Status Text -->
+  <text x="20" y="40" fill="#ffffff" font-family="monospace" font-size="14">
+    STATUS: WAVE-CODEX-7 ACTIVE
+  </text>
+</svg>
