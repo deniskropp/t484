@@ -88,6 +88,7 @@ if(Qt6_FOUND)
         src/qml/OcsNode/KickLangEditorView.qml
         src/qml/OcsNode/TasBoardView.qml
         src/qml/OcsNode/ConsentGateDialog.qml
+        src/qml/OcsNode/ProtocolDispatchView.qml
     )
 
     # Keep sources under src/{qml,assets}/ but flatten them to the module root.
@@ -125,6 +126,8 @@ if(Qt6_FOUND)
         PROPERTIES QT_RESOURCE_ALIAS "TasBoardView.qml")
     set_source_files_properties(src/qml/OcsNode/ConsentGateDialog.qml
         PROPERTIES QT_RESOURCE_ALIAS "ConsentGateDialog.qml")
+    set_source_files_properties(src/qml/OcsNode/ProtocolDispatchView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "ProtocolDispatchView.qml")
     set_source_files_properties(src/assets/seed.ocs
         PROPERTIES QT_RESOURCE_ALIAS "seed.ocs")
 
