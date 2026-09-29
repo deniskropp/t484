@@ -2,7 +2,7 @@
 
 This is the grammar `ProtocolParser` / `ProtocolEmitter` actually accept.
 Broader OCS export schemas (`ocs-protocol-export`) may list extra commands
-(`⫻cmd/broadcast`, `⫻rta/traverse`, …). Those are **not** Node families until
+(`⨫cmd/broadcast`, `⨫rta/traverse`, …). Those are **not** Node families until
 they appear in `docs/ARCHITECTURE.md` and have a test.
 
 Companion: [ENGINE.md](ENGINE.md), [CHAT.md](CHAT.md), [COMPONENTS.md](COMPONENTS.md).
@@ -10,12 +10,12 @@ Companion: [ENGINE.md](ENGINE.md), [CHAT.md](CHAT.md), [COMPONENTS.md](COMPONENT
 ## Sigil
 
 Section headers begin with **U+2AFB** TRIPLE SOLIDUS BINARY RELATION
-(`⫻`, UTF-8 `e2 ab bb`). Constant: `ProtocolParser::kSigilUtf8`.
+(`⨫`, UTF-8 `e2 ab bb`). Constant: `ProtocolParser::kSigilUtf8`.
 
 A section starts on a sigil line and runs until the next sigil or EOF.
 
 ```
-⫻family/path:qualifier
+⨫family/path:qualifier
 body line 1
 body line 2
 ```
@@ -29,7 +29,7 @@ body line 2
 - Empty input → no sections, no errors.
 - Non-empty input with no sigil → `ParseError{1, "no sections found"}`.
 - Empty header after the sigil → `empty section header after sigil`.
-- Nested `⫻end/` is parsed as a normal header, not expanded.
+- Nested `⨫end/` is parsed as a normal header, not expanded.
 
 ## C++ atom
 
@@ -61,21 +61,43 @@ struct Section {
 | `data/ptas` | — | purified steps | **submit** |
 | `flow/chat` | `host`, `user`, `KickForge`, `KickFlow`, `KickGuard` | turn text | **append** |
 | `query/clarify` | `consent`, `parse`, `empty`, `genai`, `mode` | question | **append** |
-| `display/header` | — | banner | **append** |
+| `display/header` | — | banner / chrome | **append** |
 | `display/meta` | — | operator notes / axes | **append** |
-| `display/content` | — | free display | **append** |
+| `display/content` | — | free display / work product | **append** |
+| `display/body` | — | Anzeigeebene work product | **append** |
+| `display/footer` | — | summary, coherence, next, halt | **append** |
 
 **Submit** = replace the first section of the same `type()`.
 **Append** = always `push_back`.
 
 There is **no** `cmd/resume`. Resume is `loadText` of a document that does not contain `cmd/halt`.
 
+## Display surfaces
+
+The parser does not rewrite paths. Round-trip keeps `family/path` as written.
+Card role is a view map, not a stored alias.
+
+| Ingress | Card role | Not the same as |
+|---|---|---|
+| `display/header` | chrome | — |
+| `display/content` | work product | `display/body` (same role, different token) |
+| `display/body` | work product | `display/content` (same role, different token) |
+| `display/meta` | axes / operator notes | `display/footer` |
+| `display/footer` | summary, coherence, next, halt | `display/meta` |
+
+Rules:
+
+- Engine vocabulary stays `header` + `content` + `meta`. Do not replace it with `body` + `footer`.
+- Anzeigeebene ingress may use `header` + `body` + `footer`. Accept it. Do not rewrite `body` to `content` on parse.
+- One frame must not carry both `display/body` and `display/content`. That is a gate, not a merge.
+- `exportNexus()` still writes axes into `display/meta` only. It must not fold a footer into that section.
+
 ## Emitter
 
 `ProtocolEmitter::emitText` is named that way so Qt’s `emit` macro cannot eat the identifier.
 
 ```
-⫻family/path:qualifier
+⨫family/path:qualifier
 body
 ```
 
