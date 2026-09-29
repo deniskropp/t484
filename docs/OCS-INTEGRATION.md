@@ -13,6 +13,7 @@ becoming a second protocol.
 | skill `ocs-protocol-enforcer` | runtime validation against that schema |
 | skill `berlin-node-ocs-participant` | physical machine as consenting participant |
 | skill `orchestrator` | three-agent-core coordination across repos |
+| skill `ocs-display-layer` (t408 backup) | emission grammar only — prefix + seven sections |
 
 If skill staging and t484 disagree, **t484 wins**. Move generated types into
 `src/` + `include/` and register them in CMake / `qmldir` before calling them shipped.
@@ -35,6 +36,29 @@ t484 implements the **document + gate + display** slice of OCS, plus one-file
 Nexus export/import. It does not implement RTA descent, swarm joins, or
 KickLang module compilation.
 
+## Display slice
+
+Engine card stays `display/header` + `display/content`, with `display/meta` for
+axes. Anzeigeebene ingress may use `display/header` + `display/body` +
+`display/footer`. Both are legal. Do not pick one vocabulary and drop the other.
+
+| Token | Role | Stored rewrite |
+|---|---|---|
+| `display/header` | chrome | none |
+| `display/content` | work product | none |
+| `display/body` | work product (ingress name) | none — same card role as content |
+| `display/meta` | axes / operator notes | none; Nexus export writes here |
+| `display/footer` | summary, coherence, next, halt | none — not folded into meta |
+
+`ProtocolParser` already accepts any `display/*` path. `OcsSectionView` renders
+`type()` as written. This slice does not add a parse-time alias, because
+`parse(emitText(parse(x)))` must keep `family/path`.
+
+Gate, not merge: a document that contains both `display/body` and
+`display/content` is invalid for one frame. The Node does not combine them.
+
+H1–H7 stay in the display-layer skill. t484 enforces `cmd/halt` only.
+
 ## Command overlap
 
 Implemented in the Node today:
@@ -46,7 +70,7 @@ Implemented in the Node today:
 - `query/clarify`
 - `data/obj` `data/tas` `data/ptas`
 - `flow/chat`
-- `display/*`
+- `display/*` (`header`, `meta`, `content`, `body`, `footer`)
 - `context/klmx`
 - `protocol/ocs`
 
