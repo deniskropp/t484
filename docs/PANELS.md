@@ -22,6 +22,7 @@ labels. They are not screenshots of a running binary.
 | `KickLangEditorView` | editor | live document editor + section navigator |
 | `TasBoardView` | TAS board | Kanban task tracking by state |
 | `ConsentGateDialog` | modal | halt gate inspection + un-gate action |
+| `ProtocolDispatchView` | dispatch | frozen-family submit / slash / halt |
 
 `OcsChatTranscriptView` is the ListView that hosts `OcsChatBubbleView`; it has
 no chrome of its own beyond `Theme.bg`.
@@ -106,6 +107,10 @@ Kanban-style task board organizing steps from `data/tas` and `data/ptas` across 
 
 Modal consent dialog rendered when `protocol.gated == true` (triggered by `cmd/halt`). Displays halt reason, explains KickGuard safety constraints, and provides one-click un-gate/resume via `protocol.resumeFromHalt()`.
 
+## ProtocolDispatchView
+
+Console plate for frozen-family dispatch. Binds `protocol: appWindow.protocol`. Actions map to `submitMap`, `sendChat`, `requestHalt`, `setMode`, and `resumeFromHalt()` (not a `cmd/resume` family). Export/import/copy stay shell dialogs and remain allowed while gated. KickGuard still blocks other mutations while gated.
+
 ---
 
 ## Shell composition
@@ -113,4 +118,4 @@ Modal consent dialog rendered when `protocol.gated == true` (triggered by `cmd/h
 `main.qml` (chat): status bar → TAS strip → transcript + composer | KLMX + raw source; `ConsentGateDialog` overlay.
 
 `console.qml` (dashboard): status bar → view/mode strip → transcript + composer
-+ TAS/KLMX | settings + event log | metrics (modes: `chat`, `inspect`, `dev`, `editor`, `board`); `ConsentGateDialog` overlay.
++ TAS/KLMX | settings + event log | metrics (modes: `chat`, `inspect`, `dev`, `editor`, `board`, `dispatch`); `ConsentGateDialog` overlay. `dispatch` hides the chat split and shows `ProtocolDispatchView`.
