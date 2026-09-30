@@ -19,6 +19,7 @@
 | **Coherence** | Scalar `0..1` from `deriveCoherence`. Status-bar meter. Axes are additive. |
 | **Nexus** | One `.ocs` file that *is* the operator state. `exportNexus` / `importNexus`. |
 | **Phase E** | Shipped UI: `KickLangEditorView`, `TasBoardView`, `ConsentGateDialog` (v0.6). |
+| **Dispatch** | Frozen-family operator plate (`ProtocolDispatchView`) and shell (`t484-dispatch`). |
 | **OCS Slate** | Product theme (`Theme.qml`). Dark is default; Light is the accessibility twin. |
 | **Forge skill** | `ocs-node-engine`. May scaffold; must not fork a second product tree. |
 | **Berlin Node** | Physical participant machine in Berlin. Not a t484 compile flavor. |

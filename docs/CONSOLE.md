@@ -7,7 +7,7 @@ Rendered plates for every pane: [`PANELS.md`](PANELS.md). Theme tokens: [`THEME.
 ## Layout
 
 ```
-┌ status bar + view mode (chat|inspect|dev) + cmd/mode ─────────────┐
+┌ status bar + view mode (chat|inspect|dev|editor|board|dispatch) + cmd/mode ─┐
 │ LEFT                 │ CENTER                    │ RIGHT          │
 │ transcript           │ settings tabs             │ metrics        │
 │ composer             │ event log                 │ live meters    │
@@ -46,4 +46,6 @@ The pasted sketch referenced properties the engine does not expose (`genaiCallCo
 ./build/t484-console
 ./build/t484 --console
 ./build/t484-console --chat
+./build/t484-console  # view combo includes dispatch
+./build/t484-dispatch
 ```

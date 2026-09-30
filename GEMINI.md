@@ -25,6 +25,7 @@ The chat transcript **is** the living protocol document (`flow/chat` turns + thr
 | `TasStatusModel` + `KlmxMoleculeItem` + `EventLogModel` | shipped |
 | Chat views + `t484` (`main.qml`) | shipped |
 | Console views + `t484-console` (`console.qml`) | shipped |
+| Dispatch view + `t484-dispatch` (`dispatch.qml`) | shipped |
 | `Theme` singleton (OCS Slate Dark / Light) | shipped |
 | `KickLangEditorView` / `TasBoardView` / `ConsentGateDialog` | shipped (Phase E / v0.6) |
 | `CoherenceMonitorBridge` + volumetric axes | shipped |
@@ -40,6 +41,7 @@ src/engine/               ProtocolEngine, ProtocolEngineQt, SectionListModel, Ge
 src/components/           TasStatusModel, KlmxMoleculeItem, EventLogModel
 src/qml/main.qml          compact chat shell
 src/qml/console.qml       three-pane protocol console
+src/qml/dispatch.qml      frozen-family dispatch shell
 src/qml/OcsNode/          Theme.qml + *View.qml + qmldir
 src/assets/seed.ocs       startup protocol document (welcome turn)
 src/assets/seed-nexus.ocs loadable v0.6.0-pre Nexus seed (halt-free)
@@ -61,7 +63,7 @@ docs/PANELS.md            every surface as a plate
 docs/plans/v0.6/          Nexus export + volumetric coherence plan
 ```
 
-CMake layout (Qt present): static `ocsnode_protocol` → `ocsnode_engine` → `ocsnode_qml` (`URI OcsNode` **once**). `t484` and `t484-console` both link `ocsnode_qml`. `qt_add_qml_module` cannot write URI `OcsNode` twice into the same output directory.
+CMake layout (Qt present): static `ocsnode_protocol` → `ocsnode_engine` → `ocsnode_qml` (`URI OcsNode` **once**). `t484`, `t484-console`, and `t484-dispatch` all link `ocsnode_qml`. `qt_add_qml_module` cannot write URI `OcsNode` twice into the same output directory.
 
 ## Building and running
 
@@ -83,7 +85,9 @@ cmake -S . -B build -DCMAKE_PREFIX_PATH=/path/to/Qt6
 cmake --build build
 ./build/t484                 # compact chat
 ./build/t484-console         # three-pane protocol console
+./build/t484-dispatch        # frozen-family dispatch
 ./build/t484 --console       # console from the chat binary
+./build/t484 --dispatch      # dispatch from the chat binary
 ./build/t484-console --chat  # compact shell from the console binary
 ./build/t484 --genai-status  # ready/source/model (never the key)
 ./build/t484 --genai-debug   # env names and .env paths checked

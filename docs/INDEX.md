@@ -38,7 +38,7 @@ The `ocs-node-engine` skill is the forge. This repository is the source of truth
 | Piece | State |
 |---|---|
 | Parser, emitter, `ProtocolEngine`, `ChatSession` | shipped |
-| `t484` chat + `t484-console` | shipped |
+| `t484` chat + `t484-console` + `t484-dispatch` | shipped |
 | OCS Slate theme + panel plates | shipped |
 | `exportNexus` / `importNexus` + console actions + axes | shipped |
 | `KickLangEditorView` / `TasBoardView` / `ConsentGateDialog` | shipped (Phase E / v0.6) |

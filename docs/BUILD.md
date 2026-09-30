@@ -12,14 +12,15 @@ Project version in CMake: **0.4.0**. C++20 required. CMake >= 3.16.
 | `ocsnode_qml` (STATIC module `OcsNode 1.0`) | yes | QML + `seed.ocs` resource |
 | `t484` | yes | chat shell (`src/main.cpp`) |
 | `t484-console` (`t484_console` target) | yes | `T484_SHELL_CONSOLE` |
+| `t484-dispatch` (`t484_dispatch` target) | yes | `T484_SHELL_DISPATCH` |
 | `ocsnode_genai_tests` | Core+Network | `tests/test_genai.cpp` — no GUI, no network |
 
 Qt components: `Core Gui Qml Quick QuickControls2 Network`.
 If `find_package(Qt6 QUIET ...)` fails, CMake prints
 `Qt6 not found — building protocol core + tests only`.
 
-`qt_add_qml_module` is shared once (`URI OcsNode`) so chat and console do not
-fight over the same output directory. Apps set `QT_QML_MODULE_NO_IMPORT_SCAN TRUE`
+`qt_add_qml_module` is shared once (`URI OcsNode`) so chat, console, and
+dispatch do not fight over the same output directory. Apps set `QT_QML_MODULE_NO_IMPORT_SCAN TRUE`
 so missing Debian plugin CMake targets do not warn.
 
 `T484_SOURCE_DIR` is compiled into the engine as the repo root (`.env` walk).
@@ -42,6 +43,7 @@ cmake -S . -B build -DCMAKE_PREFIX_PATH=/path/to/Qt6
 cmake --build build
 ./build/t484
 ./build/t484-console
+./build/t484-dispatch
 ```
 
 On Debian/KDE neon the prefix is often the distro Qt. Berlin Node
@@ -68,6 +70,7 @@ src/engine/               ProtocolEngine + Qt facade
 src/components/           TasStatusModel, KlmxMoleculeItem, EventLogModel
 src/qml/main.qml
 src/qml/console.qml
+src/qml/dispatch.qml
 src/qml/OcsNode/          Theme + *View.qml + qmldir
 src/assets/*.ocs
 tests/

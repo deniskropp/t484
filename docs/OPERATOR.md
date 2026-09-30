@@ -9,14 +9,18 @@ How to run t484 as an OCS/Node operator. Architecture stays in
 |---|---|---|
 | `t484` | `src/qml/main.qml` | compact chat |
 | `t484-console` | `src/qml/console.qml` | three-pane dashboard |
+| `t484-dispatch` | `src/qml/dispatch.qml` | frozen-family dispatch |
 | `ocsnode_protocol_tests` | - | STL protocol tests |
 | `ocsnode_genai_tests` | - | GenAI parse tests (no network) |
 
 ```bash
 ./build/t484              # chat
 ./build/t484 --console    # same console from the chat binary
+./build/t484 --dispatch   # dispatch shell from the chat binary
 ./build/t484-console
 ./build/t484-console --chat
+./build/t484-dispatch
+./build/t484-dispatch --chat
 ./build/t484 --genai-status   # ready / source / model — never the key
 ./build/t484 --genai-debug    # env names and .env paths checked
 ```

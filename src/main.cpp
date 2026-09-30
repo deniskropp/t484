@@ -40,21 +40,66 @@ static QString loadSeed()
         "context/klmx:Kick/Lang\nfallback seed\n");
 }
 
-static bool wantsConsole(const QStringList &args)
+enum class ShellKind { Chat, Console, Dispatch };
+
+static const char *shellName(ShellKind shell)
 {
-#ifdef T484_SHELL_CONSOLE
+    switch (shell) {
+    case ShellKind::Dispatch:
+        return "dispatch";
+    case ShellKind::Console:
+        return "console";
+    case ShellKind::Chat:
+    default:
+        return "chat";
+    }
+}
+
+static QString shellDisplayName(ShellKind shell)
+{
+    switch (shell) {
+    case ShellKind::Dispatch:
+        return QStringLiteral("t484 Protocol Dispatch");
+    case ShellKind::Console:
+        return QStringLiteral("t484 Protocol Console");
+    case ShellKind::Chat:
+    default:
+        return QStringLiteral("OCS/Node Chat");
+    }
+}
+
+static ShellKind wantedShell(const QStringList &args)
+{
+    if (args.contains(QStringLiteral("--dispatch")))
+        return ShellKind::Dispatch;
+    if (args.contains(QStringLiteral("--console")))
+        return ShellKind::Console;
     if (args.contains(QStringLiteral("--chat")))
-        return false;
-    return true;
+        return ShellKind::Chat;
+#ifdef T484_SHELL_DISPATCH
+    return ShellKind::Dispatch;
+#elif defined(T484_SHELL_CONSOLE)
+    return ShellKind::Console;
 #else
-    return args.contains(QStringLiteral("--console"));
+    return ShellKind::Chat;
 #endif
 }
 
-static QUrl mainQmlUrl(bool console)
+static QUrl mainQmlUrl(ShellKind shell)
 {
-    const QString name = console ? QStringLiteral("console.qml")
-                                 : QStringLiteral("main.qml");
+    QString name;
+    switch (shell) {
+    case ShellKind::Dispatch:
+        name = QStringLiteral("dispatch.qml");
+        break;
+    case ShellKind::Console:
+        name = QStringLiteral("console.qml");
+        break;
+    case ShellKind::Chat:
+    default:
+        name = QStringLiteral("main.qml");
+        break;
+    }
     const QString path = firstExisting({
         QStringLiteral(":/qt/qml/OcsNode/") + name,
         QStringLiteral(":/OcsNode/src/qml/") + name,
@@ -71,10 +116,8 @@ int main(int argc, char *argv[])
     app.setOrganizationName(QStringLiteral("Exit"));
     app.setApplicationName(QStringLiteral("t484"));
 
-    const bool console = wantsConsole(app.arguments());
-    app.setApplicationDisplayName(console
-        ? QStringLiteral("t484 Protocol Console")
-        : QStringLiteral("OCS/Node Chat"));
+    const ShellKind shell = wantedShell(app.arguments());
+    app.setApplicationDisplayName(shellDisplayName(shell));
 
     ocsnode::ProtocolEngineQt engine;
     ocsnode::TasStatusModel tasModel;
@@ -83,7 +126,7 @@ int main(int argc, char *argv[])
 
     engine.setActor(QStringLiteral("KickFlow"));
     std::fprintf(stderr, "t484: shell=%s genai ready=%s source=%s model=%s\n",
-                 console ? "console" : "chat",
+                 shellName(shell),
                  engine.genaiReady() ? "yes" : "no",
                  qPrintable(engine.genaiSource().isEmpty()
                                 ? QStringLiteral("(none)")
@@ -129,8 +172,7 @@ int main(int argc, char *argv[])
 
     eventLogModel.appendEvent(QStringLiteral("info"),
                               QStringLiteral("boot"),
-                              console ? QStringLiteral("t484 Protocol Console")
-                                      : QStringLiteral("OCS/Node Chat"));
+                              shellDisplayName(shell));
     eventLogModel.appendEvent(QStringLiteral("genai"),
                               QStringLiteral("source"),
                               engine.genaiReady() ? engine.genaiSource()
@@ -148,7 +190,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty(QStringLiteral("klmxItem"), &klmxItem);
     ctx->setContextProperty(QStringLiteral("eventLogModel"), &eventLogModel);
 
-    const QUrl url = mainQmlUrl(console);
+    const QUrl url = mainQmlUrl(shell);
     QObject::connect(
         &qml, &QQmlApplicationEngine::objectCreationFailed,
         &app, []() { QCoreApplication::exit(-1); },

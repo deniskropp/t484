@@ -30,6 +30,7 @@ Nexus export/import + volumetric axes are implemented (`exportNexus` / `importNe
 | `Theme` singleton (OCS Slate) | shipped |
 | `t484` chat shell (`src/qml/main.qml`) | shipped |
 | `t484-console` dashboard (`src/qml/console.qml`) | shipped |
+| `t484-dispatch` (`src/qml/dispatch.qml` + `ProtocolDispatchView`) | shipped |
 | `exportNexus` / `importNexus` + axes | shipped |
 | `KickLangEditorView` / `TasBoardView` / `ConsentGateDialog` | shipped (Phase E / v0.6) |
 | `CoherenceMonitorBridge` | shipped ([v0.6](docs/plans/v0.6/)) |
@@ -45,6 +46,7 @@ src/engine/               ProtocolEngine + Qt facade
 src/components/           TasStatusModel, KlmxMoleculeItem
 src/qml/main.qml          chat shell
 src/qml/console.qml       protocol console shell
+src/qml/dispatch.qml      protocol dispatch shell
 src/qml/OcsNode/          Theme.qml + *View.qml + qmldir
 src/assets/seed.ocs       startup protocol document (welcome turn)
 src/assets/nexus-v0.6.ocs Nexus snapshot fixture
@@ -84,7 +86,9 @@ cmake -S . -B build -DCMAKE_PREFIX_PATH=/path/to/Qt6
 cmake --build build
 ./build/t484              # compact chat
 ./build/t484-console      # three-pane protocol console
+./build/t484-dispatch     # frozen-family dispatch
 ./build/t484 --console    # same console from the chat binary
+./build/t484 --dispatch   # dispatch shell from the chat binary
 ```
 
 Full operator notes: [docs/OPERATOR.md](docs/OPERATOR.md). Full CMake map: [docs/BUILD.md](docs/BUILD.md).

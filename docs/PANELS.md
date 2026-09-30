@@ -10,6 +10,7 @@ labels. They are not screenshots of a running binary.
 |---|---|---|
 | Chat shell `main.qml` | `src/qml/main.qml` | bubbles + composer + status |
 | Protocol console `console.qml` | `src/qml/console.qml` | settings + log + metrics |
+| Protocol dispatch `dispatch.qml` | `src/qml/dispatch.qml` | frozen-family submit / slash |
 | `ProtocolStatusBar` | chrome | [protocol-status-bar.svg](images/protocol-status-bar.svg) |
 | `TasStatusBarView` | TAS strip | [tas-status-bar.svg](images/tas-status-bar.svg) |
 | `OcsChatBubbleView` | transcript delegate | [chat-bubbles.svg](images/chat-bubbles.svg) |
@@ -23,6 +24,7 @@ labels. They are not screenshots of a running binary.
 | `TasBoardView` | TAS board | Kanban task tracking by state |
 | `ConsentGateDialog` | modal | halt gate inspection + un-gate action |
 | `GenerativeWidgetView` | display plate | frozen `display/header` + `display/content` + `display/meta` |
+| `ProtocolDispatchView` | dispatch plate | frozen families → `submitMap` / `sendChat` / halt / mode |
 
 `OcsChatTranscriptView` is the ListView that hosts `OcsChatBubbleView`; it has
 no chrome of its own beyond `Theme.bg`.
@@ -111,11 +113,17 @@ Modal consent dialog rendered when `protocol.gated == true` (triggered by `cmd/h
 
 Read-only plate bound to frozen `display/header`, `display/content`, and `display/meta` via `protocol.sectionBody`. Does not invent `display/generative_widget` or any other family.
 
+## ProtocolDispatchView
+
+Operator plate for the frozen family list. Left: families. Center: type / qualifier / body + `submitMap` / `sendChat`. Right: living `protocol.sections`. Slash field routes through `ChatSession::send`. Bind `protocol: appWindow.protocol`.
+
 ---
 
 ## Shell composition
 
 `main.qml` (chat): status bar → TAS strip → transcript + composer | KLMX + raw source; `ConsentGateDialog` overlay.
 
-`console.qml` (dashboard): status bar → view/mode strip → transcript + composer
+`console.qml` (dashboard): status bar → view/mode strip → transcript + composer (view `dispatch` hosts `ProtocolDispatchView`).
+
+`dispatch.qml` (dispatch): status bar → `ProtocolDispatchView` fill.
 + TAS/KLMX | settings + event log | metrics (modes: `chat`, `inspect`, `dev`, `editor`, `board`); `ConsentGateDialog` overlay.

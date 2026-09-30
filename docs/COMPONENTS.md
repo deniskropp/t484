@@ -1,6 +1,6 @@
 # t484 component and interface overview
 
-Source of truth: this repository. Companion to [ARCHITECTURE.md](ARCHITECTURE.md).  
+Source of truth: this repository. Companion to [ARCHITECTURE.md](ARCHITECTURE.md).
 This document catalogs every shipped component, the interface it exposes, and how those interfaces compose. It does not invent families or QML identifiers.
 
 **Naming freeze (repeat):** a C++ type and a QML file never share an identifier. C++ models are `*Model` / `*Item`. QML surfaces are `*View.qml` (plus `ProtocolStatusBar.qml`, which is chrome, not a typed model).
@@ -38,7 +38,7 @@ The living document is `std::vector<Section>` inside `ProtocolEngine`. There is 
 
 ## 2. Protocol core (STL)
 
-Headers: `include/ocsnode/*.h` (except `qt/`).  
+Headers: `include/ocsnode/*.h` (except `qt/`).
 Implementation: `src/protocol/`, `src/engine/ProtocolEngine.cpp`.
 
 ### 2.1 `Section` / `ParseError` / `ParseResult`
@@ -53,7 +53,7 @@ Implementation: `src/protocol/`, `src/engine/ProtocolEngine.cpp`.
 | `type()` | `string` | `family` or `family/path` |
 | `empty()` | `bool` | all string fields empty |
 
-`ParseError`: `{ line, message }`.  
+`ParseError`: `{ line, message }`.
 `ParseResult`: `{ sections, errors }` with `ok()` iff `errors.empty()`.
 
 ### 2.2 `ProtocolParser`
@@ -111,7 +111,7 @@ Qt-free document + state machine.
 | `sectionsByFamily(family)` | no | |
 | `findByType(type)` | no | first match or `nullptr` |
 
-Stateful types (replace): `protocol/ocs`, `cmd/mode`, `cmd/halt`, `cmd/lang`, `data/obj`, `data/tas`, `data/ptas`, `context/klmx`.  
+Stateful types (replace): `protocol/ocs`, `cmd/mode`, `cmd/halt`, `cmd/lang`, `data/obj`, `data/tas`, `data/ptas`, `context/klmx`.
 Append types: `flow/chat`, `query/clarify`, `cmd/exec`, `display/*`.
 
 ### 2.6 `NodeEngine`
@@ -158,7 +158,7 @@ Static helpers: `containsSigil`, `isStatefulType`.
 
 ## 3. Qt façade and models
 
-Headers: `include/ocsnode/qt/`. Implementation: `src/engine/*Qt*`, `src/engine/GenAiClient.cpp`, `src/components/`.  
+Headers: `include/ocsnode/qt/`. Implementation: `src/engine/*Qt*`, `src/engine/GenAiClient.cpp`, `src/components/`.
 Linked only when Qt6 is found (`Core Gui Qml Quick QuickControls2 Network`).
 
 ### 3.1 Context properties (`src/main.cpp`)
@@ -169,7 +169,7 @@ Linked only when Qt6 is found (`Core Gui Qml Quick QuickControls2 Network`).
 | `tasModel` | `TasStatusModel*` | process |
 | `klmxItem` | `KlmxMoleculeItem*` | process |
 
-QML module: `OcsNode 1.0` (`URI OcsNode`, resource prefix `/qt/qml`).  
+QML module: `OcsNode 1.0` (`URI OcsNode`, resource prefix `/qt/qml`).
 `main.qml` aliases `readonly property var protocol: engine` on `ApplicationWindow` (`id: appWindow`) and **must** pass `protocol: appWindow.protocol` into child views. A child `property var engine` plus `engine: engine` is a self-binding to `null` (Send becomes a no-op; the window title still works).
 
 CLI:
@@ -179,6 +179,7 @@ CLI:
 | *(none)* | load seed, run GUI |
 | `--genai-status` | print `ready` / `source` / `model` (never the key), exit |
 | `--genai-debug` | list env names and `.env` paths checked, exit |
+| `--chat` / `--console` / `--dispatch` | pick shell (`main.qml` / `console.qml` / `dispatch.qml`) |
 
 Seed load order: qrc `:/qt/qml/OcsNode/seed.ocs`, then relative `src/assets/seed.ocs`.
 
@@ -254,7 +255,7 @@ Telemetry for TAS chrome. Bound from `main.qml` via `Binding` on `engine.*`.
 | `tasModel` | `[]` |
 | `gated` | `false` |
 
-Slots: `applyFromEngine(...)`, `submitStatusUpdate(payload)`.  
+Slots: `applyFromEngine(...)`, `submitStatusUpdate(payload)`.
 Signals: property notifiers, `accepted`, `haltRequested`.
 
 ### 3.5 `KlmxMoleculeItem`
@@ -275,8 +276,8 @@ Editable KLMX molecule for `context/klmx`.
 | `editable` | `true` |
 | `validationStatus` | `idle` |
 
-Slots: `submitMolecule(payload)`, `validateFormula()`.  
-Signals: `accepted`, `validationRequested`, plus property notifiers.  
+Slots: `submitMolecule(payload)`, `validateFormula()`.
+Signals: `accepted`, `validationRequested`, plus property notifiers.
 Inspector Submit → `engine.submitMap(payload)`.
 
 ### 3.6 `GenAiClient`
@@ -293,9 +294,9 @@ Sole network component. Not registered as a QML type; owned by `ProtocolEngineQt
 | `extractOutputText(json, …)` | `steps[].type==model_output` text parts |
 | `debugReport()` | env HIT/MISS and file paths; lengths only |
 
-Auth header: `x-goog-api-key`. Also `Api-Revision: 2026-05-20`.  
-Key lookup order: process env (`GEMINI_API_KEY`, `GOOGLE_API_KEY`, `GOOGLE_GENAI_API_KEY`, `GOOGLE_AI_API_KEY`), then `.env` walk from `T484_SOURCE_DIR`, cwd, application dir, `~/.config/t484/.env`, `~/.config/Exit/t484/.env`, `$XDG_RUNTIME_DIR/t484.env`.  
-Capacity fallback model chain: requested → `gemini-3.6-flash` → `gemini-3.5-flash`.  
+Auth header: `x-goog-api-key`. Also `Api-Revision: 2026-05-20`.
+Key lookup order: process env (`GEMINI_API_KEY`, `GOOGLE_API_KEY`, `GOOGLE_GENAI_API_KEY`, `GOOGLE_AI_API_KEY`), then `.env` walk from `T484_SOURCE_DIR`, cwd, application dir, `~/.config/t484/.env`, `~/.config/Exit/t484/.env`, `$XDG_RUNTIME_DIR/t484.env`.
+Capacity fallback model chain: requested → `gemini-3.6-flash` → `gemini-3.5-flash`.
 Signal `finished(ok, text, interactionId, error, usedModel)`.
 
 The key is never written into a `Section`.
@@ -304,11 +305,11 @@ The key is never written into a `Section`.
 
 ## 4. QML surfaces (`OcsNode 1.0`)
 
-`src/qml/OcsNode/` + `src/qml/main.qml`. Module registered in `qmldir` and `qt_add_qml_module`.
+`src/qml/OcsNode/` + `src/qml/main.qml` + `src/qml/console.qml` + `src/qml/dispatch.qml`. Module registered in `qmldir` and `qt_add_qml_module`.
 
-### 4.1 Shell — `main.qml`
+### 4.1 Shells — `main.qml` / `console.qml` / `dispatch.qml`
 
-`ApplicationWindow` (`id: appWindow`).
+`ApplicationWindow` (`id: appWindow`). `dispatch.qml` hosts `ProtocolDispatchView` as the sole plate.
 
 | Binding | Source |
 |---|---|
@@ -370,6 +371,21 @@ Shows GenAI source when `protocol.genaiReady`; otherwise the missing-key note.
 **`OcsSectionView.qml`**
 
 Card for a single section (`sectionType`, `qualifier`, `sectionBody`, `collapsed`). Shipped; not on the v0.3 chat layout (bubbles replaced the list of cards). Keep for inspector / Phase E.
+
+**`ProtocolDispatchView.qml`**
+
+Frozen-family dispatcher. Hosted by `dispatch.qml` and console view mode `dispatch`.
+
+| Property / signal / method | |
+|---|---|
+| `protocol` | `ProtocolEngineQt` (required; null ⇒ dispatch no-op) |
+| `dispatchSubmit(type, qualifier, body)` | `cmd/halt` → `requestHalt`; `cmd/mode` → `setMode`; `flow/chat` → `sendChat`; `cmd/exec:nexus-export` → export signal; else `submitMap` |
+| `dispatchSlash(text)` | `protocol.sendChat` (C++ slash map) |
+| `ungate()` | `protocol.resumeFromHalt()` |
+| `exportNexusRequested` / `importNexusRequested` / `copySnapshotRequested` | shell FileDialog / clipboard |
+| `dispatched(sectionType, qualifier, ok)` | result of one dispatch |
+
+KickGuard: while `protocol.gated`, skip mutations other than `cmd/halt` and `cmd/mode`. Export remains a read. No invented families.
 
 ---
 
@@ -446,8 +462,9 @@ No test talks to the network.
 - `KickLangEditorView.qml`: interactive editor over living protocol document with section navigator, format, and load.
 - `TasBoardView.qml`: Kanban board categorized by task state bound to `TasStatusModel` / sections.
 - `ConsentGateDialog.qml`: modal overlay over halt condition; resume = un-gate without `cmd/halt`.
-- `CoherenceMonitorBridge.h`: `ICoherenceMonitorBridge` / `DefaultCoherenceMonitorBridge` adapter interface behind `deriveCoherence`.
 - `GenerativeWidgetView.qml`: QML plate over frozen `display/header`, `display/content`, `display/meta`. No new section family. No C++ `Section` subclass.
+- `ProtocolDispatchView.qml`: frozen-family dispatch plate (`submitMap` / `sendChat` / halt / mode). Bind `protocol: appWindow.protocol`.
+- `CoherenceMonitorBridge.h`: `ICoherenceMonitorBridge` / `DefaultCoherenceMonitorBridge` adapter interface behind `deriveCoherence`.
 
 ---
 
@@ -470,9 +487,11 @@ No test talks to the network.
 | `include/ocsnode/qt/KlmxMoleculeItem.h` | KLMX item |
 | `src/qml/main.qml` | compact chat shell |
 | `src/qml/console.qml` | protocol console shell |
+| `src/qml/dispatch.qml` | protocol dispatch shell |
 | `src/qml/OcsNode/KickLangEditorView.qml` | KickLang editor |
 | `src/qml/OcsNode/TasBoardView.qml` | TAS Kanban board |
 | `src/qml/OcsNode/ConsentGateDialog.qml` | consent gate modal |
 | `src/qml/OcsNode/GenerativeWidgetView.qml` | frozen `display/*` plate |
+| `src/qml/OcsNode/ProtocolDispatchView.qml` | frozen-family dispatch plate |
 | `src/qml/OcsNode/*.qml` | views |
 | `src/assets/seed.ocs` | startup document |

@@ -17,7 +17,7 @@ The Qt shell is an **OCS-compliant chat**: the transcript is the protocol sectio
 | protocol | `include/ocsnode/*` + `src/protocol/` | C++20 STL only | Parse / emit sections, `ChatSession` |
 | engine | `src/engine/` | protocol + Qt6 Core | `ProtocolEngine` QObject, halt gate, coherence, `sendChat`, `exportNexus` |
 | components | `src/components/` | Qt6 Core | QObject models (`*Model` / `*Item`) |
-| qml | `src/qml/OcsNode/` + `main.qml` + `console.qml` | engine + components | Chat + console shells |
+| qml | `src/qml/OcsNode/` + `main.qml` + `console.qml` + `dispatch.qml` | engine + components | Chat + console + dispatch shells |
 | tests | `tests/` | protocol | Round-trip + chat-turn + nexus fixtures, no Qt required |
 
 ## Naming (frozen)
@@ -61,10 +61,11 @@ Parser is line-oriented. A section starts on a sigil line (`U+2AFB`) and runs un
 
 | Binary | QML entry | Default |
 |---|---|---|
-| `t484` | `src/qml/main.qml` | compact chat; `--console` loads the dashboard |
-| `t484-console` | `src/qml/console.qml` | three-pane operator dashboard; `--chat` loads the compact shell |
+| `t484` | `src/qml/main.qml` | compact chat; `--console` / `--dispatch` switch shells |
+| `t484-console` | `src/qml/console.qml` | three-pane operator dashboard; `--chat` / `--dispatch` switch shells |
+| `t484-dispatch` | `src/qml/dispatch.qml` | frozen-family dispatch; `--chat` / `--console` switch shells |
 
-Both binaries share `ProtocolEngineQt`, `TasStatusModel`, `KlmxMoleculeItem`, and the OcsNode views.
+All three binaries share `ProtocolEngineQt`, `TasStatusModel`, `KlmxMoleculeItem`, and the OcsNode views.
 
 ## Build
 
@@ -75,6 +76,7 @@ cmake --build build
 # Qt apps (when Qt6 is available):
 ./build/t484
 ./build/t484-console
+./build/t484-dispatch
 ```
 
 See [BUILD.md](BUILD.md) for targets and [OPERATOR.md](OPERATOR.md) for launch / key lookup.
