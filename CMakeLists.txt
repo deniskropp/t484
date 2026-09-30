@@ -41,7 +41,7 @@ if(Qt6_FOUND)
     endif()
 
     # Shared once — qt_add_qml_module forbids two targets writing URI OcsNode
-    # into the same output directory (t484 + t484-console).
+    # into the same output directory (t484 + t484-console + t484-kirigami).
     set(T484_ENGINE_SOURCES
         src/engine/ProtocolEngineQt.cpp
         src/engine/GenAiClient.cpp
@@ -74,6 +74,7 @@ if(Qt6_FOUND)
     set(T484_QML_FILES
         src/qml/main.qml
         src/qml/console.qml
+        src/qml/kirigami.qml
         src/qml/OcsNode/Theme.qml
         src/qml/OcsNode/OcsSectionView.qml
         src/qml/OcsNode/ProtocolStatusBar.qml
@@ -96,6 +97,8 @@ if(Qt6_FOUND)
         PROPERTIES QT_RESOURCE_ALIAS "main.qml")
     set_source_files_properties(src/qml/console.qml
         PROPERTIES QT_RESOURCE_ALIAS "console.qml")
+    set_source_files_properties(src/qml/kirigami.qml
+        PROPERTIES QT_RESOURCE_ALIAS "kirigami.qml")
     set_source_files_properties(src/qml/OcsNode/Theme.qml
         PROPERTIES
             QT_RESOURCE_ALIAS "Theme.qml"
@@ -149,7 +152,7 @@ if(Qt6_FOUND)
     )
 
     function(t484_add_app target)
-        cmake_parse_arguments(APP "CONSOLE" "" "" ${ARGN})
+        cmake_parse_arguments(APP "CONSOLE;KIRIGAMI" "" "" ${ARGN})
 
         qt_add_executable(${target} src/main.cpp)
         # Shared Qt loads Quick plugins at runtime; skip import-scanner so
@@ -168,6 +171,9 @@ if(Qt6_FOUND)
         if(APP_CONSOLE)
             target_compile_definitions(${target} PRIVATE T484_SHELL_CONSOLE)
         endif()
+        if(APP_KIRIGAMI)
+            target_compile_definitions(${target} PRIVATE T484_SHELL_KIRIGAMI)
+        endif()
 
         install(TARGETS ${target}
             BUNDLE DESTINATION .
@@ -179,6 +185,10 @@ if(Qt6_FOUND)
     t484_add_app(t484)
     t484_add_app(t484_console CONSOLE)
     set_target_properties(t484_console PROPERTIES OUTPUT_NAME t484-console)
+    # Kirigami QML plugin is resolved at runtime (KF6 on neon). No REQUIRED
+    # find_package — missing import fails at process start, like a missing theme.
+    t484_add_app(t484_kirigami KIRIGAMI)
+    set_target_properties(t484_kirigami PROPERTIES OUTPUT_NAME t484-kirigami)
 
     add_executable(ocsnode_genai_tests
         tests/test_genai.cpp

@@ -1,7 +1,7 @@
 # t484 — OCS/Node Engine
 
 **OCS/Node Engine for OCS/Display**  
-C++20 protocol core + optional Qt 6 / QML **interactive chat** and **protocol console**.
+C++20 protocol core + optional Qt 6 / QML **interactive chat**, **protocol console**, and **Kirigami chassis**.
 
 Part of the Orion Collective System (OCS v2.1).  
 Canonical product repo for the `ocs-node-engine` skill.
@@ -10,11 +10,12 @@ The chat transcript **is** the living protocol document. Host turns are `flow/ch
 
 **Docs:** [docs/INDEX.md](docs/INDEX.md) — architecture, protocol grammar, engine, chat turns, operator runbook, build, OCS integration, glossary.
 
-Visual system: [docs/THEME.md](docs/THEME.md). Every QML surface as a plate: [docs/PANELS.md](docs/PANELS.md).
+Visual system: [docs/THEME.md](docs/THEME.md). Every QML surface as a plate: [docs/PANELS.md](docs/PANELS.md).  
+Kirigami shell: [docs/KIRIGAMI.md](docs/KIRIGAMI.md) · plan: [docs/plans/v0.7-kirigami/](docs/plans/v0.7-kirigami/).
 
-Nexus export/import + volumetric axes are implemented (`exportNexus` / `importNexus`, `/exec nexus-export`, console Export/Import/Copy). Phase E UI and CoherenceMonitorBridge remain planned: [docs/plans/v0.6/](docs/plans/v0.6/). Fixture: [`src/assets/nexus-v0.6.ocs`](src/assets/nexus-v0.6.ocs).
+Nexus export/import + volumetric axes are implemented (`exportNexus` / `importNexus`, `/exec nexus-export`, console Export/Import/Copy). Phase E UI and CoherenceMonitorBridge shipped with v0.6: [docs/plans/v0.6/](docs/plans/v0.6/). Fixture: [`src/assets/nexus-v0.6.ocs`](src/assets/nexus-v0.6.ocs).
 
-## Status (v0.4 — chat + protocol console)
+## Status (v0.6 core + v0.7 Kirigami chassis)
 
 | Piece | State |
 |---|---|
@@ -31,8 +32,9 @@ Nexus export/import + volumetric axes are implemented (`exportNexus` / `importNe
 | `t484` chat shell (`src/qml/main.qml`) | shipped |
 | `t484-console` dashboard (`src/qml/console.qml`) | shipped |
 | `exportNexus` / `importNexus` + axes | shipped |
-| KickLangEditor / TasBoard / ConsentGateDialog | planned (Phase E / v0.5) |
-| CoherenceMonitorBridge | planned ([v0.6](docs/plans/v0.6/)) |
+| KickLangEditor / TasBoard / ConsentGateDialog | shipped (Phase E) |
+| CoherenceMonitorBridge | shipped ([v0.6](docs/plans/v0.6/)) |
+| `t484-kirigami` (`src/qml/kirigami.qml`) | shipped (KF6 runtime import) |
 
 ## Layout
 
@@ -44,6 +46,7 @@ src/engine/               ProtocolEngine + Qt facade
 src/components/           TasStatusModel, KlmxMoleculeItem
 src/qml/main.qml          chat shell
 src/qml/console.qml       protocol console shell
+src/qml/kirigami.qml      Kirigami 6 chassis
 src/qml/OcsNode/          Theme.qml + *View.qml + qmldir
 src/assets/seed.ocs       startup protocol document (welcome turn)
 src/assets/nexus-v0.6.ocs Nexus snapshot fixture
@@ -56,12 +59,14 @@ docs/CHAT.md              ChatSession turn machine
 docs/OPERATOR.md          run chat / console / GenAI
 docs/BUILD.md             CMake targets and tests
 docs/OCS-INTEGRATION.md   Node inside OCS v2.1
+docs/KIRIGAMI.md          Kirigami chassis
 docs/GLOSSARY.md          terms
 docs/COMPONENTS.md        C++ / QML / protocol interface catalog
 docs/CONSOLE.md           console layout and binding notes
 docs/THEME.md             OCS Slate tokens
 docs/PANELS.md            every surface rendered
-docs/plans/v0.6/          Nexus plan (remaining Phase E / bridge)
+docs/plans/v0.6/          Nexus plan
+docs/plans/v0.7-kirigami/ Kirigami chassis plan
 docs/images/              SVG plates
 ```
 
@@ -84,6 +89,8 @@ cmake --build build
 ./build/t484              # compact chat
 ./build/t484-console      # three-pane protocol console
 ./build/t484 --console    # same console from the chat binary
+./build/t484-kirigami     # Kirigami chassis (needs org.kde.kirigami at runtime)
+./build/t484 --kirigami
 ```
 
 Full operator notes: [docs/OPERATOR.md](docs/OPERATOR.md). Full CMake map: [docs/BUILD.md](docs/BUILD.md).
@@ -105,7 +112,7 @@ export GEMINI_API_KEY="…"    # https://aistudio.google.com/apikey
 export GEMINI_MODEL="gemini-3.7-flash"   # falls back to 3.6 then 3.5 on high demand
 ./build/t484
 ./build/t484 --genai-status   # prints ready/source/model (never the key)
-./build/t484 --genai-debug    # lists every env name and .env paths checked
+./build/t484 --genai-debug    # lists every env names and .env paths checked
 ```
 
 A KDE/Grok GUI launch **does not inherit** an interactive-shell `export`. t484 looks up, in order:

@@ -1,4 +1,4 @@
-# t484 Architecture (v0.4 chat + protocol console)
+# t484 Architecture (v0.4 chat + protocol console + v0.7 Kirigami chassis)
 
 Source of truth: this repository. The `ocs-node-engine` skill is the forge, not a second product tree.  
 Documentation map: [INDEX.md](INDEX.md).  
@@ -6,9 +6,10 @@ Component and QML/C++ interface catalog: [COMPONENTS.md](COMPONENTS.md).
 Protocol grammar: [PROTOCOL.md](PROTOCOL.md).  
 Engine + halt + coherence + Nexus export: [ENGINE.md](ENGINE.md).  
 Chat turns: [CHAT.md](CHAT.md).  
-Console shell notes: [CONSOLE.md](CONSOLE.md).
+Console shell notes: [CONSOLE.md](CONSOLE.md).  
+Kirigami shell notes: [KIRIGAMI.md](KIRIGAMI.md).
 
-The Qt shell is an **OCS-compliant chat**: the transcript is the protocol section list. No parallel message store. The protocol console is a second ApplicationWindow over the **same** engine, models, and views.
+The Qt shell is an **OCS-compliant chat**: the transcript is the protocol section list. No parallel message store. The protocol console and the Kirigami chassis are additional ApplicationWindows over the **same** engine, models, and views.
 
 ## Modules
 
@@ -17,7 +18,7 @@ The Qt shell is an **OCS-compliant chat**: the transcript is the protocol sectio
 | protocol | `include/ocsnode/*` + `src/protocol/` | C++20 STL only | Parse / emit sections, `ChatSession` |
 | engine | `src/engine/` | protocol + Qt6 Core | `ProtocolEngine` QObject, halt gate, coherence, `sendChat`, `exportNexus` |
 | components | `src/components/` | Qt6 Core | QObject models (`*Model` / `*Item`) |
-| qml | `src/qml/OcsNode/` + `main.qml` + `console.qml` | engine + components | Chat + console shells |
+| qml | `src/qml/OcsNode/` + `main.qml` + `console.qml` + `kirigami.qml` | engine + components | Chat + console + Kirigami shells |
 | tests | `tests/` | protocol | Round-trip + chat-turn + nexus fixtures, no Qt required |
 
 ## Naming (frozen)
@@ -61,10 +62,13 @@ Parser is line-oriented. A section starts on a sigil line (`U+2AFB`) and runs un
 
 | Binary | QML entry | Default |
 |---|---|---|
-| `t484` | `src/qml/main.qml` | compact chat; `--console` loads the dashboard |
-| `t484-console` | `src/qml/console.qml` | three-pane operator dashboard; `--chat` loads the compact shell |
+| `t484` | `src/qml/main.qml` | compact chat; `--console` dashboard; `--kirigami` KF6 chassis |
+| `t484-console` | `src/qml/console.qml` | three-pane operator dashboard; `--chat` / `--kirigami` |
+| `t484-kirigami` | `src/qml/kirigami.qml` | Kirigami.ApplicationWindow pages; `--chat` / `--console` |
 
-Both binaries share `ProtocolEngineQt`, `TasStatusModel`, `KlmxMoleculeItem`, and the OcsNode views.
+All three binaries share `ProtocolEngineQt`, `TasStatusModel`, `KlmxMoleculeItem`, and the OcsNode views.
+
+Kirigami is KF6 (`org.kde.kirigami`). Do not add a KF5 Kirigami2 dependency. The QML plugin is a **runtime** import; CMake does not require KF6 to configure.
 
 ## Build
 
@@ -75,6 +79,7 @@ cmake --build build
 # Qt apps (when Qt6 is available):
 ./build/t484
 ./build/t484-console
+./build/t484-kirigami
 ```
 
 See [BUILD.md](BUILD.md) for targets and [OPERATOR.md](OPERATOR.md) for launch / key lookup.

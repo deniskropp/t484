@@ -2,6 +2,7 @@
 
 How to run t484 as an OCS/Node operator. Architecture stays in
 [ARCHITECTURE.md](ARCHITECTURE.md). Interfaces stay in [COMPONENTS.md](COMPONENTS.md).
+Kirigami chassis: [KIRIGAMI.md](KIRIGAMI.md).
 
 ## Binaries
 
@@ -9,17 +10,23 @@ How to run t484 as an OCS/Node operator. Architecture stays in
 |---|---|---|
 | `t484` | `src/qml/main.qml` | compact chat |
 | `t484-console` | `src/qml/console.qml` | three-pane dashboard |
+| `t484-kirigami` | `src/qml/kirigami.qml` | KF6 page / drawer chassis |
 | `ocsnode_protocol_tests` | - | STL protocol tests |
 | `ocsnode_genai_tests` | - | GenAI parse tests (no network) |
 
 ```bash
 ./build/t484              # chat
 ./build/t484 --console    # same console from the chat binary
+./build/t484 --kirigami   # Kirigami chassis (needs org.kde.kirigami at runtime)
 ./build/t484-console
 ./build/t484-console --chat
+./build/t484-kirigami
+./build/t484-kirigami --chat
 ./build/t484 --genai-status   # ready / source / model — never the key
 ./build/t484 --genai-debug    # env names and .env paths checked
 ```
+
+Flag precedence: `--kirigami` > `--console` > `--chat` > compile default.
 
 A KDE/Grok GUI launch does **not** inherit an interactive-shell `export`.
 Put the key where the process can see it (see below).
@@ -82,13 +89,15 @@ Get a key: https://aistudio.google.com/apikey
 
 Do not type API keys into the composer. They will become protocol text and leak into `emitText`.
 
-## Console vs chat
+## Console vs chat vs Kirigami
 
 Same engine, same models, same views.
 
 Chat: status bar -> TAS strip -> transcript + composer | KLMX + raw `sourceText`.
 
 Console: status + view-mode strip -> transcript + composer + TAS/KLMX | settings + event log | metrics.
+
+Kirigami: `Kirigami.ApplicationWindow` + `globalDrawer` + pageStack (Chat, TAS, Editor, Metrics, KLMx). Requires the KF6 QML plugin at runtime.
 
 View-mode combo (`chat|inspect|dev`) is **shell chrome**. Protocol mode stays
 `Hybrid|Fluid|Swarm|Predictive`.
@@ -117,3 +126,4 @@ Seed load order in the GUI: qrc `:/qt/qml/OcsNode/seed.ocs`, then relative `src/
 | Stays gated after resume | loaded document still contains `cmd/halt` |
 | Console meters look empty | expected — counts derived from signals, no process RSS |
 | Protocol tests fail on UTF-8 | fixture must start with the three-byte sigil, not a lookalike slash |
+| Kirigami window never appears | `org.kde.kirigami` QML module missing (install KF6 Kirigami); check stderr |

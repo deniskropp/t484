@@ -40,21 +40,37 @@ static QString loadSeed()
         "context/klmx:Kick/Lang\nfallback seed\n");
 }
 
-static bool wantsConsole(const QStringList &args)
+// Flag precedence: --kirigami > --console > --chat > compile default.
+static QString selectedShell(const QStringList &args)
 {
-#ifdef T484_SHELL_CONSOLE
-    if (args.contains(QStringLiteral("--chat")))
-        return false;
-    return true;
+#ifdef T484_SHELL_KIRIGAMI
+    QString def = QStringLiteral("kirigami");
+#elif defined(T484_SHELL_CONSOLE)
+    QString def = QStringLiteral("console");
 #else
-    return args.contains(QStringLiteral("--console"));
+    QString def = QStringLiteral("chat");
 #endif
+    if (args.contains(QStringLiteral("--kirigami")))
+        return QStringLiteral("kirigami");
+    if (args.contains(QStringLiteral("--console")))
+        return QStringLiteral("console");
+    if (args.contains(QStringLiteral("--chat")))
+        return QStringLiteral("chat");
+    return def;
 }
 
-static QUrl mainQmlUrl(bool console)
+static QString qmlFileForShell(const QString &shell)
 {
-    const QString name = console ? QStringLiteral("console.qml")
-                                 : QStringLiteral("main.qml");
+    if (shell == QLatin1String("kirigami"))
+        return QStringLiteral("kirigami.qml");
+    if (shell == QLatin1String("console"))
+        return QStringLiteral("console.qml");
+    return QStringLiteral("main.qml");
+}
+
+static QUrl mainQmlUrl(const QString &shell)
+{
+    const QString name = qmlFileForShell(shell);
     const QString path = firstExisting({
         QStringLiteral(":/qt/qml/OcsNode/") + name,
         QStringLiteral(":/OcsNode/src/qml/") + name,
@@ -65,16 +81,23 @@ static QUrl mainQmlUrl(bool console)
     return QUrl(QStringLiteral("qrc:/qt/qml/OcsNode/") + name);
 }
 
+static const char *displayNameForShell(const QString &shell)
+{
+    if (shell == QLatin1String("kirigami"))
+        return "t484 Kirigami";
+    if (shell == QLatin1String("console"))
+        return "t484 Protocol Console";
+    return "OCS/Node Chat";
+}
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     app.setOrganizationName(QStringLiteral("Exit"));
     app.setApplicationName(QStringLiteral("t484"));
 
-    const bool console = wantsConsole(app.arguments());
-    app.setApplicationDisplayName(console
-        ? QStringLiteral("t484 Protocol Console")
-        : QStringLiteral("OCS/Node Chat"));
+    const QString shell = selectedShell(app.arguments());
+    app.setApplicationDisplayName(QString::fromUtf8(displayNameForShell(shell)));
 
     ocsnode::ProtocolEngineQt engine;
     ocsnode::TasStatusModel tasModel;
@@ -83,7 +106,7 @@ int main(int argc, char *argv[])
 
     engine.setActor(QStringLiteral("KickFlow"));
     std::fprintf(stderr, "t484: shell=%s genai ready=%s source=%s model=%s\n",
-                 console ? "console" : "chat",
+                 qPrintable(shell),
                  engine.genaiReady() ? "yes" : "no",
                  qPrintable(engine.genaiSource().isEmpty()
                                 ? QStringLiteral("(none)")
@@ -129,8 +152,7 @@ int main(int argc, char *argv[])
 
     eventLogModel.appendEvent(QStringLiteral("info"),
                               QStringLiteral("boot"),
-                              console ? QStringLiteral("t484 Protocol Console")
-                                      : QStringLiteral("OCS/Node Chat"));
+                              QString::fromUtf8(displayNameForShell(shell)));
     eventLogModel.appendEvent(QStringLiteral("genai"),
                               QStringLiteral("source"),
                               engine.genaiReady() ? engine.genaiSource()
@@ -148,7 +170,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty(QStringLiteral("klmxItem"), &klmxItem);
     ctx->setContextProperty(QStringLiteral("eventLogModel"), &eventLogModel);
 
-    const QUrl url = mainQmlUrl(console);
+    const QUrl url = mainQmlUrl(shell);
     QObject::connect(
         &qml, &QQmlApplicationEngine::objectCreationFailed,
         &app, []() { QCoreApplication::exit(-1); },

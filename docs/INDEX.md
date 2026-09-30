@@ -1,7 +1,7 @@
 # t484 documentation index
 
 Canonical product docs for the **OCS/Node Engine** (`deniskropp/t484`).
-Shipped product is **v0.6** (chat + protocol console + OCS Slate + Nexus export/import + Phase E UI + CoherenceMonitorBridge).
+Shipped product is **v0.6** (chat + protocol console + OCS Slate + Nexus export/import + Phase E UI + CoherenceMonitorBridge) plus an optional **v0.7 Kirigami chassis**.
 The `ocs-node-engine` skill is the forge. This repository is the source of truth.
 
 ## Start here
@@ -19,9 +19,11 @@ The `ocs-node-engine` skill is the forge. This repository is the source of truth
 | How t484 sits in OCS v2.1 | [OCS-INTEGRATION.md](OCS-INTEGRATION.md) |
 | Words used in this tree | [GLOSSARY.md](GLOSSARY.md) |
 | Console shell layout | [CONSOLE.md](CONSOLE.md) |
+| Kirigami shell (KF6 chassis) | [KIRIGAMI.md](KIRIGAMI.md) |
 | QML plates | [PANELS.md](PANELS.md) |
 | Color / type tokens | [THEME.md](THEME.md) |
 | Nexus roadmap and plan | [plans/v0.6/README.md](plans/v0.6/README.md) |
+| Kirigami chassis plan | [plans/v0.7-kirigami/README.md](plans/v0.7-kirigami/README.md) |
 
 ## Invariants (do not drift)
 
@@ -32,6 +34,7 @@ The `ocs-node-engine` skill is the forge. This repository is the source of truth
 5. API keys never enter a `Section` (export scrubs secrets).
 6. Do not invent section families beyond the frozen surface in `ARCHITECTURE.md`.
 7. Skill `generated/` is staging. Product types live under `include/` + `src/`.
+8. Kirigami is display chrome only. It does not add protocol families.
 
 ## Status snapshot
 
@@ -43,6 +46,7 @@ The `ocs-node-engine` skill is the forge. This repository is the source of truth
 | `exportNexus` / `importNexus` + console actions + axes | shipped |
 | `KickLangEditorView` / `TasBoardView` / `ConsentGateDialog` | shipped (Phase E / v0.6) |
 | `CoherenceMonitorBridge` behind `deriveCoherence` | shipped |
+| `t484-kirigami` / `src/qml/kirigami.qml` | shipped (v0.7 chassis; KF6 runtime import) |
 
-Generated 2026-09-01 from t484@main (including Nexus export commit `2c4be7b`).
+Generated 2026-09-30 from t484@main (Kirigami chassis).
 The engine remains the authority if a sentence here and a header disagree — fix the sentence.

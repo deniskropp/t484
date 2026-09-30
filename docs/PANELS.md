@@ -10,6 +10,7 @@ labels. They are not screenshots of a running binary.
 |---|---|---|
 | Chat shell `main.qml` | `src/qml/main.qml` | bubbles + composer + status |
 | Protocol console `console.qml` | `src/qml/console.qml` | settings + log + metrics |
+| Kirigami chassis `kirigami.qml` | `src/qml/kirigami.qml` | KF6 pageStack + drawer — [KIRIGAMI.md](KIRIGAMI.md) |
 | `ProtocolStatusBar` | chrome | [protocol-status-bar.svg](images/protocol-status-bar.svg) |
 | `TasStatusBarView` | TAS strip | [tas-status-bar.svg](images/tas-status-bar.svg) |
 | `OcsChatBubbleView` | transcript delegate | [chat-bubbles.svg](images/chat-bubbles.svg) |
@@ -119,3 +120,7 @@ Console plate for frozen-family dispatch. Binds `protocol: appWindow.protocol`. 
 
 `console.qml` (dashboard): status bar → view/mode strip → transcript + composer
 + TAS/KLMX | settings + event log | metrics (modes: `chat`, `inspect`, `dev`, `editor`, `board`, `dispatch`); `ConsentGateDialog` overlay. `dispatch` hides the chat split and shows `ProtocolDispatchView`.
+
+`kirigami.qml` (KF6 chassis): `Kirigami.ApplicationWindow` + `globalDrawer` +
+pageStack pages Chat / TAS / KickLang / Metrics / KLMx. Reuses the same
+`*View.qml` plates. No new protocol families. See [KIRIGAMI.md](KIRIGAMI.md).
