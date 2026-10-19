@@ -21,10 +21,19 @@ Kirigami.ApplicationWindow {
 
     globalDrawer: Kirigami.GlobalDrawer {
         title: qsTr("OCS/Display")
-        subtitle: appWindow.protocol
-                  ? (appWindow.protocol.mode + " · " + appWindow.protocol.status
-                     + (appWindow.protocol.gated ? " · GATED" : ""))
-                  : ""
+        // KF6 GlobalDrawer has title, not subtitle. Status lives in topContent.
+        topContent: [
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Kirigami.Theme.textColor
+                text: appWindow.protocol
+                      ? (appWindow.protocol.mode + " · " + appWindow.protocol.status
+                         + (appWindow.protocol.gated ? " · GATED" : ""))
+                      : ""
+                visible: text !== ""
+            }
+        ]
         actions: [
             Kirigami.Action {
                 text: qsTr("Chat")
