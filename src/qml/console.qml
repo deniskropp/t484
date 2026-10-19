@@ -96,7 +96,7 @@ ApplicationWindow {
                 }
                 ComboBox {
                     id: viewSelector
-                    model: ["chat", "inspect", "dev", "editor", "board", "dispatch"]
+                    model: ["chat", "inspect", "dev", "editor", "board", "dispatch", "display"]
                     currentIndex: 0
                     implicitWidth: 148
                     onActivated: appWindow.viewMode = model[index]
@@ -161,8 +161,15 @@ ApplicationWindow {
             onCopySnapshotRequested: appWindow.copyNexusSnapshot()
         }
 
+        OcsDisplaySplitView {
+            visible: appWindow.viewMode === "display"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            protocol: appWindow.protocol
+        }
+
         SplitView {
-            visible: appWindow.viewMode !== "editor" && appWindow.viewMode !== "board" && appWindow.viewMode !== "dispatch"
+            visible: appWindow.viewMode !== "editor" && appWindow.viewMode !== "board" && appWindow.viewMode !== "dispatch" && appWindow.viewMode !== "display"
             Layout.fillWidth: true
             Layout.fillHeight: true
             orientation: Qt.Horizontal

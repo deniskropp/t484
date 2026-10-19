@@ -472,7 +472,9 @@ No test talks to the network.
 | `src/qml/console.qml` | protocol console shell |
 | `src/qml/dispatch.qml` | protocol dispatch shell |
 | `src/qml/kirigami.qml` | Kirigami chassis |
-| `src/qml/OcsNode/GenerativeWidgetView.qml` | frozen `display/*` plate |
+| `src/qml/OcsNode/GenerativeWidgetView.qml` | display frame (`header`, `content` or `body`, `footer`, `meta`) |
+| `src/qml/OcsNode/ProtocolRichTextView.qml` | living document as rich text |
+| `src/qml/OcsNode/OcsDisplaySplitView.qml` | protocol pane beside the display frame |
 | `src/assets/nexus-v0.6-berlin.ocs` | N7 Berlin fixture |
 | `src/qml/OcsNode/KickLangEditorView.qml` | KickLang editor |
 | `src/qml/OcsNode/TasBoardView.qml` | TAS Kanban board |

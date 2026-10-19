@@ -25,7 +25,9 @@ labels. They are not screenshots of a running binary.
 | `ConsentGateDialog` | modal | halt gate inspection + un-gate action |
 | `ProtocolDispatchView` | dispatch | frozen-family submit / slash / halt |
 | Protocol dispatch `dispatch.qml` | `src/qml/dispatch.qml` | frozen-family submit / slash |
-| `GenerativeWidgetView` | display plate | frozen `display/header` + `display/content` + `display/meta` |
+| `ProtocolRichTextView` | protocol | living document as rich text |
+| `GenerativeWidgetView` | display frame | `display/header` + `display/content` or `display/body` + `display/footer` + `display/meta` |
+| `OcsDisplaySplitView` | display split | protocol rich text beside the display frame |
 
 `OcsChatTranscriptView` is the ListView that hosts `OcsChatBubbleView`; it has
 no chrome of its own beyond `Theme.bg`.
@@ -116,7 +118,15 @@ Console plate for frozen-family dispatch. Binds `protocol: appWindow.protocol`. 
 
 ## GenerativeWidgetView
 
-Read-only plate bound to frozen `display/header`, `display/content`, and `display/meta` via `protocol.sectionBody`. Does not invent `display/generative_widget` or any other family. Registered in the module; no shell page hosts it yet.
+Read-only frame bound via `protocol.sectionBody`. Header, footer, and meta render as their own bands. The work card is `display/content` or `display/body`. If a document carries both, the frame shows a gate and keeps the two bodies apart. Hosted by `OcsDisplaySplitView`.
+
+## ProtocolRichTextView
+
+Read-only rich text of `protocol.sourceText` (fallback `emitText()`). Sigil lines are colored by family. The transcript model stays `protocol.sections`.
+
+## OcsDisplaySplitView
+
+Horizontal split: `ProtocolRichTextView` and `GenerativeWidgetView`, both bound to `protocol: appWindow.protocol`. Kirigami page Display and console view mode `display`.
 
 ---
 
@@ -125,10 +135,10 @@ Read-only plate bound to frozen `display/header`, `display/content`, and `displa
 `main.qml` (chat): status bar → TAS strip → transcript + composer | KLMX + raw source; `ConsentGateDialog` overlay.
 
 `console.qml` (dashboard): status bar → view/mode strip → transcript + composer
-+ TAS/KLMX | settings + event log | metrics (modes: `chat`, `inspect`, `dev`, `editor`, `board`, `dispatch`); `ConsentGateDialog` overlay. `dispatch` hides the chat split and shows `ProtocolDispatchView`.
++ TAS/KLMX | settings + event log | metrics (modes: `chat`, `inspect`, `dev`, `editor`, `board`, `dispatch`, `display`); `ConsentGateDialog` overlay. `dispatch` hides the chat split and shows `ProtocolDispatchView`. `display` hides the chat split and shows `OcsDisplaySplitView`.
 
 `kirigami.qml` (KF6 chassis): `Kirigami.ApplicationWindow` + `globalDrawer` +
-pageStack pages Chat / TAS / KickLang / Metrics / KLMx. Reuses the same
+pageStack pages Chat / Display / TAS / KickLang / Metrics / KLMx. Reuses the same
 `*View.qml` plates. No new protocol families. See [KIRIGAMI.md](KIRIGAMI.md).
 
 `dispatch.qml` (dispatch): status bar → `ProtocolDispatchView` fill.

@@ -27,7 +27,7 @@ is missing, the process exits on `objectCreationFailed`.
 | `./build/t484-kirigami --chat` | compact chat |
 | `./build/t484-kirigami --console` | protocol console |
 
-Flags: `--kirigami` wins over `--console` wins over `--chat` when several are passed.
+Flags: `--kirigami` wins over `--dispatch`, then `--console`, then `--chat`, then the compile default.
 Compile defaults: `T484_SHELL_KIRIGAMI` / `T484_SHELL_CONSOLE` / chat.
 
 ## Binding rules (same as other shells)
@@ -42,6 +42,7 @@ Compile defaults: `T484_SHELL_KIRIGAMI` / `T484_SHELL_CONSOLE` / chat.
 | Page | Content |
 |---|---|
 | Chat | `ProtocolStatusBar` + `TasStatusBarView` + transcript + composer |
+| Display | `OcsDisplaySplitView` — protocol rich text beside the display frame |
 | TAS | `TasBoardView` |
 | KickLang | `KickLangEditorView` |
 | Metrics | `OcsMetricsPanelView` |

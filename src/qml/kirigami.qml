@@ -40,6 +40,10 @@ Kirigami.ApplicationWindow {
                 onTriggered: appWindow.pageStack.replace(chatPage)
             },
             Kirigami.Action {
+                text: qsTr("Display")
+                onTriggered: appWindow.pageStack.replace(displayPage)
+            },
+            Kirigami.Action {
                 text: qsTr("TAS board")
                 onTriggered: appWindow.pageStack.replace(tasPage)
             },
@@ -63,6 +67,14 @@ Kirigami.ApplicationWindow {
             Kirigami.Action {
                 text: qsTr("Mode Fluid")
                 onTriggered: if (appWindow.protocol) appWindow.protocol.setMode("Fluid")
+            },
+            Kirigami.Action {
+                text: qsTr("Mode Swarm")
+                onTriggered: if (appWindow.protocol) appWindow.protocol.setMode("Swarm")
+            },
+            Kirigami.Action {
+                text: qsTr("Mode Predictive")
+                onTriggered: if (appWindow.protocol) appWindow.protocol.setMode("Predictive")
             },
             Kirigami.Action {
                 text: qsTr("Halt")
@@ -126,6 +138,17 @@ Kirigami.ApplicationWindow {
                     protocol: appWindow.protocol
                     inspectorVisible: false
                 }
+            }
+        }
+    }
+
+    Component {
+        id: displayPage
+        Kirigami.Page {
+            title: qsTr("Display")
+            OcsDisplaySplitView {
+                anchors.fill: parent
+                protocol: appWindow.protocol
             }
         }
     }

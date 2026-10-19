@@ -91,6 +91,8 @@ if(Qt6_FOUND)
         src/qml/OcsNode/TasBoardView.qml
         src/qml/OcsNode/ConsentGateDialog.qml
         src/qml/OcsNode/GenerativeWidgetView.qml
+        src/qml/OcsNode/ProtocolRichTextView.qml
+        src/qml/OcsNode/OcsDisplaySplitView.qml
         src/qml/OcsNode/ProtocolDispatchView.qml
     )
 
@@ -135,6 +137,10 @@ if(Qt6_FOUND)
         PROPERTIES QT_RESOURCE_ALIAS "ConsentGateDialog.qml")
     set_source_files_properties(src/qml/OcsNode/GenerativeWidgetView.qml
         PROPERTIES QT_RESOURCE_ALIAS "GenerativeWidgetView.qml")
+    set_source_files_properties(src/qml/OcsNode/ProtocolRichTextView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "ProtocolRichTextView.qml")
+    set_source_files_properties(src/qml/OcsNode/OcsDisplaySplitView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "OcsDisplaySplitView.qml")
     set_source_files_properties(src/qml/OcsNode/ProtocolDispatchView.qml
         PROPERTIES QT_RESOURCE_ALIAS "ProtocolDispatchView.qml")
     set_source_files_properties(src/assets/seed.ocs

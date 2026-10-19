@@ -56,6 +56,8 @@ axes. Anzeigeebene ingress may use `display/header` + `display/body` +
 
 Gate, not merge: a document that contains both `display/body` and
 `display/content` is invalid for one frame. The Node does not combine them.
+`OcsDisplaySplitView` shows that gate in the display pane and leaves the
+protocol rich-text pane on the living document.
 
 H1–H7 stay in the display-layer skill. t484 enforces `cmd/halt` only.
 
