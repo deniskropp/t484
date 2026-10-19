@@ -1,0 +1,117 @@
+<svg xmlns="http://w3.org" viewBox="0 0 800 450" width="100%" height="100%">
+  <!-- Definitions for gradients and drop shadows -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="50%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="100%" height="100%" fill="url(#bgGrad)" rx="12" />
+  <rect width="99%" height="98%" x="0.5%" y="1%" fill="none" stroke="#334155" stroke-width="1.5" rx="12" />
+
+  <!-- Grid Overlay lines for tech aesthetic -->
+  <path d="M 0,75 L 800,75 M 0,150 L 800,150 M 0,225 L 800,225 M 0,300 L 800,300 M 0,375 L 800,375" stroke="#1e293b" stroke-width="1" stroke-dasharray="5,5" />
+  <path d="M 160,0 L 160,450 M 320,0 L 320,450 M 480,0 L 480,450 M 640,0 L 640,450" stroke="#1e293b" stroke-width="1" stroke-dasharray="5,5" />
+
+  <!-- HEADER -->
+  <g transform="translate(30, 45)">
+    <text x="0" y="0" font-family="monospace" font-size="12" font-weight="bold" fill="#6366f1" letter-spacing="2">⫻DISPLAY/RENDER:WIDGET</text>
+    <text x="0" y="22" font-family="sans-serif" font-size="20" font-weight="800" fill="#f8fafc">GenerativeWidget Molecule Runtime</text>
+  </g>
+
+  <!-- BLOCK 1: ⫻data/logic (Schema Input) -->
+  <g transform="translate(40, 130)" filter="url(#shadow)">
+    <rect width="210" height="240" rx="8" fill="url(#boxGrad)" stroke="#475569" stroke-width="1.5" />
+    <rect width="210" height="35" rx="8" fill="#1e293b" />
+    <path d="M 0,35 L 210,35" stroke="#475569" stroke-width="1" />
+    <circle cx="20" cy="17" r="5" fill="#ef4444" />
+    <circle cx="36" cy="17" r="5" fill="#f59e0b" />
+    <circle cx="52" cy="17" r="5" fill="#10b981" />
+    <text x="75" y="22" font-family="monospace" font-size="11" font-weight="bold" fill="#94a3b8">⫻data/logic</text>
+    
+    <!-- Code Snippet Visuals -->
+    <text x="20" y="70" font-family="monospace" font-size="11" fill="#a855f7">"molecule": <tspan fill="#f43f5e">"GenerativeWidget"</tspan></text>
+    <text x="20" y="95" font-family="monospace" font-size="11" fill="#a855f7">"structure": {</text>
+    <text x="40" y="120" font-family="monospace" font-size="11" fill="#38bdf8">"objective": "Track..."</text>
+    <text x="40" y="145" font-family="monospace" font-size="11" fill="#38bdf8">"initialValues": {...}</text>
+    <text x="40" y="170" font-family="monospace" font-size="11" fill="#38bdf8">"inputs": [...]</text>
+    <text x="20" y="195" font-family="monospace" font-size="11" fill="#a855f7">},</text>
+    <text x="20" y="220" font-family="monospace" font-size="11" fill="#a855f7">"hook": <tspan fill="#10b981">"⫻display/render"</tspan></text>
+  </g>
+
+  <!-- FLOW ARROW 1 -> 2 -->
+  <g transform="translate(250, 230)">
+    <path d="M 0,20 L 50,20" fill="none" stroke="url(#accentGrad)" stroke-width="3" stroke-dasharray="4,2" />
+    <polygon points="50,15 60,20 50,25" fill="#a855f7" />
+    <text x="-5" y="5" font-family="monospace" font-size="10" fill="#64748b" text-anchor="middle" transform="rotate(0)">Codein Pipeline</text>
+  </g>
+
+  <!-- BLOCK 2: Orchestration Middleware (Protocol Binding) -->
+  <g transform="translate(310, 160)" filter="url(#shadow)">
+    <rect width="180" height="180" rx="90" fill="url(#boxGrad)" stroke="url(#accentGrad)" stroke-width="2" filter="url(#glow)" opacity="0.85"/>
+    <text x="90" y="80" font-family="monospace" font-size="12" font-weight="bold" fill="#ec4899" text-anchor="middle">⫻cmd/exec:AR-00L</text>
+    <line x1="40" y1="95" x2="140" y2="95" stroke="#334155" stroke-width="1" />
+    <text x="90" y="115" font-family="sans-serif" font-size="13" font-weight="bold" fill="#f8fafc" text-anchor="middle">State Hydration</text>
+    <text x="90" y="132" font-family="monospace" font-size="11" fill="#38bdf8" text-anchor="middle">⫻data/var Matrix</text>
+  </g>
+
+  <!-- FLOW ARROW 2 -> 3 -->
+  <g transform="translate(490, 230)">
+    <path d="M 10,20 L 60,20" fill="none" stroke="url(#accentGrad)" stroke-width="3" stroke-dasharray="4,2" />
+    <polygon points="60,15 70,20 60,25" fill="#ec4899" />
+    <text x="35" y="5" font-family="monospace" font-size="10" fill="#64748b" text-anchor="middle">Synthesis</text>
+  </g>
+
+  <!-- BLOCK 3: ⫻display/body (Rendered UI Canvas) -->
+  <g transform="translate(560, 130)" filter="url(#shadow)">
+    <rect width="200" height="240" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+    
+    <!-- Window Bar -->
+    <path d="M 0,30 L 200,30" stroke="#1e293b" stroke-width="1.5" />
+    <rect width="200" height="30" rx="8" fill="#1e293b" />
+    <text x="15" y="20" font-family="sans-serif" font-size="11" font-weight="bold" fill="#10b981">Financial Tracker Active</text>
+    
+    <!-- Rendered Display Content -->
+    <text x="15" y="60" font-family="sans-serif" font-size="10" fill="#94a3b8">Total Budget Baseline</text>
+    <text x="15" y="80" font-family="sans-serif" font-size="18" font-weight="bold" fill="#f8fafc">5,000.00 EUR</text>
+    
+    <!-- Interactive Progress Bar Visual -->
+    <rect x="15" y="95" width="170" height="8" rx="4" fill="#334155" />
+    <rect x="15" y="95" width="55" height="8" rx="4" fill="url(#accentGrad)" />
+    
+    <!-- Input Form Simulation -->
+    <rect x="15" y="125" width="170" height="25" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1" />
+    <text x="25" y="141" font-family="sans-serif" font-size="11" fill="#f8fafc">250</text>
+    <text x="155" y="141" font-family="sans-serif" font-size="10" fill="#64748b">EUR</text>
+    
+    <!-- Select Box -->
+    <rect x="15" y="160" width="170" height="25" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1" />
+    <text x="25" y="176" font-family="sans-serif" font-size="11" fill="#94a3b8">Entertainment</text>
+    <polygon points="170,170 174,175 178,170" fill="#94a3b8" />
+
+    <!-- Commit Button -->
+    <rect x="15" y="198" width="170" height="28" rx="4" fill="#10b981" />
+    <text x="100" y="216" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Log Transaction</text>
+  </g>
+  
+  <!-- Footer Status -->
+  <text x="400" y="420" font-family="monospace" font-size="11" fill="#475569" text-anchor="middle">Status: OCS Protocol Binding [Active] • Pipeline: Verified</text>
+</svg>

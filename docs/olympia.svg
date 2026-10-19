@@ -1,0 +1,22 @@
+      <svg width="700" height="350" viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
+        <rect width="700" height="350" fill="#050505" rx="10"/>
+        
+        <!-- Central Core -->
+        <circle cx="350" cy="175" r="60" fill="none" stroke="#e74c3c" stroke-width="4" stroke-dasharray="10 5"/>
+        <circle cx="350" cy="175" r="40" fill="#e74c3c" opacity="0.2"/>
+        <text x="350" y="180" fill="#ffffff" font-family="monospace" font-size="14" text-anchor="middle">OLYMPIA</text>
+        
+        <!-- Radiating Vectors -->
+        <line x1="350" y1="115" x2="350" y2="50" stroke="#e74c3c" stroke-width="2"/>
+        <line x1="410" y1="175" x2="600" y2="175" stroke="#e74c3c" stroke-width="2"/>
+        <line x1="350" y1="235" x2="350" y2="300" stroke="#e74c3c" stroke-width="2"/>
+        <line x1="290" y1="175" x2="100" y2="175" stroke="#e74c3c" stroke-width="2"/>
+        
+        <!-- Peripheral Nodes -->
+        <circle cx="350" cy="50" r="15" fill="#34495e" stroke="#e74c3c"/>
+        <circle cx="600" cy="175" r="15" fill="#34495e" stroke="#e74c3c"/>
+        <circle cx="350" cy="300" r="15" fill="#34495e" stroke="#e74c3c"/>
+        <circle cx="100" cy="175" r="15" fill="#34495e" stroke="#e74c3c"/>
+        
+        <text x="350" y="330" fill="#e74c3c" font-family="monospace" font-size="12" text-anchor="middle">STRATEGIC_INTELLIGENCE_HUB</text>
+      </svg>

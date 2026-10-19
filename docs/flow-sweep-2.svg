@@ -1,0 +1,20 @@
+      <svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <rect width="500" height="500" fill="#050505"/>
+        <!-- Grid Lines -->
+        <g stroke="#222" stroke-width="1">
+          <line x1="0" y1="100" x2="500" y2="100"/>
+          <line x1="0" y1="200" x2="500" y2="200"/>
+          <line x1="0" y1="300" x2="500" y2="300"/>
+          <line x1="0" y1="400" x2="500" y2="400"/>
+          <line x1="100" y1="0" x2="100" y2="500"/>
+          <line x1="200" y1="0" x2="200" y2="500"/>
+          <line x1="300" y1="0" x2="300" y2="500"/>
+          <line x1="400" y1="0" x2="400" y2="500"/>
+        </g>
+        <!-- Void Pockets (Anomalies) -->
+        <circle cx="150" cy="150" r="20" fill="none" stroke="#ff00ff" stroke-width="2" stroke-dasharray="4"/>
+        <circle cx="350" cy="350" r="30" fill="none" stroke="#ff00ff" stroke-width="2" stroke-dasharray="4"/>
+        <!-- Resonance Nodes -->
+        <rect x="240" y="240" width="20" height="20" fill="#00f2ff" />
+        <text x="250" y="280" font-family="monospace" font-size="10" fill="#00f2ff" text-anchor="middle">CORE_SYNC</text>
+      </svg>

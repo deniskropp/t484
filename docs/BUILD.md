@@ -13,14 +13,15 @@ Project version in CMake: **0.6.0**. C++20 required. CMake >= 3.16.
 | `t484` | yes | chat shell (`src/main.cpp`) |
 | `t484-console` (`t484_console` target) | yes | `T484_SHELL_CONSOLE` |
 | `t484-kirigami` (`t484_kirigami` target) | yes | `T484_SHELL_KIRIGAMI` |
+| `t484-dispatch` (`t484_dispatch` target) | yes | `T484_SHELL_DISPATCH` |
 | `ocsnode_genai_tests` | Core+Network | `tests/test_genai.cpp` — no GUI, no network |
 
 Qt components: `Core Gui Qml Quick QuickControls2 Network`.
 If `find_package(Qt6 QUIET ...)` fails, CMake prints
 `Qt6 not found — building protocol core + tests only`.
 
-`qt_add_qml_module` is shared once (`URI OcsNode`) so chat, console, and
-kirigami do not fight over the same output directory. Apps set
+`qt_add_qml_module` is shared once (`URI OcsNode`) so chat, console,
+kirigami, and dispatch do not fight over the same output directory. Apps set
 `QT_QML_MODULE_NO_IMPORT_SCAN TRUE` so missing Debian plugin CMake targets
 do not warn.
 
@@ -50,6 +51,8 @@ cmake --build build
 ./build/t484-console
 ./build/t484-kirigami
 ./build/t484 --kirigami
+./build/t484-dispatch
+./build/t484 --dispatch
 ```
 
 On Debian/KDE neon the prefix is often the distro Qt. Berlin Node
@@ -78,6 +81,7 @@ src/components/           TasStatusModel, KlmxMoleculeItem, EventLogModel
 src/qml/main.qml
 src/qml/console.qml
 src/qml/kirigami.qml
+src/qml/dispatch.qml
 src/qml/OcsNode/          Theme + *View.qml + qmldir
 src/assets/*.ocs
 tests/

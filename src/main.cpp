@@ -40,11 +40,13 @@ static QString loadSeed()
         "context/klmx:Kick/Lang\nfallback seed\n");
 }
 
-// Flag precedence: --kirigami > --console > --chat > compile default.
+// Flag precedence: --kirigami > --dispatch > --console > --chat > compile default.
 static QString selectedShell(const QStringList &args)
 {
 #ifdef T484_SHELL_KIRIGAMI
     QString def = QStringLiteral("kirigami");
+#elif defined(T484_SHELL_DISPATCH)
+    QString def = QStringLiteral("dispatch");
 #elif defined(T484_SHELL_CONSOLE)
     QString def = QStringLiteral("console");
 #else
@@ -52,6 +54,8 @@ static QString selectedShell(const QStringList &args)
 #endif
     if (args.contains(QStringLiteral("--kirigami")))
         return QStringLiteral("kirigami");
+    if (args.contains(QStringLiteral("--dispatch")))
+        return QStringLiteral("dispatch");
     if (args.contains(QStringLiteral("--console")))
         return QStringLiteral("console");
     if (args.contains(QStringLiteral("--chat")))
@@ -63,6 +67,8 @@ static QString qmlFileForShell(const QString &shell)
 {
     if (shell == QLatin1String("kirigami"))
         return QStringLiteral("kirigami.qml");
+    if (shell == QLatin1String("dispatch"))
+        return QStringLiteral("dispatch.qml");
     if (shell == QLatin1String("console"))
         return QStringLiteral("console.qml");
     return QStringLiteral("main.qml");
@@ -85,6 +91,8 @@ static const char *displayNameForShell(const QString &shell)
 {
     if (shell == QLatin1String("kirigami"))
         return "t484 Kirigami";
+    if (shell == QLatin1String("dispatch"))
+        return "t484 Protocol Dispatch";
     if (shell == QLatin1String("console"))
         return "t484 Protocol Console";
     return "OCS/Node Chat";

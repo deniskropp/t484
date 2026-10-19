@@ -1,0 +1,21 @@
+      <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="dima-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:#ff00ff;stop-opacity:0.6" />
+            <stop offset="100%" style="stop-color:#000000;stop-opacity:0" />
+          </radialGradient>
+        </defs>
+        
+        <!-- The Resonance Field -->
+        <circle cx="200" cy="200" r="150" fill="url(#dima-glow)" />
+        
+        <!-- The Harmonic Core -->
+        <path d="M200 50 L350 200 L200 350 L50 200 Z" fill="none" stroke="#ff00ff" stroke-width="2">
+          <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="20s" repeatCount="indefinite"/>
+        </path>
+        
+        <!-- The Inner Eye -->
+        <circle cx="200" cy="200" r="10" fill="#ffffff" stroke="#ff00ff" stroke-width="4"/>
+        
+        <text x="200" y="380" font-family="monospace" font-size="12" fill="#ff00ff" text-anchor="middle">DIMAFIZZ_RESONANCE</text>
+      </svg>

@@ -334,6 +334,33 @@ int main(int argc, char **argv)
     testFixtureRoundTrip(parser, emitter, fixtureDir + "/seed.ocs", "seed.ocs");
     testFixtureRoundTrip(parser, emitter, fixtureDir + "/nexus-v0.6.ocs", "nexus-v0.6.ocs");
     testFixtureRoundTrip(parser, emitter, fixtureDir + "/seed-nexus.ocs", "seed-nexus.ocs");
+    testFixtureRoundTrip(parser, emitter, fixtureDir + "/nexus-v0.6-berlin.ocs", "nexus-v0.6-berlin.ocs");
+
+    {
+        auto berlin = slurp(fixtureDir + "/nexus-v0.6-berlin.ocs");
+        auto br = parser.parse(berlin);
+        check(br.ok() && !br.sections.empty(), "N7 berlin fixture parses");
+        bool hasResume = false;
+        bool hasBlob = false;
+        bool hasBerlin = false;
+        bool hasHalt = false;
+        bool hasPipe = false;
+        for (const auto &s : br.sections) {
+            if (s.type() == "cmd/resume") hasResume = true;
+            if (s.type() == "data/nexus-blob") hasBlob = true;
+            if (s.type() == "protocol/ocs" && s.qualifier.find("Berlin") != std::string::npos)
+                hasBerlin = true;
+            if (s.type() == "cmd/halt") hasHalt = true;
+            if (s.type() == "context/klmx" && s.body.find("EmbodiedPipe") != std::string::npos)
+                hasPipe = true;
+        }
+        check(!hasResume && !hasBlob, "N7 invents no forbidden families");
+        check(hasBerlin, "N7 protocol/ocs node=Berlin");
+        check(!hasHalt, "N7 fixture is halt-free (load resumes)");
+        check(hasPipe, "N7 EmbodiedPipe lives in context/klmx");
+        ocsnode::ProtocolEngine be;
+        check(be.loadText(berlin).ok() && !be.state().gated, "N7 load is not gated");
+    }
 
     if (argc > 1) {
         testFixtureRoundTrip(parser, emitter, argv[1], "argv fixture");

@@ -179,6 +179,7 @@ CLI:
 | *(none)* | load seed, run GUI |
 | `--genai-status` | print `ready` / `source` / `model` (never the key), exit |
 | `--genai-debug` | list env names and `.env` paths checked, exit |
+| `--chat` / `--console` / `--dispatch` / `--kirigami` | pick shell (`main.qml` / `console.qml` / `dispatch.qml` / `kirigami.qml`). Precedence: kirigami, dispatch, console, chat |
 
 Seed load order: qrc `:/qt/qml/OcsNode/seed.ocs`, then relative `src/assets/seed.ocs`.
 
@@ -469,6 +470,10 @@ No test talks to the network.
 | `include/ocsnode/qt/KlmxMoleculeItem.h` | KLMX item |
 | `src/qml/main.qml` | compact chat shell |
 | `src/qml/console.qml` | protocol console shell |
+| `src/qml/dispatch.qml` | protocol dispatch shell |
+| `src/qml/kirigami.qml` | Kirigami chassis |
+| `src/qml/OcsNode/GenerativeWidgetView.qml` | frozen `display/*` plate |
+| `src/assets/nexus-v0.6-berlin.ocs` | N7 Berlin fixture |
 | `src/qml/OcsNode/KickLangEditorView.qml` | KickLang editor |
 | `src/qml/OcsNode/TasBoardView.qml` | TAS Kanban board |
 | `src/qml/OcsNode/ConsentGateDialog.qml` | consent gate modal |

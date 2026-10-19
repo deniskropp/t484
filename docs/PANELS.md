@@ -24,6 +24,8 @@ labels. They are not screenshots of a running binary.
 | `TasBoardView` | TAS board | Kanban task tracking by state |
 | `ConsentGateDialog` | modal | halt gate inspection + un-gate action |
 | `ProtocolDispatchView` | dispatch | frozen-family submit / slash / halt |
+| Protocol dispatch `dispatch.qml` | `src/qml/dispatch.qml` | frozen-family submit / slash |
+| `GenerativeWidgetView` | display plate | frozen `display/header` + `display/content` + `display/meta` |
 
 `OcsChatTranscriptView` is the ListView that hosts `OcsChatBubbleView`; it has
 no chrome of its own beyond `Theme.bg`.
@@ -112,6 +114,10 @@ Modal consent dialog rendered when `protocol.gated == true` (triggered by `cmd/h
 
 Console plate for frozen-family dispatch. Binds `protocol: appWindow.protocol`. Actions map to `submitMap`, `sendChat`, `requestHalt`, `setMode`, and `resumeFromHalt()` (not a `cmd/resume` family). Export/import/copy stay shell dialogs and remain allowed while gated. KickGuard still blocks other mutations while gated.
 
+## GenerativeWidgetView
+
+Read-only plate bound to frozen `display/header`, `display/content`, and `display/meta` via `protocol.sectionBody`. Does not invent `display/generative_widget` or any other family. Registered in the module; no shell page hosts it yet.
+
 ---
 
 ## Shell composition
@@ -124,3 +130,5 @@ Console plate for frozen-family dispatch. Binds `protocol: appWindow.protocol`. 
 `kirigami.qml` (KF6 chassis): `Kirigami.ApplicationWindow` + `globalDrawer` +
 pageStack pages Chat / TAS / KickLang / Metrics / KLMx. Reuses the same
 `*View.qml` plates. No new protocol families. See [KIRIGAMI.md](KIRIGAMI.md).
+
+`dispatch.qml` (dispatch): status bar → `ProtocolDispatchView` fill.

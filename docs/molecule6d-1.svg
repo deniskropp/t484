@@ -1,0 +1,21 @@
+      <svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <!-- Manifold Folds -->
+        <path d="M250 50 C 450 50, 450 450, 250 450 C 50 450, 50 50, 250 50" fill="none" stroke="#00f2ff" stroke-width="1" opacity="0.3"/>
+        <path d="M50 250 C 50 50, 450 50, 450 250 C 450 450, 50 450, 50 250" fill="none" stroke="#7000ff" stroke-width="1" opacity="0.3"/>
+        <!-- Central Vertex Alpha -->
+        <circle cx="250" cy="250" r="40" fill="#1a1a1a" stroke="#00f2ff" stroke-width="3" filter="url(#glow)"/>
+        <circle cx="250" cy="250" r="10" fill="#ffffff"/>
+        <!-- Data Streams -->
+        <line x1="250" y1="250" x2="400" y2="100" stroke="#00f2ff" stroke-width="2" stroke-dasharray="5,5"/>
+        <line x1="250" y1="250" x2="100" y2="400" stroke="#7000ff" stroke-width="2" stroke-dasharray="5,5"/>
+        <text x="250" y="320" font-family="monospace" font-size="14" fill="#00f2ff" text-anchor="middle">OCS_CORE_ALPHA</text>
+      </svg>

@@ -1,0 +1,25 @@
+      <svg width="700" height="350" viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background -->
+        <rect width="700" height="350" fill="#0f0f0f" rx="10"/>
+        
+        <!-- Nodes -->
+        <rect x="50" y="50" width="180" height="250" fill="#1e1e1e" stroke="#4a90e2" stroke-width="2" rx="5"/>
+        <text x="140" y="80" fill="#4a90e2" font-family="monospace" font-size="14" text-anchor="middle">⫻context</text>
+        
+        <rect x="260" y="50" width="180" height="250" fill="#1e1e1e" stroke="#e67e22" stroke-width="2" rx="5"/>
+        <text x="350" y="80" fill="#e67e22" font-family="monospace" font-size="14" text-anchor="middle">⫻flow</text>
+        
+        <rect x="470" y="50" width="180" height="250" fill="#1e1e1e" stroke="#27ae60" stroke-width="2" rx="5"/>
+        <text x="560" y="80" fill="#27ae60" font-family="monospace" font-size="14" text-anchor="middle">⫻data</text>
+        
+        <!-- Connections -->
+        <path d="M 230 175 L 260 175" stroke="#ffffff" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 440 175 L 470 175" stroke="#ffffff" stroke-width="2" marker-end="url(#arrowhead)"/>
+        
+        <!-- Marker Definition -->
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#ffffff"/>
+          </marker>
+        </defs>
+      </svg>

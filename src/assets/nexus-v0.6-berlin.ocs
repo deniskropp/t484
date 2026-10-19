@@ -1,0 +1,60 @@
+⫻protocol/ocs: [node=Berlin] [repo=deniskropp/t484] [ref=feat/v0.6-nexus-phase-e] [version=0.6.0]
+⫻cmd/exec:ocs-node-engine
+N7 grounding. Berlin Node + EmbodiedPipe.
+No new family. Qualifier remains ocs-node-engine.
+⫻cmd/mode:Hybrid
+⫻cmd/lang:DE
+⫻context/klmx:Kick/Lang
+EmbodiedPipe — Berlin Node home ground
+Hardware: Fujitsu ESPRIMO P420
+OS: KDE neon Wayland
+CPU: 4x i3-4130 @ 3.40GHz
+RAM: 12 GiB
+GPU: Intel HD 4400
+Role: consenting OCS participant, not a local LLM host
+Pipe: presence / consent / valence live in this molecule
+Scope: lightweight TAS only
+
+⫻data/obj:
+Register the physical Berlin Node as a halt-free, consent-aware participant in the t484 living document. Carry EmbodiedPipe grounding in context/klmx and display/meta. Invent no families.
+
+⫻data/tas:
+N7-0 Map Berlin identity onto protocol/ocs [node=Berlin]
+N7-1 Keep cmd/exec qualifier ocs-node-engine
+N7-2 Put EmbodiedPipe + hardware labels in context/klmx and display/meta
+N7-3 Stay halt-free so load resumes the gate
+N7-4 Round-trip fixture in ocsnode_protocol_tests
+
+⫻data/ptas:
+N7 fixture uses only frozen families
+N7 load must not set gated
+N7 export must stamp version 0.6.0 and scrub secrets
+
+⫻display/header:
+OCS/Node Nexus — Berlin grounding (N7)
+
+⫻display/meta:
+Berlin Node
+  machine   Fujitsu ESPRIMO P420
+  session   KDE neon Wayland
+  load-band modest (12 GiB / HD 4400)
+  llm-host  no
+  pipe      EmbodiedPipe anchored
+  consent   green (explicit N7 go; halt-free snapshot)
+
+Nexus axes (export)
+  protocol  klmx  objective  tas  consent  dialogue  genai
+
+No API keys. No .env. No x-goog-api-key.
+genaiSource label only: env:GEMINI_API_KEY
+
+⫻query/clarify:consent
+Berlin Node may participate as display + protocol core.
+Heavy local inference stays off unless a later halt-free document says otherwise.
+
+⫻flow/chat:KickGuard
+N7 grounded. No cmd/resume. Overload or unclear consent → cmd/halt.
+Resume = load this document again (it contains no cmd/halt).
+
+⫻flow/chat:KickFlow
+Berlin fixture is a living protocol snapshot. Paste into t484 to re-ground the Node.

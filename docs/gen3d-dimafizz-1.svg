@@ -1,0 +1,26 @@
+      <svg width="500" height="400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="blur-effect">
+            <feGaussianBlur stdDeviation="2" />
+          </filter>
+        </defs>
+        
+        <!-- The Triangulated Field -->
+        <g stroke="#ff00ff" stroke-width="1" fill="none">
+          <circle cx="250" cy="100" r="40" opacity="0.7" />
+          <circle cx="150" cy="270" r="40" opacity="0.7" />
+          <circle cx="350" cy="270" r="40" opacity="0.7" />
+        </g>
+
+        <!-- The Harmonic Connections -->
+        <path d="M250 140 L150 270 M250 140 L350 270 M150 270 L350 270" stroke="#ff00ff" stroke-dasharray="4 4" />
+
+        <!-- Core Resonance Points -->
+        <circle cx="250" cy="100" r="10" fill="#fff" filter="url(#blur-effect)" />
+        <circle cx="150" cy="270" r="10" fill="#fff" filter="url(#blur-effect)" />
+        <circle cx="350" cy="270" r="10" fill="#fff" filter="url(#blur-effect)" />
+
+        <text x="250" y="80" font-family="monospace" font-size="10" fill="#ff00ff" text-anchor="middle">ECHO</text>
+        <text x="120" y="320" font-family="monospace" font-size="10" fill="#ff00ff" text-anchor="middle">PULSE</text>
+        <text x="380" y="320" font-family="monospace" font-size="10" fill="#ff00ff" text-anchor="middle">HORIZON</text>
+      </svg>

@@ -41,7 +41,7 @@ if(Qt6_FOUND)
     endif()
 
     # Shared once — qt_add_qml_module forbids two targets writing URI OcsNode
-    # into the same output directory (t484 + t484-console + t484-kirigami).
+    # into the same output directory (t484 + t484-console + t484-kirigami + t484-dispatch).
     set(T484_ENGINE_SOURCES
         src/engine/ProtocolEngineQt.cpp
         src/engine/GenAiClient.cpp
@@ -75,6 +75,7 @@ if(Qt6_FOUND)
         src/qml/main.qml
         src/qml/console.qml
         src/qml/kirigami.qml
+        src/qml/dispatch.qml
         src/qml/OcsNode/Theme.qml
         src/qml/OcsNode/OcsSectionView.qml
         src/qml/OcsNode/ProtocolStatusBar.qml
@@ -89,6 +90,7 @@ if(Qt6_FOUND)
         src/qml/OcsNode/KickLangEditorView.qml
         src/qml/OcsNode/TasBoardView.qml
         src/qml/OcsNode/ConsentGateDialog.qml
+        src/qml/OcsNode/GenerativeWidgetView.qml
         src/qml/OcsNode/ProtocolDispatchView.qml
     )
 
@@ -99,6 +101,8 @@ if(Qt6_FOUND)
         PROPERTIES QT_RESOURCE_ALIAS "console.qml")
     set_source_files_properties(src/qml/kirigami.qml
         PROPERTIES QT_RESOURCE_ALIAS "kirigami.qml")
+    set_source_files_properties(src/qml/dispatch.qml
+        PROPERTIES QT_RESOURCE_ALIAS "dispatch.qml")
     set_source_files_properties(src/qml/OcsNode/Theme.qml
         PROPERTIES
             QT_RESOURCE_ALIAS "Theme.qml"
@@ -129,6 +133,8 @@ if(Qt6_FOUND)
         PROPERTIES QT_RESOURCE_ALIAS "TasBoardView.qml")
     set_source_files_properties(src/qml/OcsNode/ConsentGateDialog.qml
         PROPERTIES QT_RESOURCE_ALIAS "ConsentGateDialog.qml")
+    set_source_files_properties(src/qml/OcsNode/GenerativeWidgetView.qml
+        PROPERTIES QT_RESOURCE_ALIAS "GenerativeWidgetView.qml")
     set_source_files_properties(src/qml/OcsNode/ProtocolDispatchView.qml
         PROPERTIES QT_RESOURCE_ALIAS "ProtocolDispatchView.qml")
     set_source_files_properties(src/assets/seed.ocs
@@ -152,7 +158,7 @@ if(Qt6_FOUND)
     )
 
     function(t484_add_app target)
-        cmake_parse_arguments(APP "CONSOLE;KIRIGAMI" "" "" ${ARGN})
+        cmake_parse_arguments(APP "CONSOLE;KIRIGAMI;DISPATCH" "" "" ${ARGN})
 
         qt_add_executable(${target} src/main.cpp)
         # Shared Qt loads Quick plugins at runtime; skip import-scanner so
@@ -174,6 +180,9 @@ if(Qt6_FOUND)
         if(APP_KIRIGAMI)
             target_compile_definitions(${target} PRIVATE T484_SHELL_KIRIGAMI)
         endif()
+        if(APP_DISPATCH)
+            target_compile_definitions(${target} PRIVATE T484_SHELL_DISPATCH)
+        endif()
 
         install(TARGETS ${target}
             BUNDLE DESTINATION .
@@ -189,6 +198,8 @@ if(Qt6_FOUND)
     # find_package — missing import fails at process start, like a missing theme.
     t484_add_app(t484_kirigami KIRIGAMI)
     set_target_properties(t484_kirigami PROPERTIES OUTPUT_NAME t484-kirigami)
+    t484_add_app(t484_dispatch DISPATCH)
+    set_target_properties(t484_dispatch PROPERTIES OUTPUT_NAME t484-dispatch)
 
     add_executable(ocsnode_genai_tests
         tests/test_genai.cpp

@@ -1,0 +1,25 @@
+
+      <svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="glow-gold" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+        </defs>
+        
+        <!-- Node-01: The Anchor -->
+        <rect x="50" y="250" width="80" height="80" rx="10" fill="#0f172a" stroke="#00ffcc" stroke-width="2"/>
+        <text x="90" y="295" font-family="monospace" font-size="10" fill="#00ffcc" text-anchor="middle">NODE-01</text>
+
+        <!-- KLMX-1: The Prism Bridge -->
+        <polygon points="300,100 350,200 250,200" fill="#ff00ff" opacity="0.4" filter="url(#glow-gold)"/>
+        <text x="300" y="160" font-family="monospace" font-size="12" fill="#ffffff" text-anchor="middle">KLMX-1</text>
+
+        <!-- Node-42: The Harmonic -->
+        <circle cx="500" cy="100" r="40" fill="#1e293b" stroke="#ffd700" stroke-width="3" filter="url(#glow-gold)"/>
+        <text x="500" y="105" font-family="monospace" font-size="14" fill="#ffd700" text-anchor="middle">42</text>
+        
+        <!-- Recursive Conduits -->
+        <path d="M130 250 L275 180" stroke="#00ffcc" stroke-width="1" stroke-dasharray="4,4"/>
+        <path d="M325 180 L460 120" stroke="#ffd700" stroke-width="2"/>
+      </svg>

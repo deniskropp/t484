@@ -1,0 +1,18 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <!-- Manifold Background -->
+    <rect width="400" height="400" fill="#0a0a0c" />
+    <path d="M0 200 Q 100 100 200 200 T 400 200" stroke="#3344ff" fill="none" stroke-width="2" opacity="0.5" />
+    
+    <!-- K-Node at [0.42, 0.78] -->
+    <circle cx="168" cy="312" r="10" fill="#00ffcc" filter="blur(2px)" />
+    <text x="180" y="310" fill="#ffffff" font-family="monospace" font-size="12">K-Node:0.42,0.78</text>
+    
+    <!-- Grid Lines -->
+    <line x1="0" y1="200" x2="400" y2="200" stroke="#222" />
+    <line x1="200" y1="0" x2="200" y2="400" stroke="#222" />
+    
+    <!-- MetaOS Pulse -->
+    <circle cx="168" cy="312" r="25" stroke="#00ffcc" fill="none" stroke-dasharray="4 4" opacity="0.3">
+      <animate attributeName="r" from="10" to="40" dur="20s" repeatCount="indefinite" />
+    </circle>
+  </svg>

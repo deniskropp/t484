@@ -1,0 +1,19 @@
+      <svg width="700" height="300" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+        <rect width="700" height="300" fill="#0a0a0a" rx="10"/>
+        
+        <!-- Waveform Visualization -->
+        <path d="M 50 150 Q 100 50, 150 150 T 250 150 T 350 150 T 450 150 T 550 150 T 650 150" 
+              stroke="#9b59b6" stroke-width="3" fill="none"/>
+        
+        <!-- Nodes -->
+        <circle cx="100" cy="150" r="10" fill="#9b59b6"/>
+        <circle cx="300" cy="150" r="10" fill="#9b59b6"/>
+        <circle cx="500" cy="150" r="10" fill="#9b59b6"/>
+        
+        <!-- Labels -->
+        <text x="100" y="220" fill="#ffffff" font-family="monospace" font-size="12" text-anchor="middle">OSC_A</text>
+        <text x="300" y="220" fill="#ffffff" font-family="monospace" font-size="12" text-anchor="middle">MOD_B</text>
+        <text x="500" y="220" fill="#ffffff" font-family="monospace" font-size="12" text-anchor="middle">OUT_Z</text>
+        
+        <text x="350" y="40" fill="#9b59b6" font-family="monospace" font-size="18" text-anchor="middle" font-weight="bold">QllickFizz Sonique Engine</text>
+      </svg>

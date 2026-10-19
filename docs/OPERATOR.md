@@ -11,6 +11,7 @@ Kirigami chassis: [KIRIGAMI.md](KIRIGAMI.md).
 | `t484` | `src/qml/main.qml` | compact chat |
 | `t484-console` | `src/qml/console.qml` | three-pane dashboard |
 | `t484-kirigami` | `src/qml/kirigami.qml` | KF6 page / drawer chassis |
+| `t484-dispatch` | `src/qml/dispatch.qml` | frozen-family dispatch plate |
 | `ocsnode_protocol_tests` | - | STL protocol tests |
 | `ocsnode_genai_tests` | - | GenAI parse tests (no network) |
 
@@ -22,11 +23,13 @@ Kirigami chassis: [KIRIGAMI.md](KIRIGAMI.md).
 ./build/t484-console --chat
 ./build/t484-kirigami
 ./build/t484-kirigami --chat
+./build/t484-dispatch
+./build/t484 --dispatch
 ./build/t484 --genai-status   # ready / source / model — never the key
 ./build/t484 --genai-debug    # env names and .env paths checked
 ```
 
-Flag precedence: `--kirigami` > `--console` > `--chat` > compile default.
+Flag precedence: `--kirigami` > `--dispatch` > `--console` > `--chat` > compile default.
 
 A KDE/Grok GUI launch does **not** inherit an interactive-shell `export`.
 Put the key where the process can see it (see below).

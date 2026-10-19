@@ -47,6 +47,8 @@ The `ocs-node-engine` skill is the forge. This repository is the source of truth
 | `KickLangEditorView` / `TasBoardView` / `ConsentGateDialog` | shipped (Phase E / v0.6) |
 | `CoherenceMonitorBridge` behind `deriveCoherence` | shipped |
 | `t484-kirigami` / `src/qml/kirigami.qml` | shipped (v0.7 chassis; KF6 runtime import) |
+| `t484-dispatch` / `src/qml/dispatch.qml` | shipped (frozen-family dispatch) |
+| N7 Berlin fixture `src/assets/nexus-v0.6-berlin.ocs` | shipped ([N7-BERLIN.md](plans/v0.6/N7-BERLIN.md)) |
 
 Generated 2026-09-30 from t484@main (Kirigami chassis).
 The engine remains the authority if a sentence here and a header disagree — fix the sentence.

@@ -35,6 +35,8 @@ Nexus export/import + volumetric axes are implemented (`exportNexus` / `importNe
 | KickLangEditor / TasBoard / ConsentGateDialog | shipped (Phase E) |
 | CoherenceMonitorBridge | shipped ([v0.6](docs/plans/v0.6/)) |
 | `t484-kirigami` (`src/qml/kirigami.qml`) | shipped (KF6 runtime import) |
+| `t484-dispatch` (`src/qml/dispatch.qml` + `ProtocolDispatchView`) | shipped |
+| `GenerativeWidgetView` | plate over frozen `display/*` (no new family) |
 
 ## Layout
 
@@ -47,6 +49,7 @@ src/components/           TasStatusModel, KlmxMoleculeItem
 src/qml/main.qml          chat shell
 src/qml/console.qml       protocol console shell
 src/qml/kirigami.qml      Kirigami 6 chassis
+src/qml/dispatch.qml      protocol dispatch shell
 src/qml/OcsNode/          Theme.qml + *View.qml + qmldir
 src/assets/seed.ocs       startup protocol document (welcome turn)
 src/assets/nexus-v0.6.ocs Nexus snapshot fixture
@@ -65,7 +68,7 @@ docs/COMPONENTS.md        C++ / QML / protocol interface catalog
 docs/CONSOLE.md           console layout and binding notes
 docs/THEME.md             OCS Slate tokens
 docs/PANELS.md            every surface rendered
-docs/plans/v0.6/          Nexus plan
+docs/plans/v0.6/          Nexus plan (N7 Berlin fixture included)
 docs/plans/v0.7-kirigami/ Kirigami chassis plan
 docs/images/              SVG plates
 ```
@@ -91,6 +94,8 @@ cmake --build build
 ./build/t484 --console    # same console from the chat binary
 ./build/t484-kirigami     # Kirigami chassis (needs org.kde.kirigami at runtime)
 ./build/t484 --kirigami
+./build/t484-dispatch     # frozen-family dispatch
+./build/t484 --dispatch   # dispatch shell from the chat binary
 ```
 
 Full operator notes: [docs/OPERATOR.md](docs/OPERATOR.md). Full CMake map: [docs/BUILD.md](docs/BUILD.md).
