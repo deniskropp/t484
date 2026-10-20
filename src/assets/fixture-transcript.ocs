@@ -1,0 +1,20 @@
+⫻protocol/ocs: [node=OCS/Root] [repo=deniskropp/t484] [ref=main] [version=0.6.0]
+⫻context/klmx:Kick/Lang
+OCS Transcript Surface
+Role: render the section list as the living chat transcript
+
+⫻cmd/mode:Hybrid
+⫻data/obj:
+The chat transcript is the living protocol document. No parallel message store.
+
+⫻data/tas:
+T1 Bind ListView model to protocol.sections
+T2 Delegate each section to OcsChatBubbleView (family, type, qualifier, body)
+T3 Auto-scroll to end on count change
+T4 Visual accent by role / family
+
+⫻display/header:
+OCS Transcript — living document
+
+⫻flow/chat:KickFlow
+Transcript bound. Every section is a bubble. The document is the conversation.

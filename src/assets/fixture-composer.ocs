@@ -1,0 +1,34 @@
+⫻protocol/ocs: [node=OCS/Root] [repo=deniskropp/t484] [ref=main] [version=0.6.0]
+⫻context/klmx:Kick/Lang
+OCS Composer Surface
+Role: ingest natural language, raw ⫻ sections, or slash commands
+
+⫻cmd/exec:ocs-node-engine
+⫻cmd/mode:Hybrid
+⫻data/obj:
+Ingest user input into the living protocol document via the composer plate.
+
+⫻data/tas:
+C1 Bind protocol and surface gated/busy/genaiReady state
+C2 Accept natural language, raw ⫻, or /mode /halt /exec /obj /tas /exec nexus-export
+C3 On Enter (no Shift) or /exec → protocol.sendChat(text)
+C4 /halt button → requestHalt("user-gate-from-composer")
+C5 Disable input while busy; show KickGuard banner while gated
+
+⫻display/header:
+OCS Composer — t484
+
+⫻display/meta:
+Nexus axes (export)
+  protocol  0.90
+  klmx      0.80
+  objective 0.70
+  tas       0.85
+  consent   1.00
+  dialogue  0.75
+  genai     0.60
+  scalar    0.80
+
+⫻flow/chat:KickFlow
+Composer is live. Speak, paste ⫻ sections, or use slash commands.
+Halt remains first-class. Resume by loading a protocol/ocs document without cmd/halt.

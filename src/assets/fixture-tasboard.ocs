@@ -1,0 +1,24 @@
+⫻protocol/ocs: [node=OCS/Root] [repo=deniskropp/t484] [ref=main] [version=0.6.0]
+⫻context/klmx:Kick/Lang
+TAS / PTAS Board Surface
+Role: visualize data/tas and data/ptas as status columns
+
+⫻cmd/mode:Hybrid
+⫻data/obj:
+Parse living TAS/PTAS into ACTIVE / OPEN / COMPLETED / BLOCKED columns.
+
+⫻data/tas:
+B1 Read protocol.sectionBody("data/tas") and "data/ptas"
+B2 Parse into task entries with id, title, status, kind
+B3 Filter into four columns
+B4 Surface gated / currentTasId / coherence / activeSteps
+
+⫻data/ptas:
+B1-purified: extract only well-formed step lines
+B2-purified: status enum restricted to open|active|done|blocked|policy
+
+⫻display/header:
+TAS Board — t484
+
+⫻flow/chat:KickForge
+TAS board watching data/tas and data/ptas. Refresh on section count or state change.

@@ -1,0 +1,34 @@
+⫻protocol/ocs: [node=OCS/Root] [repo=deniskropp/t484] [ref=main] [version=0.6.0]
+⫻context/klmx:Kick/Lang
+KickLang Editor Surface
+Role: bidirectional edit of the living protocol document
+
+⫻cmd/exec:ocs-node-engine
+⫻cmd/mode:Hybrid
+⫻data/obj:
+Edit, apply, re-emit, and exportNexus the living protocol document.
+
+⫻data/tas:
+E1 Sync editorText from protocol.sourceText or emitText()
+E2 Apply / Ingest → protocol.loadText(editorText)
+E3 Re-emit → protocol.emitText()
+E4 Format Nexus → protocol.exportNexus() (stamps version, axes, scrubs secrets)
+E5 Section navigator jumps to ⫻type in the editor
+E6 Track dirty / section count / coherence / errorCount
+
+⫻display/header:
+KickLang Editor — t484
+
+⫻display/meta:
+Nexus axes (export)
+  protocol  0.95
+  klmx      0.90
+  objective 0.80
+  tas       0.85
+  consent   1.00
+  dialogue  0.70
+  genai     0.50
+  scalar    0.85
+
+⫻flow/chat:KickFlow
+Editor synced with living document. Apply to ingest. Format Nexus for one-file export.
